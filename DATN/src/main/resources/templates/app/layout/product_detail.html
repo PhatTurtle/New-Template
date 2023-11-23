@@ -91,13 +91,15 @@
                        
                             <p class='text-xl text-orange-300 font-semibold' th:text="${#numbers.formatDecimal(products.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
                         </div>
+                        <p th:text="'Hàng còn: ' + ${products.quantityInStock}"></p>
+                        <!-- <p th:text="'Đã bán: ' + ${unitsSoldMap[__${product.productId}__]}"></p> -->
                         <!-- Size -->
-                        <div class="flex gap-x-5 text-black">
+                        <!-- <div class="flex gap-x-5 text-black">
                             <button class="py-2 px-3 border rounded-lg hover:border-orange-300 duration-300 hover:duration-300">X</button>
                             <button class="py-2 px-3 border rounded-lg hover:border-orange-300 duration-300 hover:duration-300">M</button>
                             <button class="py-2 px-3 border rounded-lg hover:border-orange-300 duration-300 hover:duration-300">L</button>
                             <button class="py-2 px-3 border rounded-lg hover:border-orange-300 duration-300 hover:duration-300">XL</button>
-                        </div>
+                        </div> -->
                         <!-- Count -->
                         <div class="flex flex-col md:flex-row justify-between w-full md:gap-x-1 ">
                             <div class="w-[40%]">
@@ -120,13 +122,13 @@
                                 <div class="collapse-content"> 
                                   <div class="">
                                     <ul class="flex flex-col gap-y-2">
-                                      <!-- <p th:text="${products.description}"></p>   -->
-                                      <p>- Chất Liệu : Da Bò Thật</p>
+                                      <p th:text="${products.description}"></p>  
+                                      <!-- <p>- Chất Liệu : Da Bò Thật</p>a
                                       <p>- Kích Thước: 100x100x100</p>
                                       <p>- Màu Sắc: Màu Be</p>
                                       <p>- Sản Xuát: Việt Nam</p>
                                       <p>- Thương Hiệu: Marious</p>
-                                      <p>- Mô Tả: Ngồi êm lắm bà con</p>
+                                      <p>- Mô Tả: Ngồi êm lắm bà con</p> -->
                                     </ul>
                                   </div>
                                 </div>
@@ -223,7 +225,7 @@
                 <p>Sản Phẩm Liên Quan</p>
             </div>
             <div class=" py-5 w-full">
-                <div class="carousel rounded-lg flex gap-x-2 py-10 w-full">
+                <!-- <div class="carousel rounded-lg flex gap-x-2 py-10 w-full">
                     <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
                       <div class="" th:replace="./components/custom/_card.html"></div>
                     </div> 
@@ -245,7 +247,7 @@
                     <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
                         <div class="" th:replace="./components/custom/_card.html"></div>
                     </div>
-                  </div>
+                  </div> -->
             </div>
         </section>
       <!-- Related Products -->

@@ -40,5 +40,7 @@ public interface ProductService {
 	 
 	 void updateQuantityInStock(Integer productId, int quantityAdded);
 	 
+	 public Page<Product> getAllProductCategory(int categoryId, int page, int size);
+
 	 
 }

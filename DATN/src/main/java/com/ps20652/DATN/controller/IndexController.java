@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -68,7 +70,7 @@ public class IndexController {
     //
 
     @GetMapping("/listproduct")
-    public String product(Model model, Authentication authentication) {
+    public String product(Model model, Authentication authentication, @RequestParam(name = "page", defaultValue = "0") int page) {
 
 
          List<Product> products = productService.findAll();
@@ -77,8 +79,19 @@ public class IndexController {
             model.addAttribute("username", username);
          }
          
-         model.addAttribute("products", products);
-
+         
+         int pageSize = 12; // Số lượng đơn hàng trên mỗi trang
+		Page<Product> productPage = productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
+        List<Category> cat = categoryService.findAll();
+        model.addAttribute("allcategory", cat);
+         model.addAttribute("products", productPage);
+          model.addAttribute("check", "check2");
+          Map<Integer, Integer> unitsSoldMap = new HashMap<>();
+        for (Product product : products) {
+            int unitsSold = orderDetailService.getProductSell(product);
+            unitsSoldMap.put(product.getProductId(), unitsSold);
+        }
+model.addAttribute("unitsSoldMap", unitsSoldMap);
         return "app/layout/list_product";
     }
 
@@ -128,7 +141,8 @@ public class IndexController {
         model.addAttribute("topProductsPerCategory", topProductsPerCategory);
         model.addAttribute("unitsSoldMap", unitsSoldMap);
         model.addAttribute("products", products);
-        model.addAttribute("categories", cat);
+        
+        model.addAttribute("allcategory", cat);
         model.addAttribute("fb", feedback);
           model.addAttribute("top8Product", top8Product);
            model.addAttribute("top4Product", top4Product);
@@ -154,6 +168,10 @@ public class IndexController {
             model.addAttribute("cartItemCount", cartItemCount);
 
         }
+
+        List<Category> cat = categoryService.findAll();
+        model.addAttribute("allcategory", cat);
+
         return "app/layout/blogs";
     }
 
@@ -170,7 +188,8 @@ public class IndexController {
             model.addAttribute("cartItemCount", cartItemCount);
 
         }
-
+        List<Category> cat = categoryService.findAll();
+        model.addAttribute("allcategory", cat);
         return "app/layout/contact";
     }
 
@@ -186,6 +205,8 @@ public class IndexController {
             int cartItemCount = cartService.getCount(userId);
             model.addAttribute("cartItemCount", cartItemCount);
 
+            List<Category> cat = categoryService.findAll();
+        model.addAttribute("allcategory", cat);
         }
 
         return "app/layout/about";
@@ -213,7 +234,7 @@ public class IndexController {
 
             }
         }
-
+        
         model.addAttribute("products", product);
         model.addAttribute("feedbacks", feedback);
 
@@ -256,8 +277,8 @@ public class IndexController {
     }
 
     @GetMapping("/product/category/{categoryId}")
-    public String productCategory(@PathVariable("categoryId") Integer categoryId, Model model, Principal principal) {
-        List<Category> allcat = categoryService.findAll();
+    public String productCategory(@RequestParam(value = "size", defaultValue = "8") int size,@PathVariable("categoryId") Integer categoryId, Model model, Principal principal, @RequestParam(name = "page", defaultValue = "0") int page) {
+        List<Category> allcat = categoryService.findAll();  
         Category cat = categoryService.findbyId(categoryId);
         List<Product> products = productService.findByCategoryCategoryId(categoryId);
         if (principal != null) {
@@ -270,10 +291,19 @@ public class IndexController {
             model.addAttribute("cartItemCount", cartItemCount);
 
         }
+
+		Page<Product> productPage = productService.getAllProductCategory(categoryId, page, size);
+        model.addAttribute("check", "check");
         model.addAttribute("categories", cat);
-        model.addAttribute("products", products);
+        model.addAttribute("products", productPage);
         model.addAttribute("allcategory", allcat);
         model.addAttribute("categoryID", categoryId);
+        Map<Integer, Integer> unitsSoldMap = new HashMap<>();
+        for (Product product : products) {
+            int unitsSold = orderDetailService.getProductSell(product);
+            unitsSoldMap.put(product.getProductId(), unitsSold);
+        }
+model.addAttribute("unitsSoldMap", unitsSoldMap);
         return "app/layout/list_product";
     }
 

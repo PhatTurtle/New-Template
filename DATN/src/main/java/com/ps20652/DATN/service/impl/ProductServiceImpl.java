@@ -177,6 +177,13 @@ public List<Product> getTop4BestSellingProducts() {
 			return productDAO.findAll(pageable).getContent();
 		}
 
+		@Override
+		public Page<Product> getAllProductCategory(int categoryId, int page, int size) {
+			PageRequest pageRequest = PageRequest.of(page, size);
+			return productDAO.findByCategoryCategoryId(categoryId, pageRequest);
+		}
+
+		
 	
 
 

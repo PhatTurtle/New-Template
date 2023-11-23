@@ -19,7 +19,7 @@
               <a th:href="@{/listproduct}" tabindex="0"
                 class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2 cursor-pointer">Product</a>
               <ul tabindex="0" class="dropdown-content z-[1]  menu p-2 shadow bg-white rounded-box w-52">
-                <li th:each="category : ${categories}"><a th:href="@{'/product/category/' + ${category.categoryId}}" th:text="${category.name}">Item 1</a></li>
+                <li th:each="category : ${allcategory}"><a th:href="@{'/product/category/' + ${category.categoryId}}" th:text="${category.name}">Item 1</a></li>
                
               </ul>
             </div>

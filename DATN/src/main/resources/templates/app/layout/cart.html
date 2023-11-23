@@ -31,141 +31,48 @@
         </section>
 
         <section class="">
-            <div class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5 bg-white">
+            <div th:each="item : ${cartItems}" class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5 bg-white">
                 <div class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
                     <div class="flex w-full items-center   py-2 gap-x-2">
                         <input type="checkbox"  class="checkbox checkbox-warning" />
                         <div class="w-[40%] sm:w-[20%] md:w-[30%] lg:w-[20%] xl:w-[10%]">
-                            <img class="" src="/assets/images/products/s1.jpg" alt="">
-                        </div>
+                            <img class="" th:src="'/assets/images/products/' + ${item.product.image}" alt="Product Image">
+                        </div>  
                         
                         <div class="grid grid-cols-2 w-full justify-between text-xs">
                             <div class="flex flex-col gap-y-2 justify-between ">
-                                <p class="lg:text-lg lg:font-semibold">Ghế Ngồi Êm VCL</p>
-                                <p>Description</p>
-                                <div class="join w-full lg:w-[40%] flex items-center text-center  ">
-                                    <button class="join-item  border border-orange-300 px-2 py-2 w-[25%]">-</button>
-                                    <input type="text" class="join-item bg-white border border-orange-300 w-[50%] text-center py-2 items-center" value="2">
-                                    <button class="join-item border border-orange-300 px-2 py-2 w-[25%]">+</button>
-                                  </div>
+                                <p th:text="${item.product.name}" class="lg:text-lg lg:font-semibold"></p>
+                                
+                                <div class="join w-full lg:w-[40%] flex items-center text-center">
+                                    <button onclick="decrementQuantity(this)" class="join-item border border-orange-300 px-2 py-2 w-[25%]">-</button>
+                                    <input hidden type="text" name="productId" th:value="${item.product.productId}" />
+                                    <input type="text" class="join-item bg-white border border-orange-300 w-[50%] text-center py-2 items-center" name="qty" th:value="${item.quantity}" oninput="updatePrice(this)" min="1">
+                                    <button onclick="incrementQuantity(this)" class="join-item border border-orange-300 px-2 py-2 w-[25%]">+</button>
+                                </div>
+                                
                             </div>
                             <div class="flex flex-col text-end text-xs md:text-2xl justify-between text-orange-300">
-                                <p>$120,000</p>
-                                <a href="#" class="text-red-300"><ion-icon class="text-end" name="trash-outline"></ion-icon></a>
+                                <p th:text="${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
+                                <form th:action="@{/cart/removeItem}" method="post">
+                                    <input type="hidden" name="productId"
+                                    th:value="${item.product.productId}" />
+                                <button type="submit"  class="text-red-300"><ion-icon class="text-end" name="trash-outline"></ion-icon></button>
+                                 </form>
+                                <p class="product-total" th:text="${#numbers.formatDecimal(item.product.price * item.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
             <!--  -->
 
-            <div class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5">
-                <div class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
-                    <div class="flex w-full items-center   py-2 gap-x-2">
-                        <input type="checkbox"  class="checkbox checkbox-warning" />
-                        <div class="w-[40%] sm:w-[20%] md:w-[30%] lg:w-[20%] xl:w-[10%]">
-                            <img class="" src="/assets/images/products/s1.jpg" alt="">
-                        </div>
-                        
-                        <div class="grid grid-cols-2 w-full justify-between text-xs">
-                            <div class="flex flex-col gap-y-2 justify-between ">
-                                <p class="lg:text-lg lg:font-semibold">Ghế Ngồi Êm VCL</p>
-                                <p>Description</p>
-                                <div class="join w-full lg:w-[40%] flex items-center text-center  ">
-                                    <button class="join-item  border border-orange-300 px-2 py-2 w-[25%]">-</button>
-                                    <input type="text" class="join-item bg-white border border-orange-300 w-[50%] text-center py-2 items-center" value="2">
-                                    <button class="join-item border border-orange-300 px-2 py-2 w-[25%]">+</button>
-                                  </div>
-                            </div>
-                            <div class="flex flex-col text-end text-xs md:text-2xl justify-between text-orange-300">
-                                <p>$120,000</p>
-                                <a href="#" class="text-red-300"><ion-icon class="text-end" name="trash-outline"></ion-icon></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <!--  -->
-            <div class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5">
-                <div class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
-                    <div class="flex w-full items-center   py-2 gap-x-2">
-                        <input type="checkbox"  class="checkbox checkbox-warning" />
-                        <div class="w-[40%] sm:w-[20%] md:w-[30%] lg:w-[20%] xl:w-[10%]">
-                            <img class="" src="/assets/images/products/s1.jpg" alt="">
-                        </div>
-                        
-                        <div class="grid grid-cols-2 w-full justify-between text-xs">
-                            <div class="flex flex-col gap-y-2 justify-between ">
-                                <p class="lg:text-lg lg:font-semibold">Ghế Ngồi Êm VCL</p>
-                                <p>Description</p>
-                                <div class="join w-full lg:w-[40%] flex items-center text-center  ">
-                                    <button class="join-item  border border-orange-300 px-2 py-2 w-[25%]">-</button>
-                                    <input type="text" class="join-item bg-white border border-orange-300 w-[50%] text-center py-2 items-center" value="2">
-                                    <button class="join-item border border-orange-300 px-2 py-2 w-[25%]">+</button>
-                                  </div>
-                            </div>
-                            <div class="flex flex-col text-end text-xs md:text-2xl justify-between text-orange-300">
-                                <p>$120,000</p>
-                                <a href="#" class="text-red-300"><ion-icon class="text-end" name="trash-outline"></ion-icon></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          
+           
             <!--  -->
-            <div class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5">
-                <div class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
-                    <div class="flex w-full items-center   py-2 gap-x-2">
-                        <input type="checkbox"  class="checkbox checkbox-warning" />
-                        <div class="w-[40%] sm:w-[20%] md:w-[30%] lg:w-[20%] xl:w-[10%]">
-                            <img class="" src="/assets/images/products/s1.jpg" alt="">
-                        </div>
-                        
-                        <div class="grid grid-cols-2 w-full justify-between text-xs">
-                            <div class="flex flex-col gap-y-2 justify-between ">
-                                <p class="lg:text-lg lg:font-semibold">Ghế Ngồi Êm VCL</p>
-                                <p>Description</p>
-                                <div class="join w-full lg:w-[40%] flex items-center text-center  ">
-                                    <button class="join-item  border border-orange-300 px-2 py-2 w-[25%]">-</button>
-                                    <input type="text" class="join-item bg-white border border-orange-300 w-[50%] text-center py-2 items-center" value="2">
-                                    <button class="join-item border border-orange-300 px-2 py-2 w-[25%]">+</button>
-                                  </div>
-                            </div>
-                            <div class="flex flex-col text-end text-xs md:text-2xl justify-between text-orange-300">
-                                <p>$120,000</p>
-                                <a href="#" class="text-red-300"><ion-icon class="text-end" name="trash-outline"></ion-icon></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--  -->
-            <div class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5">
-                <div class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
-                    <div class="flex w-full items-center   py-2 gap-x-2">
-                        <input type="checkbox"  class="checkbox checkbox-warning" />
-                        <div class="w-[40%] sm:w-[20%] md:w-[30%] lg:w-[20%] xl:w-[10%]">
-                            <img class="" src="/assets/images/products/s1.jpg" alt="">
-                        </div>
-                        
-                        <div class="grid grid-cols-2 w-full justify-between text-xs">
-                            <div class="flex flex-col gap-y-2 justify-between ">
-                                <p class="lg:text-lg lg:font-semibold">Ghế Ngồi Êm VCL</p>
-                                <p>Description</p>
-                                <div class="join w-full lg:w-[40%] flex items-center text-center  ">
-                                    <button class="join-item  border border-orange-300 px-2 py-2 w-[25%]">-</button>
-                                    <input type="text" class="join-item bg-white border border-orange-300 w-[50%] text-center py-2 items-center" value="2">
-                                    <button class="join-item border border-orange-300 px-2 py-2 w-[25%]">+</button>
-                                  </div>
-                            </div>
-                            <div class="flex flex-col text-end text-xs md:text-2xl justify-between text-orange-300">
-                                <p>$120,000</p>
-                                <a href="#" class="text-red-300"><ion-icon class="text-end" name="trash-outline"></ion-icon></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </section>
 
         <!-- Button  -->
@@ -180,11 +87,60 @@
                 </div>
                 <!--  -->
                 <div class="">
-                    <button class="px-10 py-2 border rounded-lg border-orange-300 text-black duration-300 hover:bg-orange-300 hover:duration-300 hover:text-white">Mua Ngay</button>
+                    <a th:href="@{/pay}">
+                    <button class="px-10 py-2 border rounded-lg border-orange-300 text-black duration-300 hover:bg-orange-300 hover:duration-300 hover:text-white">CHECK OUT</button>
+                </a>
                 </div>
             </div>
         </section>
     </section>
+    <script th:inline="javascript">
+        function updatePrice(input) {
+            // Gọi hàm cập nhật giá tiền hoặc giao diện nếu cần
+            // Thực hiện công việc cập nhật giá tiền theo số lượng
+        }
+    
+        function incrementQuantity(button) {
+            var input = button.previousElementSibling;
+            var newValue = parseInt(input.value) + 1;
+            input.value = newValue;
+            updateCartItem(input);
+        }
+    
+        function decrementQuantity(button) {
+            var input = button.nextElementSibling;
+            var newValue = parseInt(input.value) - 1;
+            if (newValue >= 1) {
+                input.value = newValue;
+                updateCartItem(input);
+            }
+        }
+    
+        
+        function updateCartItem(productId, quantity) {
+    // Thực hiện gửi yêu cầu AJAX đến endpoint "/updateItem"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/updateItem", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Xử lý phản hồi từ máy chủ (nếu cần)
+            console.log("Cập nhật số lượng thành công");
+            // Cập nhật giao diện người dùng nếu cần thiết
+        }
+    };
+
+    // Chuẩn bị dữ liệu để gửi đi
+    var data = "productId=" + encodeURIComponent(productId) + "&qty=" + encodeURIComponent(quantity);
+
+    // Gửi yêu cầu AJAX
+    xhr.send(data);
+}
+
+
+    </script>
+
 
 </body>
 

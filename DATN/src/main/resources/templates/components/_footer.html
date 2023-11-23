@@ -36,9 +36,29 @@
         <p class="text-center">Copyright © 2023 - Design by Marious - Huynh Tan Phat</p>
       </aside>
     </section>
-   
-  </div>
-  <!--  -->
+    <div class="fb-customerchat" page_id="282791425847994"></div>
 
+  </div>
+  
+  <!--  -->
+  <script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId : "1763021527548898",
+				xfbml : true,
+				version : "v2.6"
+			});
+		};
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {
+				return;
+			}
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
   <!--  -->
 </footer>

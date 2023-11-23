@@ -9,9 +9,7 @@
         <img class="w-[90%] mx-auto  rounded" th:src="'/assets/images/products/' + ${product.image}" alt="product">
     </div>
 
-    <div class="text-orange-300 font-semibold">
-        <p th:text="${product.category.categoryId}"></p>
-    </div>
+    
 
     <div class=" flex flex-col text-center items-center my-2 mx-2 text-black font-light gap-y-3">
         <div class="">
@@ -27,9 +25,15 @@
         <div class="text-orange-300 font-semibold">
             <p th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
         </div>
-
+        <p th:text="'Đã bán: ' + ${unitsSoldMap[__${product.productId}__]}"></p>
+        <p th:text="'Hàng còn: ' + ${product.quantityInStock}"></p>
         <div class="flex  duration-300   group-hover:duration-300">
-            <a href="/" class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon class="text-sm" name="cart-outline"></ion-icon></a>
+            <form th:action="@{/cart/addItem}" method="post">
+                <input hidden="" th:value="${product.productId}" name="productId">
+              
+                <button class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon class="text-sm" name="cart-outline"></ion-icon></button>
+            </form>
+            
             <a href="/" class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon name="wallet-outline"></ion-icon></a>
         </div>
     </div>

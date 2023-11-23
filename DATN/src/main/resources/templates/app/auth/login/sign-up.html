@@ -1,98 +1,98 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/components/layout :: areas(~{::title},~{::body})}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-        <!-- Library -->
-        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
-        <script src="https://cdn.tailwindcss.com"></script>
-            <!-- icon -->
-            <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-            <!-- icon -->
-        <!-- Library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-              $('#username').keyup(function () {
-                var username = $(this).val();
-                $.ajax({
-                  url: '/checkUsername?username=' + username,
-                  type: 'GET',
-                  success: function (response) {
-                    if (response === 'true') {
-                      $('#usernameError').text('Username đã tồn tại!');
-                    } else {
-                      $('#usernameError').text('');
-                    }
-                  }
-                });
-              });
-        
-              $('#password').keyup(function () {
-                var password = $(this).val();
-                if (password.length < 8) {
-                  $('#passwordError').text('Password phải có ít nhất 8 ký tự!');
-                } else {
-                  $('#passwordError').text('');
-                }
-              });
-            });
-          </script>
-</head>
-<body class="bg-white min-h-screen">
-   
-    <div class="w-[90%] mx-auto md:w-[80%] xl:w-[70%] mx-auto my-10">
-        <div class="py-5">
-            <p class="text-3xl lg:text-6xl font-semibold text-orange-300 text-center hover:underline hover:underline-offset-2 hover:duration-300 duration-300">Đăng Ký</p>
-        </div>
-        <div class="flex flex-col lg:flex-row gap-x-5 mt-5">
-            <div class="w-[90%] mx-auto lg:w-[50%]">
-                <Image class="w-full" src="/assets/images/sign-up.png" alt=""/>
-            </div>
-            
-            <div class="w-[90%] mx-auto lg:w-[50%] mt-10">
-                <form th:action="@{/register}" method="post" th:object="${user}" class="w-full flex flex-col gap-y-5">
-                  <div class="">
-                        
-                    <input name="username" th:field="*{username}" type="text" class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none" placeholder="Tên đăng nhập" />
-                </div>
-                <div class="">
-                    
-                    <input name="password" th:field="*{password}" type="text" class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none" placeholder="Mật khẩu" />
-                </div>
-                    <div class="">
-                        
-                        <input name="fullName" th:field="*{fullName}" type="text" class="py-2  px-2 bg-transparent border-b-2  text-black border-orange-300  w-full outline-none" placeholder="Họ và Tên" />
-                    </div>
-                    <div class="">
-                        
-                        <input name="email" th:field="*{email}" type="text" class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none" placeholder="Email" />
-                    </div>
-                    <div class="">
-                        
-                        <input name="address" th:field="*{address}" type="text" class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none" placeholder="Địa chỉ" />
-                    </div>
-                    <div class="">
-                        
-                        <input name="phonenumber" th:field="*{phonenumber}" type="text" class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none" placeholder="Số điện thoại" />
-                    </div>
-                    
-                    
-                    <div class="">
-                        <button type="submit" class="border-2 border-orange-300 py-2 hover:bg-orange-300 hover:duration-300 duration-300 text-black hover:text-white rounded-lg w-full">Đăng ký tài khoản</button>
-                    </div>
-                    <div class="text-center flex flex-col">
-                        <p href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2">Bạn đã có tài khoản? <a class="text-orange-300 " th:href="@{/login}">Đăng Nhập!</a></p>
-                        <a href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2"> <a class="text-orange-300 hover:underline" th:href="@{/forgot-password}">Quên Mật Khẩu</a></a>
 
-                    </div>
-                </form>
-            </div>
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- Library -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- icon -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <!-- icon -->
+  <!-- Library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body class="bg-white min-h-screen">
+
+  <div class="w-[90%] mx-auto md:w-[80%] xl:w-[70%] mx-auto my-10">
+    <div class="py-5">
+      <p
+        class="text-3xl lg:text-6xl font-semibold text-orange-300 text-center hover:underline hover:underline-offset-2 hover:duration-300 duration-300">
+        Đăng Ký</p>
     </div>
+    <div class="flex flex-col lg:flex-row gap-x-5 mt-5">
+      <div class="w-[90%] mx-auto lg:w-[50%]">
+        <Image class="w-full" src="/assets/images/sign-up.png" alt="" />
+      </div>
+
+      <div class="w-[90%] mx-auto lg:w-[50%] mt-10">
+        <form th:action="@{/register}" method="post" th:object="${user}" class="w-full flex flex-col gap-y-5">
+          <div class="">
+
+            <input name="username" th:field="*{username}" type="text"
+              class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
+              placeholder="Tên đăng nhập" />
+              <p id="usernameError" style="color: red;"></p>
+          </div>
+          <div class="">
+
+            <input name="password" th:field="*{password}" type="password"
+              class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
+              placeholder="Mật khẩu" />
+              <p id="passwordError" style="color: red;"></p>
+          </div>
+          <div class="">
+
+            <input name="fullName" th:field="*{fullName}" type="text"
+              class="py-2  px-2 bg-transparent border-b-2  text-black border-orange-300  w-full outline-none"
+              placeholder="Họ và Tên" />
+          </div>
+          <div class="">
+
+            <input name="email" th:field="*{email}" type="email"
+              class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
+              placeholder="Email" id="email" aria-describedby="emailHelp" />
+          </div>
+          <div class="">
+
+            <input name="address" th:field="*{address}" type="text"
+              class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
+              placeholder="Địa chỉ" />
+          </div><div class="">
+
+            <input name="phonenumber" th:field="*{phonenumber}" type="text"
+              class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
+              placeholder="Số điện thoại" />
+          </div>
+
+
+          <div class="">
+            <button type="submit"
+              class="border-2 border-orange-300 py-2 hover:bg-orange-300 hover:duration-300 duration-300 text-black hover:text-white rounded-lg w-full">Đăng
+              ký tài khoản</button>
+          </div>
+          <div class="text-center flex flex-col">
+            <p href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2">Bạn đã có tài khoản? <a
+                class="text-orange-300 " th:href="@{/login}">Đăng Nhập!</a></p>
+            <a href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2"> <a
+                class="text-orange-300 hover:underline" th:href="@{/forgot-password}">Quên Mật Khẩu</a></a>
+
+          </div>
+          <p th:if="${registrationError}" th:text="${registrationError}" style="color: red;"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
 
 
 </body>
+
+
 </html>

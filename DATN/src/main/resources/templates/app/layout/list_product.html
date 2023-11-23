@@ -110,17 +110,31 @@
            
 
         </div>
-        <div class="w-full flex justify-center">
-            <div class="join">
+        <div th:if="${products.totalPages > 1}" class="w-full flex justify-center">
+            <div th:if="${check == 'check2'}" class="join">
+                <a th:href="@{'/listproduct/?page=' + ${i}}"
+                th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
+                th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
                 <button
-                    class="join-item border px-5 py-2 border-orange-300 duration-300 text-black  hover:text-white hover:duration-300 hover:bg-orange-300">«</button>
+                class="page-link" th:text="${i} + 1"></button>
+                 </a>   
+              
+              </div>
+              <div th:if="${check == 'check'}" class="join">
+                <a th:href="@{'/product/category/' + ${categoryID} + '?page=' + ${i}}"
+                th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
+                th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
                 <button
-                    class="join-item border px-5 border-orange-300 duration-300 text-black   hover:text-white hover:duration-300 hover:bg-orange-300">Page
-                    22</button>
-                <button
-                    class="join-item border border-orange-300 duration-300 text-black  px-5 py-2 hover:text-white hover:duration-300 hover:bg-orange-300">»</button>
-            </div>
+                class="page-link" th:text="${i} + 1"></button>
+                 </a>   
+              
+              </div>
         </div>
+
+      
+
+        
+
     </section>
 
 

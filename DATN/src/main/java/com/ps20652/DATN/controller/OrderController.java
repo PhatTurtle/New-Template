@@ -82,7 +82,7 @@ public class OrderController {
             model.addAttribute("confirmationMessage", confirmationMessage);
         }
 
-        return "app/user2/profile/ordered";
+        return "app/auth/profile/order";
         // Trả về trang hiển thị đơn hàng của người dùng sắp xếp theo thời gian
     }
 
@@ -94,10 +94,22 @@ public class OrderController {
     // }
 
     @GetMapping("/orderDetails")
-    public String viewOrderDetails(@RequestParam Integer orderId, Model model) {
+    public String viewOrderDetails(@RequestParam Integer orderId, Model model, Principal principal) {
+
+         if (principal != null) {
+            String username = principal.getName();
+
+            Account user = accountService.findByUsername(username);
+            model.addAttribute("user", user);
+            model.addAttribute("username", username);
+
+            int userId = getUserIDByUsername(username);
+            int cartItemCount = cartService.getCount(userId);
+            model.addAttribute("cartItemCount", cartItemCount);
+        }
         Order order = orderService.getOrderById(orderId);
         model.addAttribute("order", order);
-        return "user/orderDetails"; // Trả về trang hiển thị chi tiết đơn hàng
+        return "app/user2/orderDetails"; // Trả về trang hiển thị chi tiết đơn hàng
     }
 
     @PostMapping("/confirm")

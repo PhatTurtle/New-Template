@@ -94,7 +94,7 @@ public class UserVoucherController {
 
 	            if (user != null) {
 	                model.addAttribute("user", user);
-	                return "app/user2/profile/voucher"; // Tên trang HTML bạn đã tạo
+	                return "app/auth/profile/voucher"; // Tên trang HTML bạn đã tạo
 	            }
 	        }
 

@@ -23,25 +23,8 @@
         <div class="flex flex-col lg:flex-row gap-x-5 gap-y-5">
             <div class="flex flex-col w-full lg:w-[60%] gap-y-5">
                 <!--  -->
-                <form th:action="@{/pay/checkout}" method="post">
-                <div class="flex flex-col border border-orange-300 rounded-lg text-xs gap-y-2 py-5 px-2 md:px-4 lg:px-5 text-sm font-light">
-                    <div class="flex justify-between">
-                        <p class="text-lg font-semibold">Thông Tin Nhận Hàng</p>
-                        <ion-icon class="text-xl text-orange-300 cursor-pointer" name="open-outline"></ion-icon>
-                    </div>
-                    <div class="grid grid-cols-2 justify-between ">
-                        <input id="fullname" name="fullname" 
-                        th:value="${account.fullName}"></input>
-                        <input id="address" name="address" th:value="${account.address}" class="text-end"></input>
-                    </div>
-
-                    <input id="phone" name="phone" class="form-control"
-												th:value="'0'+${account.phonenumber}">
-
-                    <input type="hidden" name="userId" class="form-control"
-												th:value="${account.userId}">
-
-                </div>
+                
+               
                 <!--  -->
                 <div th:each="item : ${cartItems}" class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
                     <div class="flex w-full border border-orange-300 rounded-lg p-5 gap-x-2">
@@ -68,7 +51,7 @@
 								</p>
 
                                 <div class="flex flex-col text-end text-xs md:text-2xl justify-between text-orange-300">
-                                    <p th:text="${#numbers.formatDecimal(item.product.price * item.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
+                                    <p th:text=" ${#numbers.formatDecimal(item.product.price * item.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
                                   
                                 </div>
                         </div>
@@ -95,31 +78,50 @@
                         <div class="w-full">
                             <select name="" id="" class="w-full bg-white text-black py-3 border-b-2 outline-none">
                                 <option value="">Chọn Phương Thức Thanh Toán</option>
-                                <option value="">MoMo</option>
+                                <option value="">Tiền mặt</option>
                                 <option value="">PayPal</option>
-                                <option value="">Banking</option>
                             </select>
                         </div>
                     </div>
                     <!--  -->
-                    <div class="flex flex-col w-full gap-y-3">
-                        <p class="text-lg font-semibold">Phương Thức Vận Chuyển</p>
-                        <div class="w-full">
-                            <select name="" id="" class="w-full bg-white text-black py-3 border-b-2 outline-none">
-                                <option value="">Chọn Phương Thức Vận Chuyển</option>
-                                <option value="">Giao Hàng Tiết Kiệm</option>
-                                <option value="">PayPal</option>
-                                <option value="">Banking</option>
-                            </select>
-                        </div>
-                    </div>
+                 
+                  
                     <!--  -->
-                    <div class="flex justify-between w-full gap-x-5 border-b">
-                        <p class="text-lg font-semibold">Mã Giảm Giá</p>
-                        <div class="w-[70%]">
-                            <textarea class="w-full border border-orange-300 bg-white rounded-lg px-2 py-1 items-center " placeholder="Nhập Mã Giảm Giá"></textarea>
+                    <div class="d-flex justify-content-between">
+						<p class="mt-3 ">Mã Giảm Giá</p>
+						<select id="selectedVouchers" name="selectedVouchers"
+							class="bg-white border rounded p-2 " style="width: 60%;" required>
+							<option value="">-- Chọn Voucher --</option>
+							<option th:each="voucher : ${user.vouchers}"
+								th:value="${voucher.voucherId}"
+								th:text="${voucher.voucherCode} + ' - ' + 'Giảm' + ${voucher.discountAmount} +' VND'"
+								th:selected="${voucher.voucherId == selectedVoucherId}">
+							</option>
+						</select>
+						<button class="btn btn-primary w-[110px] mx-5"
+							onclick="applyVoucher()">Áp dụng</button>
+					</div>
+
+                    <form th:action="@{/pay/checkout}" method="post">
+                    <div class="flex flex-col border border-orange-300 rounded-lg text-xs gap-y-2 py-5 px-2 md:px-4 lg:px-5 text-sm font-light">
+                        <div class="flex justify-between">
+                            <p class="text-lg font-semibold">Thông Tin Nhận Hàng</p>
+                            <ion-icon class="text-xl text-orange-300 cursor-pointer" name="open-outline"></ion-icon>
                         </div>
+                        <div class="grid grid-cols-2 justify-between ">
+                            <input id="fullname" name="fullname" 
+                            th:value="${account.fullName}"></input>
+                            <input id="address" name="address" th:value="${account.address}" class="text-end"></input>
+                        </div>
+    
+                        <input id="phone" name="phone" class="form-control"
+                                                    th:value="'0'+${account.phonenumber}">
+    
+                        <input type="hidden" name="userId" class="form-control"
+                                                    th:value="${account.userId}">
+    
                     </div>
+
                     <!--  -->
                     <div class="flex flex-col w-full gap-y-3 border-b">
                         <p class="text-lg font-semibold">Ghi Chú</p>
@@ -128,20 +130,45 @@
                         </div>
                     </div>
                     <!--  -->
-                    <div class="flex flex-col w-full gap-y-3 border-b">
-                        <p class="text-lg font-semibold">Thời Gian Giao Hàng dự kiến</p>
-                        <div class="w-full text-sm font-light">
-                           <p>5 Ngày nữa đợi đi thằng lol :>>></p>
+                    <div class="d-flex justify-content-between mt-4">
+                        <div class="fw-medium flex justify-between ">
+                            <p>Tổng Tiền</p>
+                            <p>Khuyến Mãi</p>
+                            <p>Số Thanh Toán</p>
+                        </div>
+                        <div class="fw-light flex justify-between py-5">
+                            <p style="color: red" class="text-end"
+                                th:text="${cartAmount} + ' VND'"></p>
+                            <p style="color: red" class="text-end"
+                                th:text="${discountAmount != null} ? ('-' + ${discountAmount} + ' VND') : '- 0 VND'"></p>
+
+                            <input type="hidden" name="selectedVouchers"
+                                th:value="${voucherId != null} ? ( ${voucherId}) : '0'">
+
+                            <!-- 								<p style="color: red" class="text-end" -->
+                            <!-- 									th:text="${voucherId != null} ? ('-' + ${voucherId} + 'K') : '- 0K'"></p> -->
+
+                            <p style="color: red" class="text-end"
+                                th:text="${cartAmount - (discountAmount != null ? discountAmount : 0)} + ' VND'"></p>
                         </div>
                     </div>
-                    <div class="w-full">
+                    <div class="w-full">    
                         <button type="submit" class="w-full rounded-lg duration-300 border border-orange-300 hover:bg-orange-300 hover:text-white hover:duration-300 py-3">Đặt Hàng Ngay</button>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
-    </form>
+    
     </section>
+
+    <script th:inline="javascript">
+		function applyVoucher() {
+			var selectedVoucherId = document.getElementById('selectedVouchers').value;
+			window.location.href = '/pay?selectedVoucherId='
+					+ selectedVoucherId;
+		}
+	</script>
 
 </body>
 

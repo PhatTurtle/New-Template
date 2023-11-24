@@ -31,7 +31,7 @@ public class UploadServiceImpl implements UploadService {
             String projectPath = resource.getFile().getAbsolutePath();
 
             // Đường dẫn lưu trữ hình ảnh
-            String uploadPath = projectPath + "/static/assets/images/";
+            String uploadPath = projectPath + "/static/assets/images/products/";
             Path path = Paths.get(uploadPath);
 
             // Tạo tên mới cho hình ảnh để tránh trùng lặp

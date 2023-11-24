@@ -228,7 +228,7 @@ model.addAttribute("unitsSoldMap", unitsSoldMap);
                 int userId = getUserIDByUsername(username);
 
                 model.addAttribute("username", username);
-
+                model.addAttribute("userId", userId);
                 int cartItemCount = cartService.getCount(userId);
                 model.addAttribute("cartItemCount", cartItemCount);
 

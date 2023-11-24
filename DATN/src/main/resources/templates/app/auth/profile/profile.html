@@ -21,7 +21,7 @@
                     <!-- Avatar -->
                     <div class="avatar">
                         <div class="w-24 rounded-full">
-                          <img src="" />
+                            <img th:src="@{'/assets/images/' + ${user.photo}}" />
                         </div>
                     </div>
                     <!-- Avatar -->
@@ -34,11 +34,16 @@
                 <div class=" flex flex-col h-[40%] items-end  lg:flex-col justify-between lg:justify-start rounded-lg gap-y-2 flex-1 gap-x-5">
                     <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
                         <ion-icon class="text-xl group-hover:text-white" name="people-outline"></ion-icon>
-                        <a href="#" class="group-hover:text-white">Thông Tin Cá Nhân</a>
+                        <a th:href="@{/profile}" class="group-hover:text-white">Thông Tin Cá Nhân</a>
                     </div>
                     <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
                         <ion-icon class="text-lg group-hover:text-white" name="car-outline"></ion-icon>
-                        <a href="#" class="group-hover:text-white">Địa Chỉ</a>
+                        <a th:href="@{/orders}" class="group-hover:text-white">Đơn hàng đã đặt</a>
+                    </div>
+
+                    <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
+                        <ion-icon class="text-lg group-hover:text-white" name="car-outline"></ion-icon>
+                        <a th:href="@{/vouchers/voucher-stock}" class="group-hover:text-white">Kho voucher</a>
                     </div>
                     
                 </div>
@@ -59,6 +64,9 @@
                             <div class="">
                                 <p>Email</p>
                             </div>
+                            <div class="">
+                                <p>Địa chỉ</p>
+                            </div>
     
                         </div>
                         <div class="flex flex-col justify-between gap-y-10 text-end w-[80%]">
@@ -73,6 +81,9 @@
                             </div>
                             <div class="border-b">
                                 <input type="text" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.email}">
+                            </div>
+                            <div class="border-b">
+                                <input type="text" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.address}">
                             </div>
                         </div>
                     </section>

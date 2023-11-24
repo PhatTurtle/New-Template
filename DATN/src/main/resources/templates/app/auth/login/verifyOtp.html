@@ -29,7 +29,7 @@
             </div>
             <!--  -->
             <div class="w-[90%] mx-auto lg:w-[50%] mt-10">
-                <form th:action="@{/verify-otp}" method="post" action="http://httpbin.org/post" class="w-full flex flex-col  gap-y-5">
+                <form th:action="@{/verifyOTP}" method="post" action="http://httpbin.org/post" class="w-full flex flex-col  gap-y-5">
                     <div class="">
                         
                         <input hidden th:value="${email}" type="text" id="email" name="email" class="py-2  px-2 bg-transparent border-b-2  text-black border-orange-300  w-full outline-none" placeholder="Email" />

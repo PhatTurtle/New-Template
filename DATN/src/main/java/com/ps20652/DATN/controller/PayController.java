@@ -97,9 +97,9 @@ public class PayController {
 
 
 	
-	// @RequestParam("selectedVouchers") Integer selectedVoucherId
+	
 	@PostMapping("/checkout")
-    public String processCheckout(RedirectAttributes redirectAttributes,@RequestParam("userId") Integer userId, Model model, @RequestParam("fullname") String fullname, @RequestParam("phone") Integer phone, @RequestParam("address") String address, @RequestParam("description") String description) {
+    public String processCheckout(RedirectAttributes redirectAttributes,  @RequestParam("selectedVouchers") Integer selectedVoucherId, @RequestParam("userId") Integer userId, Model model, @RequestParam("fullname") String fullname, @RequestParam("phone") Integer phone, @RequestParam("address") String address, @RequestParam("description") String description) {
         try {
             List<UserCart> userCart = shoppingCartService.findByAccountUserId(userId);
 
@@ -122,22 +122,22 @@ public class PayController {
             Voucher voucher = null;
             double discountAmount = 0;
 
-            // if (selectedVoucherId != 0) {
-            //     // Nếu selectedVoucherId khác 0, lấy thông tin voucher từ ID
-            //     voucher = voucherService.findbyId(selectedVoucherId);
-            //     if (voucher != null) {
-            //         int remainingQuantity = voucher.getQuantity() - 1;
-            //         if (remainingQuantity >= 0) {
-            //             voucher.setQuantity(remainingQuantity);
-            //             voucherService.createVoucher(voucher); // Cập nhật số lượng mã giảm giá
-            //             discountAmount = voucher.getDiscountAmount(); // Lấy giá trị giảm giá từ voucher
-            //         } else {
+            if (selectedVoucherId != 0) {
+                // Nếu selectedVoucherId khác 0, lấy thông tin voucher từ ID
+                voucher = voucherService.findbyId(selectedVoucherId);
+                if (voucher != null) {
+                    int remainingQuantity = voucher.getQuantity() - 1;
+                    if (remainingQuantity >= 0) {
+                        voucher.setQuantity(remainingQuantity);
+                        voucherService.createVoucher(voucher); // Cập nhật số lượng mã giảm giá
+                        discountAmount = voucher.getDiscountAmount(); // Lấy giá trị giảm giá từ voucher
+                    } else {
                     	 
-            //              redirectAttributes.addFlashAttribute("errorMessage", "Số lượng mã giảm giá đã hết");
-            //             return "redirect:/cart";
-            //         }
-            //     }
-            // }
+                         redirectAttributes.addFlashAttribute("errorMessage", "Số lượng mã giảm giá đã hết");
+                        return "redirect:/cart";
+                    }
+                }
+            }
 
             double totalAmount = 0;
             List<OrderDetail> orderDetails = new ArrayList<>();
@@ -146,10 +146,10 @@ public class PayController {
                 Product product = cartItem.getProduct();
                 totalAmount += product.getPrice() * cartItem.getQuantity();
 
-                // Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
-                // if (selectedVoucherId != 0) {
-                //     totalAmount -= discountAmount;
-                // }
+              //  Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
+                if (selectedVoucherId != 0) {
+                    totalAmount -= discountAmount;
+                }
                 
                 if (product.getQuantityInStock() >= cartItem.getQuantity()) {
                     OrderDetail orderDetail = new OrderDetail();
@@ -170,7 +170,7 @@ public class PayController {
             order.setTotalPrice(totalAmount);
             order.setVoucher(voucher);
 
-            orderService.create(order);
+            orderService.create(order); 
             orderDetialService.create(orderDetails);
             
             // Thêm vào bảng Doanh Thu

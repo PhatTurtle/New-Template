@@ -59,6 +59,12 @@
           });
         });
       </script>
+      <script>
+        function toggleReviewForm(btn) {
+            var form = btn.nextElementSibling;
+            form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+        }
+    </script> 
 
 </body>
 <!-- Loading -->

@@ -12,6 +12,139 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
 	</script> -->
+
+<style>
+
+.contact-form .form-field {
+    position: relative;
+    margin: 32px 0;
+}
+
+.contact-form .input-text {
+    display: block;
+    width: 100%;
+    height: 36px;
+    border-width: 0 0 2px 0;
+    border-color: #5543ca;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 400;
+}
+
+.contact-form .input-text:focus {
+    outline: none;
+}
+
+.contact-form .input-text:focus+.label,
+.contact-form .input-text.not-empty+.label {
+    -webkit-transform: translateY(-12px);
+    transform: translateY(-12px);
+
+}
+
+
+
+.contact-form .label {
+    position: absolute;
+    left: 20px;
+    bottom: 35px;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 400;
+    color: #5543ca;
+    cursor: text;
+    transition: -webkit-transform .2s ease-in-out;
+    transition: transform .2s ease-in-out;
+    transition: transform .2s ease-in-out,
+        -webkit-transform .2s ease-in-out;
+}
+
+.contact-form .submit-btn {
+    display: inline-block;
+    background-color: #000;
+    background-image: linear-gradient(125deg, #a72879, #064497);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: none;
+    width: 200px;
+    cursor: pointer;
+}
+
+/* -------- */
+body {
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.card0 {
+    width: 94%;
+}
+
+.card1 {
+    background-image: linear-gradient(#2196F3, #81D4FA);
+    padding: 30px 20px 30px 50px;
+}
+
+.image-contact {
+    width: 300px;
+    height: 300px;
+}
+
+.large-font {
+    font-size: 70px;
+    font-family: Arial;
+}
+
+.fa-sun-o {
+    font-size: 22px;
+}
+
+.card2 {
+    background-color: #fff;
+    padding: 0px 0px 40px 40px;
+}
+
+
+
+::placeholder {
+    color: #B0BEC5 !important;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #B0BEC5 !important;
+}
+
+::-ms-input-placeholder {
+    color: #B0BEC5 !important;
+}
+
+
+
+.light-text {
+    color: #B0BEC5;
+}
+
+.suggestion:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+.line {
+    height: 1px;
+    background-color: #B0BEC5;
+}
+
+@media screen and (max-width: 500px) {
+    .card1 {
+        padding-left: 26px;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -150,7 +283,44 @@
 												aria-label="Close"></button>
 										</div>
 										<div class="modal-body text-center">
-											<form th:action="@{/admin/products/add}" method="post"
+											
+												<form class="contact-form row" th:action="@{/admin/products/add}" method="post"
+												enctype="multipart/form-data">
+													<div class="form-field col-lg-6">
+														<input id="name" class="input-text js-input" name="name" style="font-size: 13px;"  type="text" required>
+														<label class="label" for="name" >Name</label>
+													</div>
+													<div class="form-field col-lg-6 ">
+														<input id="text" class="input-text js-input" type="text" style="font-size: 13px;" name="price" required>
+														<label class="label" for="email">Giá</label>
+													</div>
+													<div class="form-field col-lg-6 ">
+														<input id="company" class="input-text js-input" type="text" style="font-size: 13px;" name="purchasePrice" required>
+														<label class="label" for="company">Giá nhập</label>
+													</div>
+													<div class="form-field col-lg-6 ">
+														<select id="category" name="category" style="border-radius: 5px; 
+														width: calc(100% - 10px); 
+														padding: 8px" required>
+															<option value="">-- Chọn danh mục --</option>
+															<option th:each="category : ${categories}"
+																th:value="${category.categoryId}" th:text="${category.name}">
+															</option>
+														</select> <br />
+														<label class="label" for="phone">Loại</label>
+													</div>
+													<div class="form-field col-lg-12">
+														<input type="file" id="image" name="image" accept="image/*"
+													required /><br />
+														<label class="label" for="message">Ảnh</label>
+													</div>
+													<div class="form-field col-lg-12">
+														<input class="submit-btn" type="submit" value="Submit">
+													</div>
+												</form>
+											</div>
+											<!--  -->
+											<!-- <form th:action="@{/admin/products/add}" method="post"
 												enctype="multipart/form-data">
 												<label class="col-sm-2 col-form-label" for="name">Tên</label>
 												<input type="text" id="name" name="name" required /><br />
@@ -161,7 +331,7 @@
 
 
 												<label class="col-sm-2 col-form-label" for="price">Giá nhập</label>
-												<input type="text" id="priceStaff" name="priceStaff" required /><br />
+												<input type="text" id="priceStaff" name="purchasePrice" required /><br />
 
 
 												<label class="col-sm-2 col-form-label" for="category">Loại</label>
@@ -173,10 +343,7 @@
 												</select> <br />
 
 
-												<label class="col-sm-2 col-form-label" for="quantityInStock">Tồn
-													kho</label>
-												<input type="text" id="quantityInStock" name="quantityInStock"
-													required /><br />
+												
 
 												<label class="col-sm-2 col-form-label" for="image">Ảnh</label>
 												<input type="file" id="image" name="image" accept="image/*"
@@ -185,7 +352,7 @@
 
 
 												<button type="submit" class="btn btn-primary">Add</button>
-											</form>
+											</form> -->
 										</div>
 
 									</div>
@@ -222,12 +389,104 @@
 										<td th:text="${product.quantityInStock}"></td>
 
 										<td><img style="width: 50px; height: 50px"
-											th:src="@{'/assets/images/' + ${product.image}}"
+											th:src="'/assets/images/products/' + ${product.image}"
 											class="rounded-circle"></td>
-										<td><a
-											th:href="@{'/admin/products/edit/' + ${product.productId}}">Edit</a>
-											| <a
-											th:href="@{'/admin/products/delete/' + ${product.productId}}">Delete</a>
+										<td><button
+											type="button" class="btn btn-primary mx-5 fs-2 " data-bs-toggle="modal" th:data-bs-target="'#exampleModal2-' + ${product.productId}"
+											 data-bs-whatever="@mdo">Edit</button>
+
+
+											<div  class="modal fade"tabindex="-1" aria-labelledby="exampleModalLabel"
+								aria-hidden="true" th:id="'exampleModal2-' + ${product.productId}">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal"
+												aria-label="Close"></button>
+										</div>
+										<div class="modal-body text-center">
+											<!-- <form th:action="@{'/admin/products/edit/' + ${product.productId}}" method="post"
+												enctype="multipart/form-data">
+												<label class="col-sm-2 col-form-label" for="name">Tên</label>
+												<input type="hidden" id="name" name="productId" th:value="${product.productId}" /><br />
+												<input type="text" id="name" name="name" th:value="${product.name}" required /><br />
+
+
+												<label class="col-sm-2 col-form-label" for="price">Giá</label>
+												<input type="text" id="price" name="price"  th:value="${product.price}" required /><br />
+
+
+												<label class="col-sm-2 col-form-label" for="price">Giá nhập</label>
+												<input type="text" id="priceStaff" name="purchasePrice"  th:value="${product.purchasePrice}" required /><br />
+
+
+												<label class="col-sm-2 col-form-label" for="category">Loại</label>
+												<select id="category" name="category" required>
+													<option th:text="${product.category.name}" th:value="${product.category.categoryId}" ></option>
+													<option th:unless="${product.category.name == category.name}" th:each="category : ${categories}"
+														th:value="${category.categoryId}" th:text="${category.name}">
+													</option>
+												</select> <br />
+
+
+												
+
+												<label class="col-sm-2 col-form-label" for="image">Ảnh</label>
+												<input type="file" id="image" name="image" accept="image/*"
+													 /><br />
+
+
+
+												<button type="submit" class="btn btn-primary">Update</button>
+											</form> -->
+
+											
+												
+												<form th:action="@{'/admin/products/edit/' + ${product.productId}}" method="post" enctype="multipart/form-data" class="contact-form row">
+													<div class="form-field col-lg-6 ">
+														<input type="hidden" id="name" name="productId" th:value="${product.productId}">
+														<input id="name" name="name" class="input-text js-input " style="font-size: 13px;" type="text" th:value="${product.name}"   required>
+														<label class="label" for="name">Tên sản phẩm</label>
+													</div>
+													<div class="form-field col-lg-6 ">
+														<input id="price" class="input-text js-input" style="font-size: 13px;" name="price"  th:value="${product.price}" type="text" required>
+														<label class="label" for="email">Giá</label>
+													</div>
+													<div class="form-field col-lg-6 ">
+														<input class="input-text js-input" type="text" style="font-size: 13px;" id="priceStaff" name="purchasePrice"  th:value="${product.purchasePrice}" required >
+														<label class="label" for="company">Giá nhập</label>
+													</div>
+													<div class="form-field col-lg-6 ">
+														<select id="category" name="category" class="border-1 custom-select " style="border-radius: 5px; 
+														width: calc(100% - 10px); 
+														padding: 8px" required>
+															<option th:text="${product.category.name}" th:value="${product.category.categoryId}" ></option>
+															<option th:unless="${product.category.name == category.name}" th:each="category : ${categories}"
+																th:value="${category.categoryId}" th:text="${category.name}">
+															</option>
+														</select>
+														<label class="label" for= "phone">Loại sản phẩm</label>
+													</div>
+													<div class="form-field col-lg-12">
+														<input type="file" id="image" name="image" accept="image/*">
+														<label class="label" for="message">Ảnh</label>
+													</div>
+													<div class="form-field col-lg-12">
+														<input class="submit-btn" type="submit" value="Update">
+													</div>
+												</form>
+											</div>
+										
+
+									</div>
+								</div>
+							</div>
+								<form th:action="@{'/admin/products/delete/' + ${product.productId}}" >
+									<button type="submit" class="btn btn-primary mx-5 fs-2 mt-2 ">  Delete</button>
+
+								</form>
+											
 
 											<!-- Add this form to the view where you want to input the quantity added -->
 										</td>
@@ -253,7 +512,7 @@
 																<div class="mb-3">
 
 																	<input name="productId"
-																		th:value="${product.productId}" type="text"
+																		th:value="${product.productId}" type="hidden"
 																		class="form-control" id="recipient-name" readonly>
 																</div>
 																<div class="mb-3">

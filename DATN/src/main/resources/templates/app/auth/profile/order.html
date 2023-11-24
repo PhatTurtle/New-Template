@@ -14,6 +14,9 @@
         <!-- Library -->
 </head>
 <body class="bg-white min-h-screen">
+    <div id="notification" th:if="${confirmationMessage != null}" class="alert alert-success">
+        <p th:text="${confirmationMessage}"></p>
+        </div>
     <section class="w-[90%] md:w-[80%] xl:w-[80%] mx-auto text-xs text-black font-light  py-24">
         <div class="w-full flex flex-col lg:flex-row gap-y-5 gap-x-5">
             <section class="flex flex-row lg:flex-col gap-x-5 gap-y-5 w-full lg:w-[40%] text-sm">
@@ -50,25 +53,58 @@
             </section>
             <section class="w-full lg:w-[60%]">
                 
-                <div th:each="voucher : ${user.vouchers}" class="border border-orange-300 flex justify-between  rounded-lg py-5 mt-5 px-5 text-sm">
+                <div th:each="order : ${orders}" class="border border-orange-300 flex justify-between  rounded-lg py-5 mt-5 px-5 text-sm">
                     <div class="text-xl font-medium text-black flex flex-col gap-y-4">
-                        <p  th:text="${'Mã: ' + voucher.voucherCode}"></p>
+                        <p th:text="${order.fullName} + ' - Mã đơn: ' + ${order.orderId}"></p>
                         <!-- <p th:text="${order.orderId}"></p> -->
-                        <p th:text="${'Giảm: ' + voucher.discountAmount} + ' VND'" class="text-[17px] font-light"></p>
-                        
-                        <p th:text="${'Mã còn: ' + voucher.quantity}" class="text-[17px] text-red-600 font-light"></p>
-                        <p th:text="${'HSD: ' + #dates.format(voucher.startDate, 'dd/MM/yyyy') + ' - ' + #dates.format(voucher.endDate, 'dd/MM/yyyy')}" class="text-end border-0 bg-transparent"></p>
+                        <p th:text=" 'Date: '+${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}" class="text-[17px] font-light"></p>
+                        <p th:text=" 'Total: ' + ${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'" class="text-[17px] font-light"></p>
+                        <p th:text="${order.status}" class="text-[17px] text-red-600 font-light"></p>
                     </div>
                     
                     <div class=" flex flex-col justify-end gap-y-3">
                         
-                    
+                        <form th:action="@{/confirm}" method="post">
+                            <input hidden="" th:value="${order.orderId}" name="orderId">
+                              <button th:if="${order.status == 'Đang giao hàng'}" type="submit"  class="px-5 btn btn-success bg-green-500 ">Đã nhận</button>
+                        </form>
+                        
+                         <form th:action="@{/cancel}" method="post">
+                            <input hidden="" th:value="${order.orderId}" name="orderId">
+                            <button th:if="${order.status == 'Chờ xác nhận'}" type="submit" class="btn btn-error bg-red-400">Hủy đơn</button>
+                        </form>
+                        <a th:href="@{'/orderDetails?orderId=' + ${order.orderId}}"><button class="px-4 py-3 border border-orange-300 duration-300 rounded-lg hover:bg-orange-300 hover:duration-300 hover:text-white">Xem chi tiết </button></a>
                     </div>
                 </div> 
-                
+                <div th:if="${orders.totalPages > 1}" class="w-full flex justify-center">
+                    <div class="join">
+                        <a th:href="@{'/orders?page=' + ${i}}"
+                        th:each="i : ${#numbers.sequence(0, orders.totalPages - 1)}"
+                        th:class="${orders.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
+                        <button
+                        class="page-link" th:text="${i} + 1"></button>
+                         </a>   
+                      
+                      </div>
+                   
+                </div>
                 
             </section>
         </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Script để hiển thị và ẩn thông báo -->
+    <script>
+        // Hiển thị thông báo khi trang được tải
+        $(document).ready(function() {
+            showNotification();
+        });
+    
+        // Hiển thị thông báo và tự động ẩn sau 2 giây
+        function showNotification() {
+            $('#notification').fadeIn().delay(1000).fadeOut();
+        }
+    </script>
 </body>
 </html>

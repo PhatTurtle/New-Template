@@ -43,13 +43,19 @@
                             <div class="flex flex-col gap-y-2 justify-between ">
                                 <p th:text="${item.product.name}" class="lg:text-lg lg:font-semibold"></p>
                                 
-                                <div class="join w-full lg:w-[40%] flex items-center text-center">
+                                <!-- <div class="join w-full lg:w-[40%] flex items-center text-center">
                                     <button onclick="decrementQuantity(this)" class="join-item border border-orange-300 px-2 py-2 w-[25%]">-</button>
                                     <input hidden type="text" name="productId" th:value="${item.product.productId}" />
                                     <input type="text" class="join-item bg-white border border-orange-300 w-[50%] text-center py-2 items-center" name="qty" th:value="${item.quantity}" oninput="updatePrice(this)" min="1">
                                     <button onclick="incrementQuantity(this)" class="join-item border border-orange-300 px-2 py-2 w-[25%]">+</button>
-                                </div>
-                                
+                                </div> -->
+                                <form th:action="@{/cart/updateItem}" class="" method="post">
+                                    <input hidden="" type="text" name="productId"
+                                        th:value="${item.product.productId}" /> 
+                                        <input  type="number" class="w-50 text-center border border-orange-300"
+                                        name="qty" th:value="${item.quantity}"
+                                        onblur="this.form.submit()" min="1"  />
+                                </form>
                             </div>
                             <div class="flex flex-col text-end text-xs md:text-2xl justify-between text-orange-300">
                                 <p th:text="${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>

@@ -79,7 +79,7 @@ public class AdminProductController {
 			product.setName(productDTO.getName());
 			product.setDescription(productDTO.getDescription());
 			product.setPrice(productDTO.getPrice());
-			product.setQuantityInStock(productDTO.getQuantityInStock());
+			product.setQuantityInStock(0);
 			product.setCategory(productDTO.getCategory());
 			product.setImage(imageString);
 			product.setPurchasePrice(productDTO.getPurchasePrice());
@@ -114,9 +114,9 @@ public class AdminProductController {
 	}
 
 	@PostMapping("/edit/{productId}")
-	public String handleEditProductForm(@PathVariable("productId") Integer productId,
+	public String handleEditProductForm(@RequestParam("productId") Integer productId,
 			@ModelAttribute("productDTO") ProductDTO editedProduct, RedirectAttributes redirectAttributes,
-			@RequestParam("image") MultipartFile image) {
+			@RequestParam("image") MultipartFile image, @RequestParam("purchasePrice") Double purchasePrice) {
 		try {
 			Product existingProduct = productService.findbyId(productId);
 			if (existingProduct == null) {
@@ -197,21 +197,21 @@ public class AdminProductController {
 		return "redirect:/admin/products";
 	}
 
-	// @GetMapping("/searchName")
-	// public String searchProductsNAME(@RequestParam("name") String productName,
-	// Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
-	// // Sử dụng phương thức tìm kiếm theo tên từ ProductDAO
-	//
-	// int pageSize = 6;
-	// // Đây là ví dụ tìm kiếm theo tên sản phẩm
-	// List<Product> searchResults = productService.findByName(productName);
-	// Page<Product> productPage =
-	// productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
-	// model.addAttribute("products", productPage);
-	// model.addAttribute("products", searchResults);
-	//
-	// return "aaa/ui-buttons"; // Trả về view để hiển thị kết quả tìm kiếm
-	// }
+	@GetMapping("/searchName")
+	public String searchProductsNAME(@RequestParam("name") String productName,
+	Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+	// Sử dụng phương thức tìm kiếm theo tên từ ProductDAO
+	
+	int pageSize = 6;
+	// Đây là ví dụ tìm kiếm theo tên sản phẩm
+	List<Product> searchResults = productService.findByName(productName);
+	Page<Product> productPage =
+	productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
+	model.addAttribute("products", productPage);
+	model.addAttribute("products", searchResults);
+	
+	return "AdminCpanel/ui-buttons"; // Trả về view để hiển thị kết quả tìm kiếm
+	}
 
 	@GetMapping("/searchId")
 	public String searchProductsID(@RequestParam("productId") Integer productId, Model model,

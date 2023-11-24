@@ -6,7 +6,7 @@
     
 <section   th:each="product : ${top4Product} "  class="w-full group duration-300 hover:border hover:border-orange-300 hover:duration-300 rounded-lg flex   flex-col items-center">
     <a th:href="@{'/ProductDetails/' + ${product.productId}}">   <div class="w-full py-2">
-        <img class="w-[90%] mx-auto  rounded" th:src="'/assets/images/products/' + ${product.image}" alt="product">
+        <img class="w-full h-[218px] mx-auto  rounded" th:src="'/assets/images/products/' + ${product.image}" alt="product">
     </div>
 
     

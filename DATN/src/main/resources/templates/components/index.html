@@ -12,35 +12,35 @@
 <body class="bg-white min-h-screen min-w-full">
     <div th:replace="./components/_banner.html"></div>
 
-    <section class="container mx-auto py-10 my-8 px-2">
-        <div class="grid grid-cols-1 lg:grid-cols-3  mx-auto w-11/12">
-            <div class="flex items-center justify-center"> <!-- Thay đổi lớp flex -->
+    <section class="w-[90%] md:w-[80%] mx-auto py-10 my-8 px-2">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-y-10 w-full">
+            <div class="flex items-center justify-center  "> <!-- Thay đổi lớp flex -->
                 <div class="text-center">
                     <div class="flex flex-col items-center">
                         <!-- Thêm một lớp flex để đặt hình ảnh và văn bản trong một cột -->
-                        <img src="/assets/images/voucher.jpg" class="items-center w-[100px] h-[75px]" alt="">
-                        <p class="font-bold mt-3">Big Savings</p>
-                        <p class="">At vero Eos Accumant Et etso oilde dissgjwdklk,qenornm;</p>
+                        <img src="/assets/images/Support.png" class="items-center " alt="">
+                        <p class="font-bold mt-3">Tiết kiệm</p>
+                        <p class="">Luôn có những voucher tốt nhất thị trường</p>
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-center"> <!-- Thay đổi lớp flex -->
+            <div class="flex items-center justify-center   "> <!-- Thay đổi lớp flex -->
                 <div class="text-center">
                     <div class="flex flex-col items-center">
                         <!-- Thêm một lớp flex để đặt hình ảnh và văn bản trong một cột -->
-                        <img src="/assets/images/voucher.jpg" class="items-center w-[100px] h-[75px]" alt="">
-                        <p class="font-bold mt-3">Big Savings</p>
-                        <p class="">At vero Eos Accumant Et etso oilde dissgjwdklk,qenornm;</p>
+                        <img src="/assets/images/contact.png" class="items-center " alt="">
+                        <p class="font-bold mt-3">Hỗ trợ 24/7</p>
+                        <p class="">Độị ngủ chăm sóc khách hàng tận tâm</p>
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-center"> <!-- Thay đổi lớp flex -->
+            <div class="flex items-center justify-center   "> <!-- Thay đổi lớp flex -->
                 <div class="text-center">
                     <div class="flex flex-col items-center">
                         <!-- Thêm một lớp flex để đặt hình ảnh và văn bản trong một cột -->
-                        <img src="/assets/images/voucher.jpg" class="items-center w-[100px] h-[75px]" alt="">
-                        <p class="font-bold mt-3">Big Savings</p>
-                        <p class="">At vero Eos Accumant Et etso oilde dissgjwdklk,qenornm;</p>
+                        <img src="/assets/images/Shipping.png" class="items-center " alt="">
+                        <p class="font-bold mt-3">Giao hàng siêu nhanh</p>
+                        <p class="">Từ 2-3h trong nội thành</p>
                     </div>
                 </div>
             </div>
@@ -53,16 +53,20 @@
     <div class="" th:replace="./components/_ourProduct.html"></div>
 
     <section class="w-[80%]  my-10  mx-auto">
-        <div class="hero  w-full bg-origin-border bg-[url('https://daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.jpg')]"
+        <div class="hero  w-full bg-origin-border bg-[url('/assets/images/bgImage.jpg')]"
             >
             <div class="hero-overlay bg-opacity-60 py-72"></div>
             <div class="hero-content text-center text-neutral-content">
                 <div class="max-w-md">
-                    <h1 class="mb-5 text-5xl font-bold">Hello there</h1>
-                    <p class="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi
-                        exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                    <button class="px-5 py-2 border border-orange-300  hover:text-white duration-300 rounded-lg rounded-orange-300 hover:bg-orange-300 hover:duration-300">Watch video <ion-icon name="arrow-forward-outline" role="img"
-                            class="md hydrated"></ion-icon></button>
+                    <h1 class="mb-5 text-3xl font-bold">VÌ SAO NÊN CHỌN NỘI THẤT Marious?</h1>
+                    <p class="mb-5">Chúng tôi cung cấp những sản phẩm sofa cao cấp với những thiết kế mới nhất. Đảm bảo sẽ tôn thêm vẻ đẹp của gian phòng bạn.</p>
+                
+                        <button class="flex justify-center items-center gap-x-1 border rounded-lg px-3 py-2 mx-auto group border-orange-300 duration-300 hover:bg-orange-300 hover:duration-300">
+                            <p class="group-hover:text-white">Xem Thêm</p>
+                            <ion-icon  name="arrow-forward-outline" role="img" class="group-hover:text-white"></ion-icon>
+                        </button>
+                 
+                    
                 </div>
             </div>
         </div>
@@ -79,7 +83,7 @@
     </section>
     <section class="w-[80%]  pt-8  mx-auto px-4">
         <div class="text-5xl text-center font-bold">
-            <p>The Last News</p>
+            <p>Tin Mới Nhất</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-x-5 my-5 p-5">

@@ -70,34 +70,33 @@ public class IndexController {
     //
 
     @GetMapping("/listproduct")
-    public String product(Model model, Authentication authentication, @RequestParam(name = "page", defaultValue = "0") int page) {
+    public String product(Model model, Authentication authentication,
+            @RequestParam(name = "page", defaultValue = "0") int page) {
 
-
-         List<Product> products = productService.findAll();
-         if (authentication != null && authentication.isAuthenticated()) {
+        List<Product> products = productService.findAll();
+        if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
             model.addAttribute("username", username);
-         }
-         
-         
-         int pageSize = 12; // Số lượng đơn hàng trên mỗi trang
-		Page<Product> productPage = productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
+        }
+
+        int pageSize = 12; // Số lượng đơn hàng trên mỗi trang
+        Page<Product> productPage = productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
         List<Category> cat = categoryService.findAll();
         model.addAttribute("allcategory", cat);
-         model.addAttribute("products", productPage);
-          model.addAttribute("check", "check2");
-          Map<Integer, Integer> unitsSoldMap = new HashMap<>();
+        model.addAttribute("products", productPage);
+        model.addAttribute("check", "check2");
+        Map<Integer, Integer> unitsSoldMap = new HashMap<>();
         for (Product product : products) {
             int unitsSold = orderDetailService.getProductSell(product);
             unitsSoldMap.put(product.getProductId(), unitsSold);
         }
-model.addAttribute("unitsSoldMap", unitsSoldMap);
+        model.addAttribute("unitsSoldMap", unitsSoldMap);
         return "app/layout/list_product";
     }
 
     @GetMapping
     public String listProducts(Model model, Authentication authentication,
-            @RequestParam(name = "confirmationMessage", required = false) String confirmationMessage, 
+            @RequestParam(name = "confirmationMessage", required = false) String confirmationMessage,
             @RequestParam(name = "page", defaultValue = "0") int page) {
         List<CustomerFeedback> feedback = feedbackService.findAll();
         List<Product> products = productService.findAll();
@@ -122,11 +121,10 @@ model.addAttribute("unitsSoldMap", unitsSoldMap);
             unitsSoldMap.put(product.getProductId(), unitsSold);
         }
 
-        
-
         // for (Category category : cat) {
-        //     List<Product> topProducts = productService.getTop4BestSellingProductsPerCategory(category.getCategoryId());
-        //     topProductsPerCategory.put((category.getCategoryId()), topProducts);
+        // List<Product> topProducts =
+        // productService.getTop4BestSellingProductsPerCategory(category.getCategoryId());
+        // topProductsPerCategory.put((category.getCategoryId()), topProducts);
         // }
 
         if (confirmationMessage != null) {
@@ -135,17 +133,16 @@ model.addAttribute("unitsSoldMap", unitsSoldMap);
 
         List<Product> top8Product = productService.getEightProducts();
 
-         List<Product> top4Product = productService.getTop4BestSellingProducts();
-         
+        List<Product> top4Product = productService.getTop4BestSellingProducts();
 
         model.addAttribute("topProductsPerCategory", topProductsPerCategory);
         model.addAttribute("unitsSoldMap", unitsSoldMap);
         model.addAttribute("products", products);
-        
+
         model.addAttribute("allcategory", cat);
         model.addAttribute("fb", feedback);
-          model.addAttribute("top8Product", top8Product);
-           model.addAttribute("top4Product", top4Product);
+        model.addAttribute("top8Product", top8Product);
+        model.addAttribute("top4Product", top4Product);
 
         return "components/index";
     }
@@ -206,7 +203,7 @@ model.addAttribute("unitsSoldMap", unitsSoldMap);
             model.addAttribute("cartItemCount", cartItemCount);
 
             List<Category> cat = categoryService.findAll();
-        model.addAttribute("allcategory", cat);
+            model.addAttribute("allcategory", cat);
         }
 
         return "app/layout/about";
@@ -234,7 +231,7 @@ model.addAttribute("unitsSoldMap", unitsSoldMap);
 
             }
         }
-        
+
         model.addAttribute("products", product);
         model.addAttribute("feedbacks", feedback);
 
@@ -277,8 +274,10 @@ model.addAttribute("unitsSoldMap", unitsSoldMap);
     }
 
     @GetMapping("/product/category/{categoryId}")
-    public String productCategory(@RequestParam(value = "size", defaultValue = "8") int size,@PathVariable("categoryId") Integer categoryId, Model model, Principal principal, @RequestParam(name = "page", defaultValue = "0") int page) {
-        List<Category> allcat = categoryService.findAll();  
+    public String productCategory(@RequestParam(value = "size", defaultValue = "8") int size,
+            @PathVariable("categoryId") Integer categoryId, Model model, Principal principal,
+            @RequestParam(name = "page", defaultValue = "0") int page) {
+        List<Category> allcat = categoryService.findAll();
         Category cat = categoryService.findbyId(categoryId);
         List<Product> products = productService.findByCategoryCategoryId(categoryId);
         if (principal != null) {
@@ -292,7 +291,7 @@ model.addAttribute("unitsSoldMap", unitsSoldMap);
 
         }
 
-		Page<Product> productPage = productService.getAllProductCategory(categoryId, page, size);
+        Page<Product> productPage = productService.getAllProductCategory(categoryId, page, size);
         model.addAttribute("check", "check");
         model.addAttribute("categories", cat);
         model.addAttribute("products", productPage);
@@ -303,7 +302,7 @@ model.addAttribute("unitsSoldMap", unitsSoldMap);
             int unitsSold = orderDetailService.getProductSell(product);
             unitsSoldMap.put(product.getProductId(), unitsSold);
         }
-model.addAttribute("unitsSoldMap", unitsSoldMap);
+        model.addAttribute("unitsSoldMap", unitsSoldMap);
         return "app/layout/list_product";
     }
 

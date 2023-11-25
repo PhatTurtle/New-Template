@@ -1,57 +1,72 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/components/layout :: areas(~{::title},~{::body})}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-        <!-- Library -->
-        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
-        <script src="https://cdn.tailwindcss.com"></script>
-            <!-- icon -->
-            <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-            <!-- icon -->
-        <!-- Library -->
+    <title>Marious | Đăng Nhập</title>
+    <!-- Library -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- icon -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- icon -->
+    <!-- Library -->
 </head>
+
 <body class="bg-white min-h-screen">
     <!--  -->
-      
+
     <!--  -->
 
     <div class="w-full  md:w-[80%] xl:w-[70%] mx-auto my-20">
-        
+
         <div class="flex flex-col lg:flex-row gap-x-5 mt-5 items-center">
             <div class="w-[90%] mx-auto lg:w-[50%]">
                 <!-- <Image src="/assets/sign-in.png" alt=""/> -->
-                <Image class="w-full" src="/assets/images/sign-in.png" alt=""/>
+                <Image class="w-full" src="/assets/images/sign-in.png" alt="" />
             </div>
             <!--  -->
             <div class="w-[90%] mx-auto lg:w-[50%] ">
                 <div class="pb-10">
-                    <p class="text-3xl lg:text-6xl font-semibold text-orange-300 text-center  hover:duration-300 duration-300">Đăng nhập</p>
+                    <p
+                        class="text-3xl lg:text-6xl font-semibold text-orange-300 text-center  hover:duration-300 duration-300">
+                        Đăng nhập</p>
                 </div>
-                <form th:action="@{/login}" method="post" action="http://httpbin.org/post" class="w-full flex flex-col gap-y-5">
+                <form th:action="@{/login}" method="post" action="http://httpbin.org/post"
+                    class="w-full flex flex-col gap-y-5">
                     <div class="">
-                        
-                        <input type="text" name="username" class="py-2  px-2 bg-transparent border-b-2  text-black border-orange-300  w-full outline-none" placeholder="Tài khoản" />
+
+                        <input type="text" name="username"
+                            class="py-2  px-2 bg-transparent border-b-2  text-black border-orange-300  w-full outline-none"
+                            placeholder="Tài khoản" />
                     </div>
                     <div class="">
-                        
-                        <input type="password" name="password" class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none" placeholder="Mật khẩu" />
+
+                        <input type="password" name="password"
+                            class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
+                            placeholder="Mật khẩu" />
                     </div>
 
                     <div class="mb-3 flex gap-x-2">
                         <input type="checkbox" class="checkbox checkbox-warning " id="exampleCheck1">
                         <label class="text-black font-light" for="exampleCheck1">Ghi Nhớ Đăng Nhập !</label>
-                      </div>
-    
-                      <div class="g-recaptcha" data-sitekey="6Le9nRMpAAAAAMh2ZxdOpYDvej47c4tGQv3LG2IC"></div>
+                    </div>
+
+                    <div class="g-recaptcha" data-sitekey="6Le9nRMpAAAAAMh2ZxdOpYDvej47c4tGQv3LG2IC"></div>
                     <div class="">
-                        <button type="submit" class="border-2 border-orange-300 py-2 hover:bg-orange-300 hover:duration-300 duration-300 text-black hover:text-white rounded-lg w-full">Đăng nhập</button>
+                        <button type="submit"
+                            class="border-2 border-orange-300 py-2 hover:bg-orange-300 hover:duration-300 duration-300 text-black hover:text-white rounded-lg w-full">Đăng
+                            nhập</button>
                     </div>
                     <div class="text-center flex flex-col">
-                        <p >Bạn chưa có tài khoản? <a class="hover:text-orange-300 hover:underline hover:underline-offset-2 text-orange-300" th:href="@{/register}">Đăng Ký!</a></p>
-                        <a href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2"> <a class="text-orange-300 hover:underline" th:href="@{/forgot-password}">Quên Mật Khẩu</a></a>
+                        <p>Bạn chưa có tài khoản? <a
+                                class="hover:text-orange-300 hover:underline hover:underline-offset-2 text-orange-300"
+                                th:href="@{/register}">Đăng Ký!</a></p>
+                        <a href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2"> <a
+                                class="text-orange-300 hover:underline" th:href="@{/forgot-password}">Quên Mật
+                                Khẩu</a></a>
                     </div>
                 </form>
             </div>
@@ -65,7 +80,8 @@
 </body>
 <script>
     function onSubmit(token) {
-      document.getElementById("demo-form").submit();
+        document.getElementById("demo-form").submit();
     }
-  </script>
+</script>
+
 </html>

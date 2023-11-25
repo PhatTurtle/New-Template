@@ -2,80 +2,83 @@
 <html lang="en" data-theme="light" xmlns:th="http://www.thymeleaf.org" th:fragment="areas(title,body)">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:replace="${title}"></title>
-    <!-- Library -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../tailwind.config.js"></script>
-    <!-- icon -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <!-- icon -->
-    <!-- Library -->
-    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
-    <link rel="stylesheet" href="https://cdn.tailgrids.com/tailgrids-fallback.css" />
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./assets/images/logos/Logo1.png">
+  <title th:replace="${title}"></title>
+  <!-- Library -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../tailwind.config.js"></script>
+  <!-- icon -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <!-- icon -->
+  <!-- Library -->
+  <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+  <link rel="stylesheet" href="https://cdn.tailgrids.com/tailgrids-fallback.css" />
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body class="min-w-screen">
-    <div class="w-full bg-black min-h-screen flex flex-col justify-center items-center" id="load"><span class="loading loading-ring text-5xl text-white loading-lg"></span></div>
-    <div class="w-full" style="display: none;" id='data'>
-        <div th:replace="./components/_navigation.html"></div>
+  <div class="w-full bg-black min-h-screen flex flex-col justify-center items-center" id="load"><span
+      class="loading loading-ring text-5xl text-white loading-lg"></span></div>
+  <div class="w-full" style="display: none;" id='data'>
+    <div th:replace="./components/_navigation.html"></div>
 
-        <div th:replace="./components/_header.html "></div>
-    
-        <main th:replace="${body}"></main>
-    
-        <div th:replace="./components/_footer.html"></div>
-    </div>
-    <script>
-        $(document).ready(function () {
-          $('#username').keyup(function () {
-            var username = $(this).val();
-            $.ajax({
-              url: '/checkUsername?username=' + username,
-              type: 'GET',
-              success: function (response) {
-                if (response === 'true') {
-                  $('#usernameError').text('Username đã tồn tại!');
-                } else {
-                  $('#usernameError').text('');
-                }
-              }
-            });
-          });
-      
-          $('#password').keyup(function () {
-            var password = $(this).val();
-            if (password.length < 8) {
-              $('#passwordError').text('Password phải có ít nhất 8 ký tự!');
+    <div th:replace="./components/_header.html "></div>
+
+    <main th:replace="${body}"></main>
+
+    <div th:replace="./components/_footer.html"></div>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $('#username').keyup(function () {
+        var username = $(this).val();
+        $.ajax({
+          url: '/checkUsername?username=' + username,
+          type: 'GET',
+          success: function (response) {
+            if (response === 'true') {
+              $('#usernameError').text('Username đã tồn tại!');
             } else {
-              $('#passwordError').text('');
+              $('#usernameError').text('');
             }
-          });
+          }
         });
-      </script>
-      <script>
-        function toggleReviewForm(btn) {
-            var form = btn.nextElementSibling;
-            form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+      });
+
+      $('#password').keyup(function () {
+        var password = $(this).val();
+        if (password.length < 8) {
+          $('#passwordError').text('Password phải có ít nhất 8 ký tự!');
+        } else {
+          $('#passwordError').text('');
         }
-    </script> 
+      });
+    });
+  </script>
+  <script>
+    function toggleReviewForm(btn) {
+      var form = btn.nextElementSibling;
+      form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+    }
+  </script>
 
 </body>
 <!-- Loading -->
 <script>
-    var load = document.getElementById('load')
-    var data = document.getElementById('data')
-    window.addEventListener("load", () =>{
-        load.style.display="none";
-        data.style.display = "block";
-    })
+  var load = document.getElementById('load')
+  var data = document.getElementById('data')
+  window.addEventListener("load", () => {
+    load.style.display = "none";
+    data.style.display = "block";
+  })
 </script>
 
 <!-- Loading -->
+
 </html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Marious | Sản Phẩm</title>
 
     <!-- Library -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
@@ -102,38 +102,36 @@
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center gap-x-2 my-10">
 
-          <section th:replace="./components/custom/_card.html">
+            <section th:replace="./components/custom/_card.html">
 
 
-          </section>
-          
-           
+            </section>
+
+
 
         </div>
         <div th:if="${products.totalPages > 1}" class="w-full flex justify-center">
             <div th:if="${check == 'check2'}" class="join">
                 <a th:href="@{'/listproduct/?page=' + ${i}}"
-                th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
-                th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
-                <button
-                class="page-link" th:text="${i} + 1"></button>
-                 </a>   
-              
-              </div>
-              <div th:if="${check == 'check'}" class="join">
+                    th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
+                    th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
+                    <button class="page-link" th:text="${i} + 1"></button>
+                </a>
+
+            </div>
+            <div th:if="${check == 'check'}" class="join">
                 <a th:href="@{'/product/category/' + ${categoryID} + '?page=' + ${i}}"
-                th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
-                th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
-                <button
-                class="page-link" th:text="${i} + 1"></button>
-                 </a>   
-              
-              </div>
+                    th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
+                    th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
+                    <button class="page-link" th:text="${i} + 1"></button>
+                </a>
+
+            </div>
         </div>
 
-      
 
-        
+
+
 
     </section>
 

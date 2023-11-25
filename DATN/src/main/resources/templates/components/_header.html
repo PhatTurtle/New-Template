@@ -8,38 +8,45 @@
         <div class=" gap-x-10 text-black font-light hidden lg:flex">
           <div class="">
             <a th:href="@{/}"
-              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2">Trang Chủ</a>
+              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2">Trang
+              Chủ</a>
           </div>
           <div class="">
             <a th:href="@{/about}"
-              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2">Giới Thiệu</a>
+              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2">Giới
+              Thiệu</a>
           </div>
           <div class="">
             <div class="dropdown dropdown-hover">
               <a th:href="@{/listproduct}" tabindex="0"
-                class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2 cursor-pointer">Sản Phẩm</a>
+                class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2 cursor-pointer">Sản
+                Phẩm</a>
               <ul tabindex="0" class="dropdown-content z-[1]  menu p-2 shadow bg-white rounded-box w-52">
-                <li th:each="category : ${allcategory}"><a th:href="@{'/product/category/' + ${category.categoryId}}" th:text="${category.name}">Item 1</a></li>
-               
+                <li th:each="category : ${allcategory}"><a th:href="@{'/product/category/' + ${category.categoryId}}"
+                    th:text="${category.name}">Item 1</a></li>
+
               </ul>
             </div>
           </div>
           <div class="">
             <a th:href="@{/vouchers}"
-              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2 ">Lấy Voucher</a>
+              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2 ">Mã
+              Giảm Giá</a>
           </div>
           <div class="">
             <a th:href="@{/new}"
-              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2 ">Tin Tức</a>
+              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2 ">Tin
+              Tức</a>
           </div>
           <div class="">
             <a th:href="@{/contact}"
-              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2">Liên Hệ</a>
+              class="duration-300 hover:duration-300 hover:text-orange-300 hover:underline hover:underline-offset-2">Liên
+              Hệ</a>
           </div>
         </div>
         <div class="flex gap-x-5 mt-1 text-orange-300 text-lg lg:text-xl">
-          <a 
-            class=" text-center items-center duration-300 hover:border hover:pt-1 hover:px-2 hover:border-orange-300 rounded hover:duration-300" onclick="my_modal_5.showModal()">
+          <a class=" text-center items-center duration-300 hover:border hover:pt-1 hover:px-2 hover:border-orange-300 rounded hover:duration-300"
+            onclick="my_modal_5.showModal()">
             <ion-icon name="search-outline"></ion-icon>
           </a>
           <!-- Search -->
@@ -49,12 +56,14 @@
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
               </form>
               <form th:action="@{/searchName}">
-                  <h3 class="font-bold text-lg pb-5">Tìm Kiếm </h3>
-                  <div class="flex justify-between  rounded-lg ">
-                    <input name = "name"placeholder="sofa bông, sofa gỗ, ......" type="text" class="bg-white text-sm text-black border outline-none px-2 border-orange-300 flex rounded-l-lg flex-1 py-2">
-                    <button type="submit" class="px-5 bg-orange-300 text-white  rounded-r-lg"><ion-icon name="search-outline"></ion-icon></button>
-                  </div>
-              </form> 
+                <h3 class="font-bold text-lg pb-5">Tìm Kiếm </h3>
+                <div class="flex justify-between  rounded-lg ">
+                  <input name="name" placeholder="sofa bông, sofa gỗ, ......" type="text"
+                    class="bg-white text-sm text-black border outline-none px-2 border-orange-300 flex rounded-l-lg flex-1 py-2">
+                  <button type="submit" class="px-5 bg-orange-300 text-white  rounded-r-lg"><ion-icon
+                      name="search-outline"></ion-icon></button>
+                </div>
+              </form>
             </div>
           </dialog>
           <!-- Search -->

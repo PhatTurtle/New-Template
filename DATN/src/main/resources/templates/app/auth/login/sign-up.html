@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Marious | Đăng ký</title>
   <!-- Library -->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,7 +20,7 @@
 <body class="bg-white min-h-screen">
 
   <div class="w-[90%] mx-auto md:w-[80%] xl:w-[70%] mx-auto ">
-    
+
     <div class="flex flex-col lg:flex-row gap-x-5 mt-20">
       <div class="w-[90%] mx-auto lg:w-[50%]">
         <Image class="w-full" src="/assets/images/sign-up.png" alt="" />
@@ -28,8 +28,7 @@
 
       <div class="w-[90%] mx-auto lg:w-[50%] ">
         <div class="pb-5">
-          <p
-            class="text-3xl lg:text-6xl font-semibold text-orange-300 text-center  hover:duration-300 duration-300">
+          <p class="text-3xl lg:text-6xl font-semibold text-orange-300 text-center  hover:duration-300 duration-300">
             Đăng Ký</p>
         </div>
         <form th:action="@{/register}" method="post" th:object="${user}" class="w-full flex flex-col gap-y-5">
@@ -38,14 +37,14 @@
             <input name="username" th:field="*{username}" type="text"
               class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
               placeholder="Tên đăng nhập" required />
-              <p id="usernameError" style="color: red;"></p>
+            <p id="usernameError" style="color: red;"></p>
           </div>
           <div class="">
 
             <input name="password" th:field="*{password}" type="password"
               class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
               placeholder="Mật khẩu" required />
-              <p id="passwordError" style="color: red;"></p>
+            <p id="passwordError" style="color: red;"></p>
           </div>
           <div class="">
 
@@ -64,7 +63,8 @@
             <input name="address" th:field="*{address}" type="text"
               class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
               placeholder="Địa chỉ" required />
-          </div><div class="">
+          </div>
+          <div class="">
 
             <input name="phonenumber" th:field="*{phonenumber}" type="text"
               class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
@@ -78,7 +78,9 @@
               ký tài khoản</button>
           </div>
           <div class="text-center flex flex-col">
-            <p href="#" >Bạn đã có tài khoản? <a class="hover:text-orange-300 hover:underline hover:underline-offset-2 text-orange-300" th:href="@{/register}">Đăng Nhập</a></p>
+            <p href="#">Bạn đã có tài khoản? <a
+                class="hover:text-orange-300 hover:underline hover:underline-offset-2 text-orange-300"
+                th:href="@{/register}">Đăng Nhập</a></p>
 
             <a href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2"> <a
                 class="text-orange-300 hover:underline" th:href="@{/forgot-password}">Quên Mật Khẩu</a></a>

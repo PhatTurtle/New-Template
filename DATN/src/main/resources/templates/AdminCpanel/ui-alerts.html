@@ -114,12 +114,12 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title fw-semibold mb-4 d-flex align-items-center">Quản Lí Tài Khoản <button type="button"
-                  class="btn btn-primary mx-5 fs-2 " data-bs-toggle="modal" data-bs-target="#exampleModal"
+                  class="btn btn btn-warning mx-5 fs-2 " data-bs-toggle="modal" data-bs-target="#exampleModal"
                   data-bs-whatever="@mdo">Thêm tài khoản</button>
 
                 <form class="d-flex" th:action="@{/admin/accounts/searchName}" method="get">
                   <input class="form-control me-2" type="text" name="username" placeholder="Tìm kiếm tên " required>
-                  <button class="btn btn-outline-primary" type="submit">Search</button>
+                  <button class="btn btn-outline-warning" type="submit">Search</button>
                 </form>
                 <form style="font-size: larger; " class="d-flex justify-content-end  flex-grow-1  fs-6 "
                   th:action="@{/admin/accounts}" method="get">
@@ -132,7 +132,7 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                      <h5 class="modal-title btn btn-warning" id="exampleModalLabel">Thêm sản phẩm</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -193,8 +193,8 @@
                       <td th:text="${account.address}"></td>
                       <td th:text="${account.role}"></td>
                       <td>
-                        <a th:href="@{'/admin/accounts/edit/' + ${account.userId}}">Edit</a> |
-                        <a th:href="@{'/admin/accounts/delete/' + ${account.userId}}">Delete</a>
+                      <button class="btn btn-warning"> <a th:href="@{'/admin/accounts/edit/' + ${account.userId}}">Edit</a></button> 
+                       <button class="btn btn-warning"> <a th:href="@{'/admin/accounts/delete/' + ${account.userId}}">Delete</a></button>
                       </td>
                     </tr>
                   </tbody>

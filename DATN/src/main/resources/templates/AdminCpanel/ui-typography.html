@@ -200,7 +200,7 @@
                         
                         <form th:if="${order.status == 'Chờ xác nhận'}" th:action="@{'/admin/orders/confirm'}" method="post">
                             <input type="hidden" th:name="orderId" th:value="${order.orderId}">
-                            <button type="submit" class="btn btn-primary">Xác nhận đơn hàng</button>
+                            <button type="submit" class="btn btn-warning">Xác nhận đơn hàng</button>
                         </form>
                         <!-- <form th:if="${order.status == 'Đơn hàng hủy'}" th:action="@{'/admin/orders/moveToTrash'}" method="post">
    					 <input type="hidden" th:name="orderId" th:value="${order.orderId}">

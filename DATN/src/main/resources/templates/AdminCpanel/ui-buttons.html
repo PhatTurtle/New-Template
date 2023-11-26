@@ -123,7 +123,6 @@ body {
 }
 
 
-
 .light-text {
     color: #B0BEC5;
 }
@@ -167,10 +166,10 @@ body {
 							</a></li>
 						<li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-4"></i> <span
 								class="hide-menu">Quản Lí </span></li>
-						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/products}"
+						<li class="sidebar-item "><a class="sidebar-link" th:href="@{/admin/products}"
 								aria-expanded="false"> <span>
 									<i class="ti ti-article"></i>
-								</span> <span class="hide-menu">Sản Phẩm</span>
+								</span> <span class="hide-menu ">Sản Phẩm</span>
 							</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/accounts}"
 								aria-expanded="false"> <span>
@@ -256,12 +255,12 @@ body {
 						<div class="card-body overflow-x-auto">
 
 							<h5 class="card-title fw-semibold mb-4 d-flex align-items-center ">Sản Phẩm <button
-									type="button" class="btn btn-primary mx-5 fs-2 " data-bs-toggle="modal"
+									type="button" class="btn btn-warning mx-5 fs-2 " data-bs-toggle="modal"
 									data-bs-target="#exampleModal" data-bs-whatever="@mdo">Thêm sản phẩm</button>
 								<form class="d-flex" th:action="@{/admin/products/searchName}" method="get">
 									<input class="form-control me-2" type="text" name="name"
 										placeholder="Tìm kiếm tên sản phẩm" required>
-									<button class="btn btn-outline-primary" type="submit">Search</button>
+									<button class="btn btn-outline-warning" type="submit">Search</button>
 								</form>
 								<form style="font-size: larger; " class="d-flex justify-content-end  flex-grow-1  fs-6 "
 									th:action="@{/admin/products}" method="get">
@@ -392,7 +391,7 @@ body {
 											th:src="'/assets/images/products/' + ${product.image}"
 											class="rounded-circle"></td>
 										<td><button
-											type="button" class="btn btn-primary mx-5 fs-2 " data-bs-toggle="modal" th:data-bs-target="'#exampleModal2-' + ${product.productId}"
+											type="button" class="btn btn-warning mx-5 fs-2 " data-bs-toggle="modal" th:data-bs-target="'#exampleModal2-' + ${product.productId}"
 											 data-bs-whatever="@mdo">Edit</button>
 
 
@@ -483,7 +482,7 @@ body {
 								</div>
 							</div>
 								<form th:action="@{'/admin/products/delete/' + ${product.productId}}" >
-									<button type="submit" class="btn btn-primary mx-5 fs-2 mt-2 ">  Delete</button>
+									<button type="submit" class="btn btn-warning mx-5 fs-2 mt-2 ">  Delete</button>
 
 								</form>
 											
@@ -492,7 +491,7 @@ body {
 										</td>
 
 										<td>
-											<button type="button" class="btn btn-primary reply-button"
+											<button type="button" class="btn btn-warning reply-button"
 												data-bs-toggle="modal"
 												th:data-bs-target="'#exampleModal-' + ${product.productId}"
 												data-bs-whatever="@mdo">Nhập hàng</button>

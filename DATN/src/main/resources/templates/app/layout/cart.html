@@ -30,39 +30,41 @@
             </div>
         </section>
 
-        <section class="">
+        <section class="min-h-screen">
             <div th:each="item : ${cartItems}" class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5 bg-white">
                 <div class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
                     <div class="flex w-full items-center   py-2 gap-x-2">
                         <input type="checkbox"  class="checkbox checkbox-warning" />
-                        <div class="w-[40%] sm:w-[20%] md:w-[30%] lg:w-[20%] xl:w-[10%]">
-                            <img class="" th:src="'/assets/images/products/' + ${item.product.image}" alt="Product Image">
+                        <div class="w-[30%] sm:w-[20%] md:w-[30%] lg:w-[20%] xl:w-[10%]">
+                            <img class="w-full" th:src="'/assets/images/products/' + ${item.product.image}" alt="Product Image">
                         </div>  
                         
                         <div class="grid grid-cols-2 w-full justify-between text-xs">
                             <div class="flex flex-col gap-y-2 justify-between ">
-                                <p th:text="${item.product.name}" class="lg:text-lg lg:font-semibold"></p>
-                                
+                                <p th:text="${item.product.name}" class="text-xs lg:text-lg lg:font-semibold"></p>
+                                <p th:text="'1x ' +${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
                                 <!-- <div class="join w-full lg:w-[40%] flex items-center text-center">
                                     <button onclick="decrementQuantity(this)" class="join-item border border-orange-300 px-2 py-2 w-[25%]">-</button>
                                     <input hidden type="text" name="productId" th:value="${item.product.productId}" />
                                     <input type="text" class="join-item bg-white border border-orange-300 w-[50%] text-center py-2 items-center" name="qty" th:value="${item.quantity}" oninput="updatePrice(this)" min="1">
                                     <button onclick="incrementQuantity(this)" class="join-item border border-orange-300 px-2 py-2 w-[25%]">+</button>
                                 </div> -->
-                                <form th:action="@{/cart/updateItem}" class="" method="post">
+                                <form th:action="@{/cart/updateItem}" class="text-xs" method="post">
                                     <input hidden="" type="text" name="productId"
                                         th:value="${item.product.productId}" /> 
-                                        <input  type="number" class="w-50 text-center border border-orange-300"
+                                        <button class=" p-2 lg:py-2 lg:px-3 border rounded-lg border-orange-300">-</button>
+                                        <input  type="text" class="w-[30%] text-center border border-orange-300 py-2 rounded-lg"
                                         name="qty" th:value="${item.quantity}"
                                         onblur="this.form.submit()" min="1"  />
+                                        <button class="p-2  lg:py-2 lg:px-3 border rounded-lg border-orange-300">+</button>
                                 </form>
                             </div>
-                            <div class="flex flex-col text-end text-xs md:text-2xl justify-between text-orange-300">
-                                <p th:text="${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
+                            <div class="flex flex-col text-end text-sm md:text-lg md:text-xl justify-end lg:justify-between text-orange-300">
+                                
                                 <form th:action="@{/cart/removeItem}" method="post">
                                     <input type="hidden" name="productId"
                                     th:value="${item.product.productId}" />
-                                <button type="submit"  class="text-red-300"><ion-icon class="text-end" name="trash-outline"></ion-icon></button>
+                                <button type="submit"  class="text-red-300"><ion-icon class="text-end " name="trash-outline"></ion-icon></button>
                                  </form>
                                 <p class="product-total" th:text="${#numbers.formatDecimal(item.product.price * item.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
                             </div>
@@ -83,7 +85,7 @@
 
         <!-- Button  -->
         <section class="w-full sticky bottom-0 border border-orange-300 rounded-lg text-black bg-white">
-            <div class="flex px-5 py-3 justify-between" >
+            <div class="flex px-5 py-3 justify-between text-xs lg:text-lg" >
                 <div class="form-control">
                     <label class="cursor-pointer label gap-x-2">
                       
@@ -94,7 +96,7 @@
                 <!--  -->
                 <div class="">
                     <a th:href="@{/pay}">
-                    <button class="px-10 py-2 border rounded-lg border-orange-300 text-black duration-300 hover:bg-orange-300 hover:duration-300 hover:text-white">Thanh Toán</button>
+                    <button class="text-center px-5 py-2 border rounded-lg border-orange-300 text-black duration-300 hover:bg-orange-300 hover:duration-300 hover:text-white">Thanh Toán</button>
                 </a>
                 </div>
             </div>

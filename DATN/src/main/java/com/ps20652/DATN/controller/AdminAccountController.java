@@ -106,7 +106,7 @@ public class AdminAccountController {
 		return "redirect:/admin/accounts";
 	}
 
-	@GetMapping("/searchUserName")
+	@GetMapping("/searchName")
 	public String searchName(@RequestParam("username") String username, Model model, Principal principal) {
 
 		String loggedInUsername = principal.getName();
@@ -120,14 +120,14 @@ public class AdminAccountController {
 		return "AdminCpanel/ui-alerts"; // Trả về view để hiển thị kết quả tìm kiếm
 	}
 
-	@GetMapping("/searchId")
-	public String searchId(@RequestParam("userId") Integer userId, Model model) {
-		// Sử dụng phương thức tìm kiếm theo Id từ ProductDAO
-		// Đây là ví dụ tìm kiếm theo Id sản phẩm
-		Account searchResults = accountService.findbyId(userId);
+	// @GetMapping("/searchId")
+	// public String searchId(@RequestParam("userId") Integer userId, Model model) {
+	// 	// Sử dụng phương thức tìm kiếm theo Id từ ProductDAO
+	// 	// Đây là ví dụ tìm kiếm theo Id sản phẩm
+	// 	Account searchResults = accountService.findbyId(userId);
 
-		model.addAttribute("accounts", searchResults);
+	// 	model.addAttribute("accounts", searchResults);
 
-		return "AdminCpanel/ui-alerts"; // Trả về view để hiển thị kết quả tìm kiếm
-	}
+	// 	return "AdminCpanel/ui-alerts"; // Trả về view để hiển thị kết quả tìm kiếm
+	// }
 }

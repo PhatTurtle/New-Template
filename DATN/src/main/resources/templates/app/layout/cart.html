@@ -63,7 +63,7 @@
                                 
                                 <form th:action="@{/cart/removeItem}" method="post">
                                     <input type="hidden" name="productId"
-                                    th:value="${item.product.productId}" />
+                                     th:value="${item.product.productId}" />
                                 <button type="submit"  class="text-red-300"><ion-icon class="text-end " name="trash-outline"></ion-icon></button>
                                  </form>
                                 <p class="product-total" th:text="${#numbers.formatDecimal(item.product.price * item.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>

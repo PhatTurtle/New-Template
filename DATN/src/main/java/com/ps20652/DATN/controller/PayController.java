@@ -2,6 +2,7 @@ package com.ps20652.DATN.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,7 @@ import com.ps20652.DATN.entity.Voucher;
 import com.ps20652.DATN.service.AccountService;
 import com.ps20652.DATN.service.OrderDetailService;
 import com.ps20652.DATN.service.OrderService;
+import com.ps20652.DATN.service.ProductService;
 import com.ps20652.DATN.service.RevenueService;
 import com.ps20652.DATN.service.ShoppingCartService;
 import com.ps20652.DATN.service.VoucherService;
@@ -51,7 +54,8 @@ public class PayController {
     
     @Autowired
     private VoucherService voucherService;
-	
+	@Autowired
+    private ProductService productService;
 	
     @GetMapping
     public String pay(Principal principal, Model model, @RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId) {
@@ -95,7 +99,38 @@ public class PayController {
         return "app/layout/pay";
     }
 
-
+    @GetMapping("/{id}")
+    public String bynow(@PathVariable("id") Integer id,Model model, Principal principal,@RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId){
+        
+        if (principal != null) {
+            String username = principal.getName();
+            int userId = getUserIDByUsername(username);
+            Account account = userRepository.findbyId(userId);
+            shoppingCartService.add(userId, id);
+            Product product = productService.findbyId(id);
+            UserCart items = new UserCart(1,account, product, 1);
+            List<UserCart> cartItems = Arrays.asList(items);
+            Account user = userRepository.findbyId(userId);
+              int cartAmount = calculateCartAmount(cartItems);
+            if (selectedVoucherId != null) {
+                // Lấy thông tin về mã giảm giá từ ID và thực hiện logic của bạn ở đây.
+                // Ví dụ:
+                Voucher selectedVoucher = voucherService.findbyId(selectedVoucherId);
+                int discountAmount = selectedVoucher.getDiscountAmount();
+                int voucherid = selectedVoucher.getVoucherId();
+                // Truyền thông tin về mã giảm giá đã chọn đến view
+                model.addAttribute("selectedVoucher", selectedVoucher);
+                model.addAttribute("voucherId", voucherid);
+                model.addAttribute("discountAmount", discountAmount);
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("username", username);
+             model.addAttribute("cartItems", cartItems);
+             model.addAttribute("cartAmount", cartAmount);
+             model.addAttribute("account", account);
+        }
+        return "app/layout/pay";
+    }
 	
 	
 	@PostMapping("/checkout")

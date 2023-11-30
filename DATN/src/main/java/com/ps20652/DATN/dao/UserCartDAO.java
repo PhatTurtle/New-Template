@@ -14,6 +14,7 @@ public interface UserCartDAO  extends JpaRepository<UserCart, Integer> {
 	UserCart findByAccount_UserIdAndProduct_ProductId(Integer userId, Integer productId);
 //	
 	List<UserCart> findByAccountUserId(Integer userId);
+
 	
 //	UserCart findByAccount_UserId(Integer userId);
 	

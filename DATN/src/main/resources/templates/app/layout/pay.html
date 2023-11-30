@@ -28,6 +28,7 @@
                 <!--  -->
                 <div th:each="item : ${cartItems}" class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
                     <div class="flex w-full border border-orange-300 rounded-lg p-5 gap-x-2">
+                        <input hidden id="id" th:value="${item.product.productId}" type="text">
                         <div class="w-[50%] sm:w-[40%] lg:w-[20%]">
                             <img class="" th:src="'/assets/images/products/' + ${item.product.image}" alt="">
                         </div>
@@ -168,9 +169,18 @@
     <script th:inline="javascript">
         function applyVoucher() {
             var selectedVoucherId = document.getElementById('selectedVouchers').value;
-            window.location.href = '/pay?selectedVoucherId='
+            var id = document.getElementById('id').value;
+            if(window.location.href === 'http://localhost:8080/pay'){
+                window.location.href = '/pay?selectedVoucherId='
                 + selectedVoucherId;
-        }
+            }if(window.location.href ==='http://localhost:8080/pay/'+id){
+                window.location.href = '/pay/'+id+'?selectedVoucherId='
+                + selectedVoucherId;
+            }
+               
+            }
+           
+        
     </script>
 
 </body>

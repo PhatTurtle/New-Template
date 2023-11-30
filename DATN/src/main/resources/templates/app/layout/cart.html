@@ -17,7 +17,28 @@
 </head>
 
 <body class="bg-white min-h-screen">
-
+    <div id="notification" th:if="${confirmationMessage != null}" class="alert alert-success flex justify-center items-center">
+        <p class="text-center" th:text="${confirmationMessage}"></p>
+    </div>
+    
+    <div id="notification" th:if="${errorMessage != null}" class="alert alert-error flex justify-center items-center">
+        <p class="text-center" th:text="${errorMessage}"></p>
+    </div>
+      
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <!-- Script để hiển thị và ẩn thông báo -->
+    <script>
+        // Hiển thị thông báo khi trang được tải
+        $(document).ready(function() {
+            showNotification();
+        });
+    
+        // Hiển thị thông báo và tự động ẩn sau 2 giây
+        function showNotification() {
+            $('#notification').fadeIn().delay(2000).fadeOut();
+        }
+    </script>
     <section class="w-[90%] md:w-[80%] mx-auto text-black my-10">
         
         <section class="w-full">
@@ -42,7 +63,7 @@
                         <div class="grid grid-cols-2 w-full justify-between text-xs">
                             <div class="flex flex-col gap-y-2 justify-between ">
                                 <p th:text="${item.product.name}" class="text-xs lg:text-lg lg:font-semibold"></p>
-                                <p th:text="'1x ' +${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
+                                <p th:text="${item.quantity} + ' x ' +${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
                                 <!-- <div class="join w-full lg:w-[40%] flex items-center text-center">
                                     <button onclick="decrementQuantity(this)" class="join-item border border-orange-300 px-2 py-2 w-[25%]">-</button>
                                     <input hidden type="text" name="productId" th:value="${item.product.productId}" />

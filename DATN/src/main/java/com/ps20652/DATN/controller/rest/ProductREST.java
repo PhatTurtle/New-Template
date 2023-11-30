@@ -3,6 +3,7 @@ package com.ps20652.DATN.controller.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,5 +60,9 @@ public class ProductREST {
 		public List<Product> getcategoryId(@PathVariable Integer categoryId) {
 			return p_service.findByCategoryCategoryId(categoryId);
 	}
-	  
+	  @GetMapping("/products/sort/low-to-high")
+    public ResponseEntity<List<Product>> getProductsSortedByLowToHigh() {
+        List<Product> sortedProducts = p_service.getProductsSortedByLowToHigh();
+        return ResponseEntity.ok(sortedProducts);
+    }
 }

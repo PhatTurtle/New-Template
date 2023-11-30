@@ -24,7 +24,7 @@
     <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-5">
       <div class="flex flex-col lg:flex-row  gap-x-2 gap-y-2">
         <!--  -->
-        <div class="h-96   hidden lg:flex lg:flex-col lg:w-[20%] gap-y-2 carousel carousel-vertical rounded-lg">
+        <!-- <div class="h-96   hidden lg:flex lg:flex-col lg:w-[20%] gap-y-2 carousel carousel-vertical rounded-lg">
           <a href="#item1" class="carousel-item w-full">
             <img
               src="https://noithatkdt.vn/wp-content/uploads/2023/11/Ghe-go-nho-gon-cho-phong-khach-S326-8-600x600.jpg" />
@@ -46,15 +46,15 @@
               src="https://noithatkdt.vn/wp-content/uploads/2023/11/Ghe-go-nho-gon-cho-phong-khach-S326-8-600x600.jpg" />
           </a>
 
-        </div>
+        </div> -->
         <!--  -->
         <div class="carousel rounded-lg w-full lg:w-[80%] lg:h-[30rem]">
           <div id="item1" class="carousel-item w-full">
             <img class="w-full mx-auto"
-              src="https://noithatkdt.vn/wp-content/uploads/2023/11/Ghe-go-nho-gon-cho-phong-khach-S326-8-600x600.jpg"
-              alt="Burger" />
+              th:src="'/assets/images/products/' + ${products.image}"
+              alt="" />
           </div>
-          <div id="item2" class="carousel-item w-full">
+          <!-- <div id="item2" class="carousel-item w-full">
             <img class="w-full mx-auto"
               src="https://noithatkdt.vn/wp-content/uploads/2023/11/Ghe-go-nho-gon-cho-phong-khach-S326-8-600x600.jpg"
               alt="Burger" />
@@ -73,7 +73,7 @@
             <img class="w-full mx-auto"
               src="https://noithatkdt.vn/wp-content/uploads/2023/11/Ghe-go-nho-gon-cho-phong-khach-S326-8-600x600.jpg"
               alt="Burger" />
-          </div>
+          </div> -->
 
         </div>
         <!--  -->

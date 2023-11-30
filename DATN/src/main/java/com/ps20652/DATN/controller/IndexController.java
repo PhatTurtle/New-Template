@@ -252,12 +252,39 @@ public class IndexController {
     // }
 
     @GetMapping("/searchName")
-    public String searchProductsNAME(@RequestParam("name") String productName, Model model) {
+    public String searchProductsNAME(@RequestParam("name") String productName, Model model, Authentication authentication,  @RequestParam(name = "page", defaultValue = "0") int page) {
         // Sử dụng phương thức tìm kiếm theo tên từ ProductDAO
         // Đây là ví dụ tìm kiếm theo tên sản phẩm
-        List<Product> searchResults = productService.findByName(productName);
+        // List<Product> searchResults = productService.findByName(productName);
+        int pageSize = 12; // Số lượng đơn hàng trên mỗi trang
+        Page<Product> searchResults = productService.findByNamePaginated(productName, PageRequest.of(page, pageSize));
+        // List<Product> products = productService.findAll();
+         Map<Integer, Integer> unitsSoldMap = new HashMap<>();
 
+         if (authentication != null && authentication.isAuthenticated()) {
+            String username = authentication.getName();
+            model.addAttribute("username", username);
+
+            // Lấy userID của người dùng đã đăng nhập
+            int userId = getUserIDByUsername(username);
+
+            // Lấy số lượng sản phẩm trong giỏ hàng
+            int cartItemCount = cartService.getCount(userId);
+            model.addAttribute("cartItemCount", cartItemCount);
+        }
+        for (Product product : searchResults.getContent()) {
+            int unitsSold = orderDetailService.getProductSell(product);
+            unitsSoldMap.put(product.getProductId(), unitsSold);
+        }
+        // for (Product product : searchResults) {
+        //     int unitsSold = orderDetailService.getProductSell(product);
+        //     unitsSoldMap.put(product.getProductId(), unitsSold);
+        // }
+        
+        
+        model.addAttribute("unitsSoldMap", unitsSoldMap);
         model.addAttribute("products", searchResults);
+        
 
         return "app/layout/list_product"; // Trả về view để hiển thị kết quả tìm kiếm
     }

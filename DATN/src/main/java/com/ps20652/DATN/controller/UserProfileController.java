@@ -75,83 +75,66 @@ public class UserProfileController {
             return "user/editProfile"; // Trả về trang chỉnh sửa thông tin
         }
     	 
-    	 @RequestMapping("/updateProfile")
-    	    public String updateProfile(@RequestParam Integer userId,
-    	    							@RequestParam Integer phonenumber,
-    	                                @RequestParam String fullName,
-    	                                @RequestParam String address,  
-    	                                @ModelAttribute("accountDTO") AccountDTO editedAccount,
-    	                                @RequestParam("photo") MultipartFile photo,
-    	                                Principal principal) {
-
-    	        // Kiểm tra xem người dùng đã đăng nhập chưa
-    	        if (principal != null) {
-    	            String username = principal.getName();
-    	            
-    	            
-    	            // Lấy thông tin người dùng từ cơ sở dữ liệu
-    	            Account user = userService.findByUsername(username);
-    	            
-    	            
-    	            String img = user.getPhoto();
-    	            String imageString = img;
-    	            
-    	            if (!photo.isEmpty()) {
-		    	        try {
-		    	        
-		    	        	  // Lấy đường dẫn thực của dự án
-		                    Resource resource = resourceLoader.getResource("classpath:/");
-		                    String projectPath = resource.getFile().getAbsolutePath();
-
-		                    // Đường dẫn lưu trữ hình ảnh
-		                    String uploadPath = projectPath + "/static/assets/images/";
-		                    Path path = Paths.get(uploadPath);
-		    			
-		    	            // Lưu trữ hình ảnh vào thư mục uploads
-		    	            Files.copy(photo.getInputStream(), path.resolve(photo.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
-		    	            
-		    	            // Lấy tên hình ảnh đã lưu
-		    	            imageString = photo.getOriginalFilename();
-		    	        } catch (IOException e) {	
-		    	            e.printStackTrace();
-		    	            // Xử lý lỗi khi tải lên hình ảnh
-		    	         
-		    	        }
-		    	    }
-    	            
-    	            
-    	            
-    	            // Cập nhật thông tin người dùng nếu người dùng tồn tại
-    	            if (user != null) {
-    	                user.setPhonenumber(editedAccount.getPhonenumber());
-    	                user.setFullName(editedAccount.getFullName());
-    	                user.setAddress(editedAccount.getAddress());
-    	                
-        	            user.setPhoto(imageString);
-    	                
-    	             
-    	                
-    	                
-    	                // Lưu thông tin người dùng cập nhật vào cơ sở dữ liệu
-    	                userService.save(user);
-    	            }
-    	        }
-    	        
-    	        // Sau khi cập nhật thông tin, chuyển hướng người dùng về trang profile hoặc trang chính
-    	        return "redirect:/profile";
-    	    }
-    	 
-    	 @GetMapping("/editPassword")
-         public String editPassword(Model model, Principal principal) {
-             if (principal != null) {
-                 String username = principal.getName();
-                 model.addAttribute("username", username);
-                 // Load thông tin người dùng để hiển thị trong trang chỉnh sửa thông tin
-                 Account user = userService.findByUsername(username);
-                 model.addAttribute("user", user);
-             }
-             return "user/changePass"; // Trả về trang chỉnh sửa thông tin
-         }
+		@PostMapping("/updateProfile")
+		public String updateProfile(@RequestParam Integer userId,
+				@RequestParam Integer phonenumber,
+				@RequestParam String fullName,
+				@RequestParam String address,
+				@ModelAttribute("accountDTO") AccountDTO editedAccount,
+				@RequestParam("photo") MultipartFile photo,
+				Principal principal) {
+	
+			// Kiểm tra xem người dùng đã đăng nhập chưa
+			if (principal != null) {
+				String username = principal.getName();
+	
+				// Lấy thông tin người dùng từ cơ sở dữ liệu
+				Account user = userService.findByUsername(username);
+	
+				String img = user.getPhoto();
+				String imageString = img;
+	
+				if (!photo.isEmpty()) {
+					try {
+	
+						// Lấy đường dẫn thực của dự án
+						Resource resource = resourceLoader.getResource("classpath:/");
+						String projectPath = resource.getFile().getAbsolutePath();
+	
+						// Đường dẫn lưu trữ hình ảnh
+						String uploadPath = projectPath + "/static/assets/images/";
+						Path path = Paths.get(uploadPath);
+	
+						// Lưu trữ hình ảnh vào thư mục uploads
+						Files.copy(photo.getInputStream(), path.resolve(photo.getOriginalFilename()),
+								StandardCopyOption.REPLACE_EXISTING);
+	
+						// Lấy tên hình ảnh đã lưu
+						imageString = photo.getOriginalFilename();
+					} catch (IOException e) {
+						e.printStackTrace();
+						// Xử lý lỗi khi tải lên hình ảnh
+	
+					}
+				}
+	
+				// Cập nhật thông tin người dùng nếu người dùng tồn tại
+				if (user != null) {
+					user.setPhonenumber(editedAccount.getPhonenumber());
+					user.setFullName(editedAccount.getFullName());
+					user.setAddress(editedAccount.getAddress());
+	
+					user.setPhoto(imageString);
+	
+					// Lưu thông tin người dùng cập nhật vào cơ sở dữ liệu
+					userService.save(user);
+				}
+			}
+	
+			// Sau khi cập nhật thông tin, chuyển hướng người dùng về trang profile hoặc
+			// trang chính
+			return "redirect:/profile";
+		}
     	 
 
     	 

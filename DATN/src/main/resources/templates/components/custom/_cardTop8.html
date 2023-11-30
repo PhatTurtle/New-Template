@@ -28,7 +28,7 @@
               
                 <button class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon class="text-sm" name="cart-outline"></ion-icon></button>
             </form>
-            <a href="/" class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon name="wallet-outline"></ion-icon></a>
+            <a th:href="@{'/pay/'+${product.productId}}" class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon name="wallet-outline"></ion-icon></a>
         </div>
     </div>
 </section>

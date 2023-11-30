@@ -122,7 +122,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			return userCartRepository.findByAccountUserId(id);
 		}
 
-
+		
 
 		@Override
 		public List<UserCart> findByAccountUserId(Integer userId) {

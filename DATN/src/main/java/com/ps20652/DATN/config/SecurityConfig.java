@@ -44,9 +44,15 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
                     .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                	.loginPage("/login")
-                	.defaultSuccessUrl("/")
-                	.permitAll()
+        	.loginPage("/login")
+        	.defaultSuccessUrl("/")
+        	.failureUrl("/login?error") // Đường dẫn khi đăng nhập không thành công
+        	.permitAll()
+        .failureHandler((request, response, exception) -> {
+            String errorMessage = "Sai thông tin đăng nhập";
+            request.getSession().setAttribute("error", errorMessage);
+            response.sendRedirect("/login?error");
+        })
                 .and()
                	.logout()
                 	.logoutUrl("/logout")

@@ -69,19 +69,8 @@ public class RegistrationController {
 		user.setUsername(username);
 		user.setPassword(password);
 		// ... (tạo OTP, gửi email)
-		String otp = otpService.generateOTP();
-		otpService.saveOTP(email, otp);
 
-		// Kiểm tra acc để đảm bảo không null trước khi sử dụng
-		Account acc = otpService.sendOTP(email);
-		if (acc != null) {
-			user.setEmail(acc.getEmail());
-			user.setOtp(acc.getOtp());
-			user.setOtpCreatedAt(acc.getOtpCreatedAt());
-		} else {
-
-			// Xử lý trường hợp acc là null ở đây nếu cần thiết
-		}if (userService.existsByUsername(username)) {
+		if (userService.existsByUsername(username)) {
 			model.addAttribute("registrationError", "Username đã tồn tại!");
 			return "app/auth/login/sign-up";
 		}
@@ -95,32 +84,53 @@ public class RegistrationController {
 			return "app/auth/login/sign-up";
 		}
 
-		userService.create(user);
+		String otp = otpService.generateOTP();
+		otpService.saveOTP(email, otp);
+		// Kiểm tra acc để đảm bảo không null trước khi sử dụng
+		Account acc = otpService.sendOTP(email);
+		if (acc != null) {
+			user.setEmail(acc.getEmail());
+			user.setOtp(acc.getOtp());
+			user.setOtpCreatedAt(acc.getOtpCreatedAt());
+		} else {
+
+			// Xử lý trường hợp acc là null ở đây nếu cần thiết
+		}
+		
+
+		// userService.create(user);
 
 		// Lưu thông tin người dùng đã đăng ký vào session
 		session.setAttribute("registeredUser", user);
+
+		
+
+		
 
 		// Chuyển hướng đến trang xác thực OTP
 		return "redirect:/verifyOTP?email=" + email; // Sửa user.getEmail() thành email
 	}
 
 	@PostMapping("/verifyOTP")
-	public String verifyOTP(@RequestParam("email") String email, @RequestParam("otp") String otp, Model model,
-			HttpSession session) {
-		if (otpService.verifyOTP(email, otp)) {
-			Account registeredUser = (Account) session.getAttribute("registeredUser");
-			if (registeredUser != null) {
-				// Xác thực thành công, lưu thông tin người dùng vào session và chuyển hướng đến
-				// trang login
-				Account authenticatedUser = userService.findByEmail(email);
-				session.setAttribute("user", authenticatedUser);
-				return "redirect:/login"; // Chuyển hướng đến trang đăng nhập
-			}
-		}
-		// Xác thực không thành công, thông báo lỗi
-		model.addAttribute("error", "Mã OTP không hợp lệ hoặc đã hết hạn.");
-		return "app/auth/login/verifyOtp"; // Trở lại trang xác thực OTP
-	}
+public String verifyOTP(@RequestParam("email") String email, @RequestParam("otp") String otp, Model model,
+        HttpSession session, RedirectAttributes redirectAttributes) {
+    if (otpService.verifyOTP(email, otp)) {
+        Account registeredUser = (Account) session.getAttribute("registeredUser");
+        if (registeredUser != null) {
+            // Xác thực thành công, lưu thông tin người dùng vào session
+            // và chỉ tạo tài khoản khi OTP nhập đúng
+            userService.create(registeredUser);
+
+            session.setAttribute("user", registeredUser);
+            redirectAttributes.addFlashAttribute("confirmationMessage", "Đăng ký tài khoản thành công");
+            return "redirect:/login"; // Chuyển hướng đến trang đăng nhập
+        }
+    }
+    // Xác thực không thành công, thông báo lỗi
+    model.addAttribute("error", "Mã OTP không hợp lệ hoặc đã hết hạn.");
+    return "app/auth/login/verifyOtp"; // Trở lại trang xác thực OTP
+}
+
 
 	@GetMapping("/verifyOTP")
 	public String showVerifyOTPPage(@RequestParam("email") String email, Model model) {

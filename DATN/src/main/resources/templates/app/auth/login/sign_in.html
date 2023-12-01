@@ -17,7 +17,28 @@
 
 <body class="bg-white min-h-screen">
     <!--  -->
-
+    <div id="notification" th:if="${confirmationMessage != null}" class="alert alert-success flex justify-center items-center">
+        <p class="text-center" th:text="${confirmationMessage}"></p>
+    </div>
+    
+    <div id="notification" th:if="${errorMessage != null}" class="alert alert-error flex justify-center items-center">
+        <p class="text-center" th:text="${errorMessage}"></p>
+    </div>
+      
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <!-- Script để hiển thị và ẩn thông báo -->
+    <script>
+        // Hiển thị thông báo khi trang được tải
+        $(document).ready(function() {
+            showNotification();
+        });
+    
+        // Hiển thị thông báo và tự động ẩn sau 2 giây
+        function showNotification() {
+            $('#notification').fadeIn().delay(2000).fadeOut();
+        }
+    </script>
     <!--  -->
 
     <div class="w-full  md:w-[80%] xl:w-[70%] mx-auto my-20">

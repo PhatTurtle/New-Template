@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -148,7 +149,17 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model, HttpSession session, @RequestParam(name = "error", required = false) String error,@RequestParam(name = "confirmationMessage", required = false) String confirmationMessage) {
+
+        if (error != null) {
+            String errorMessage = (String) session.getAttribute("error");
+            model.addAttribute("errorMessage", errorMessage);
+        }
+
+        if (confirmationMessage != null) {
+            model.addAttribute("confirmationMessage", confirmationMessage);
+        }
+
         return "app/auth/login/sign_in";
     }
 

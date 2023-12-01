@@ -29,7 +29,13 @@ public class OTPService {
 
     public String generateOTP() {
         // Tạo OTP ngẫu nhiên
-        String otp = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6);
+        UUID uuid = UUID.randomUUID();
+
+		// Lấy giá trị thập phân của UUID (loại bỏ dấu gạch nối và ký tự)
+		String uuidStr = uuid.toString().replaceAll("-", "").replaceAll("[a-zA-Z]", "");
+
+		// Lấy 6 ký tự đầu tiên của UUID
+		String otp = uuidStr.substring(0, 6);
         return otp;
     }
 

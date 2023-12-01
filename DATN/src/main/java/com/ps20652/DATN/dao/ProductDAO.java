@@ -16,7 +16,7 @@ import com.ps20652.DATN.entity.Product;
 @Repository
 public interface ProductDAO extends JpaRepository<Product, Integer> {
 	 List<Product> findByName(String name);
-	 
+     Page<Product> findByName(String name, Pageable pageable);
 	 
 	 @Query("SELECT o FROM Product o WHERE o.price BETWEEN ?1 AND ?2")
    	List<Product> findByPrice(double minPrice, double maxPrice);
@@ -30,5 +30,7 @@ public interface ProductDAO extends JpaRepository<Product, Integer> {
     void updateQuantityInStock(@Param("productId") Integer productId, @Param("quantityAdded") int quantityAdded);
     
      Page<Product> findByCategoryCategoryId(int categoryId, Pageable pageable);
+
+     List<Product> findAllByOrderByPriceAsc();
 
 }

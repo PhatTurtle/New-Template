@@ -132,7 +132,7 @@ public class OrderController {
         // Thực hiện hủy đơn hàng
         orderService.cancelOrder(orderId);
         redirectAttributes.addFlashAttribute("confirmationMessage", "Hủy đơn hàng thành công");
-
+        orderService.deleteById(orderId);
         return "redirect:/orders"; // Chuyển hướng người dùng đến trang danh sách đơn hàng của họ
     }
 

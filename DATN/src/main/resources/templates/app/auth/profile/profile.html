@@ -50,6 +50,7 @@
             </section>
             <section class="w-full lg:w-[60%]">
                 <div class="border border-orange-300  rounded-lg py-5 px-5 text-sm">
+                    <form action="/profile/updateProfile" method="post" enctype="multipart/form-data">
                     <section class="flex justify-between">
                         <div class="flex flex-col justify-between gap-y-10">
                             <div class="">
@@ -67,29 +68,38 @@
                             <div class="">
                                 <p>Địa chỉ</p>
                             </div>
+                            <div class="">
+                                <p>Hình Ảnh</p>
+                            </div>
     
                         </div>
                         <div class="flex flex-col justify-between gap-y-10 text-end w-[80%]">
                             <div class="border-b">
-                                <input type="text" class="w-full bg-white text-black py-1 text-end outline-none" value="User" th:value="${user.username}">
+                                <input type="hidden" name="userId" class="w-full bg-white text-black py-1 text-end outline-none"  th:value="${user.userId}">
                             </div>
                             <div class="border-b">
-                                <input type="text" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.fullName}">
+                                <input readonly type="text" name="username" class="w-full bg-white text-black py-1 text-end outline-none"  th:value="${user.username}">
                             </div>
                             <div class="border-b">
-                                <input type="text" class="w-full bg-white text-black py-1 text-end outline-none" th:value="'0' + ${user.phonenumber}">
+                                <input type="text" name="fullName" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.fullName}">
                             </div>
                             <div class="border-b">
-                                <input type="text" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.email}">
+                                <input type="text" name="phonenumber" class="w-full bg-white text-black py-1 text-end outline-none" th:value="'0' + ${user.phonenumber}">
                             </div>
                             <div class="border-b">
-                                <input type="text" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.address}">
+                                <input readonly type="text" name="email" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.email}">
                             </div>
+                            <div class="border-b">
+
+                                <input type="text" name="address" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.address}">
+                            </div>
+                            <input type="file" id="photo" name="photo" accept="image/*" class="form-control" />
                         </div>
                     </section>
                     <div class="mt-5 flex justify-end">
                         <button class="px-4 py-3 border border-orange-300 duration-300 rounded-lg hover:bg-orange-300 hover:duration-300 hover:text-white">Lưu Thay Đổi </button>
                     </div>
+                </form>
                 </div> 
                 
             </section>

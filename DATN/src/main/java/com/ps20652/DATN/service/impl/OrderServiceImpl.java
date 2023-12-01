@@ -15,8 +15,10 @@ import com.ps20652.DATN.entity.CustomerFeedback;
 import com.ps20652.DATN.entity.Order;
 import com.ps20652.DATN.entity.OrderDetail;
 import com.ps20652.DATN.entity.Product;
+import com.ps20652.DATN.entity.Voucher;
 import com.ps20652.DATN.service.OrderService;
 import com.ps20652.DATN.service.ProductService;
+import com.ps20652.DATN.service.VoucherService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -29,6 +31,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private CustomerFeedbackDAO feedbackDAO;
+
+	@Autowired
+	private VoucherService voucherService;
 
 	@Override
 	public Order create(Order order) {
@@ -60,31 +65,44 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void cancelOrder(Integer orderId) {
-	
-		        // Lấy thông tin chi tiết đơn hàng, bao gồm sản phẩm và số lượng, từ cơ sở dữ liệu
-		        Order order = orderDAO.findByOrderId(orderId); // Giả sử bạn có OrderRepository để truy vấn đơn hàng từ cơ sở dữ liệu
+public void cancelOrder(Integer orderId) {
+    // Lấy thông tin chi tiết đơn hàng từ cơ sở dữ liệu
+    Order order = orderDAO.findByOrderId(orderId);
+    
+    // Lấy thông tin voucher từ đơn hàng (nếu có)
+    Voucher voucher = order.getVoucher();
 
-		        List<OrderDetail> orderDetails = order.getOrderDetails(); // Giả sử mỗi đơn hàng có một danh sách các order details
+    // Kiểm tra nếu có voucher và voucher không null
+    if (voucher != null) {
+        // Lấy ID của voucher
+        Integer voucherId = voucher.getVoucherId();
 
-		        // Cập nhật số lượng hàng còn trong kho
-		        for (OrderDetail orderDetail : orderDetails) {
-		            Product product = orderDetail.getProduct();
-		            int quantityToRestore = orderDetail.getQuantity(); // Số lượng sản phẩm sẽ được tăng lại
-		            int currentStock = product.getQuantityInStock(); // Số lượng sản phẩm hiện tại trong kho
+        // Thực hiện chỉnh sửa số lượng sản phẩm trong kho
+       
 
-		            // Tăng số lượng sản phẩm trong kho
-		            product.setQuantityInStock(currentStock + quantityToRestore);
-		            productDAO.save(product); // Lưu cập nhật vào cơ sở dữ liệu
-		        }
+        // Tăng số lượng mã giảm giá chỉ khi có voucher
+        Voucher voucherToUpdate = voucherService.findbyId(voucherId);
+        int remainingQuantity = voucherToUpdate.getQuantity() + 1;
+        voucherToUpdate.setQuantity(remainingQuantity);
+        voucherService.createVoucher(voucherToUpdate); // Cập nhật lại thông tin voucher vào cơ sở dữ liệu
+    }
 
-		        // Sau đó, bạn có thể đánh dấu đơn hàng đã bị hủy (tùy thuộc vào logic của ứng dụng của bạn)
-		        order.setStatus("Đơn hàng hủy");
-		        orderDAO.save(order); // Lưu cập nhật trạng thái đơn hàng vào cơ sở dữ liệu
-		    
-	
+	 List<OrderDetail> orderDetails = order.getOrderDetails();
+        for (OrderDetail orderDetail : orderDetails) {
+            Product product = orderDetail.getProduct();
+            int quantityToRestore = orderDetail.getQuantity();
+            int currentStock = product.getQuantityInStock();
 
-	}
+            // Tăng số lượng sản phẩm trong kho
+            product.setQuantityInStock(currentStock + quantityToRestore);
+            productDAO.save(product); // Lưu cập nhật vào cơ sở dữ liệu
+        }
+
+    // Đánh dấu đơn hàng đã bị hủy
+    order.setStatus("Đơn hàng hủy");
+    orderDAO.save(order); // Lưu cập nhật trạng thái đơn hàng vào cơ sở dữ liệu
+}
+
 
 	@Override
 	public List<Order> getOrdersByStatus(String status) {

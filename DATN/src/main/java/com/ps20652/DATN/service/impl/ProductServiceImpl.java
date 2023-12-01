@@ -183,6 +183,19 @@ public List<Product> getTop4BestSellingProducts() {
 			return productDAO.findByCategoryCategoryId(categoryId, pageRequest);
 		}
 
+		@Override
+		public Page<Product> findByNamePaginated(String productName, Pageable pageable) {
+			return productDAO.findByName(productName, pageable);
+		}
+
+		@Override
+		public List<Product> getProductsSortedByLowToHigh() {
+			// Thực hiện lấy dữ liệu từ cơ sở dữ liệu đã sắp xếp từ thấp đến cao
+			// Ví dụ:
+			return productDAO.findAllByOrderByPriceAsc();
+			// hoặc thực hiện logic sắp xếp ở đây
+		}
+
 		
 	
 

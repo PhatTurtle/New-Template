@@ -34,31 +34,39 @@
               </div>
             </div>
           </div> 
-          </div> -->
+          </div> --><div id="notification" th:if="${confirmationMessage != null}" class="alert alert-success">
+            <p th:text="${confirmationMessage}"></p>
+          </div>
+
+
     
           <section class="w-[80%] mx-auto py-5">
               <h2 class="text-4xl font-light py-8">Danh Sách Vouchers</h2> 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 ">
               <div class="" th:each="voucher : ${vouchers}">
-                <div class="card-horizontal shadow-xl mb-4">
+                <div  class="card-horizontal shadow-xl mb-4">
                   <div class="row g-0">
                     <div class="col-md-4  flex justify-center">
                       <img src="./assets/images/voucher.jpg" alt="Album" class="img-fluid pt-4 h-[150px]">
                     </div>
                     <div class="col-md-8 pt-3">
-                      <div class="card-body">
+                      <div  class="card-body">
                         <h2 class="card-title " th:text="'Mã: ' + ${voucher.voucherCode}"></h2>
                         <h4 class="" th:text="${'Giảm: ' + voucher.discountAmount} + 'K'"></h4>
                         <p th:text="${'Ngày bắt đầu: ' + voucher.startDate}" ></p>
                         <p th:text="${'Ngày kết thúc: ' + voucher.endDate}" ></p>
                         <p th:text="${'Số lượng: ' + voucher.quantity}" ></p>
                         <div class="card-actions justify-end">
+
+                          <p class="text-error text-end mx-5 py-2 my-2 " th:if="${voucher.quantity == 0}">Đã Hết Mã</p>
+
                           <form th:action="@{vouchers/add-voucher}" method="post">
                             <input type="hidden" name="voucherId" th:value="${voucher.voucherId}" />
                             <input type="hidden" name="password" th:value="${user.password}" />
                             <input type="hidden" name="userId" th:value="${user.userId}" />
-                            <button class="btn text-black hover:bg-orange-300 mx-5 py-2 my-2 border border-orange-300 btn-outline "type="button" th:if="${user.hasVoucher(voucher)}">Đã lấy mã</button>
-                            <button class="btn text-black hover:bg-orange-300 mx-5 py-2 my-2 border border-orange-300 btn-outline  "type="submit" th:unless="${user.hasVoucher(voucher)}">Lấy mã</button>
+                            <p class="text-success mx-5 py-2 my-2 " th:text="'Đã lấy mã'" th:if="${user.hasVoucher(voucher)}">Đã lấy mã</p>
+                            <button class="btn text-black hover:bg-orange-300 mx-5 py-2 my-2 border border-orange-300 btn-outline  "type="submit"   th:unless="${voucher.quantity == 0 || user.hasVoucher(voucher)}" >Lấy mã</button>
+                            
                           </form>
                         </div>
                       </div>
@@ -72,9 +80,7 @@
 
     <div class="container mt-5">
         <!-- <h2 class="my-5">Danh Sách Vouchers</h2> -->
-        <div id="notification" th:if="${confirmationMessage != null}" class="alert alert-success">
-            <p th:text="${confirmationMessage}"></p>
-        </div>
+        
         <div class="row">
              <!-- <div th:each="voucher : ${vouchers}" class="col-xl-6 col-md-12 mb-4">
                 <div class="card">

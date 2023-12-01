@@ -141,8 +141,8 @@ public class PayController {
             List<UserCart> userCart = shoppingCartService.findByAccountUserId(userId);
 
             if (userCart.isEmpty()) {
-                model.addAttribute("errorMessage", "Giỏ hàng của bạn trống.");
-                return "errorPage"; // Trả về trang lỗi hoặc trang thông báo
+                  redirectAttributes.addFlashAttribute("errorMessage", "Giỏ hàng của bạn trống. Không thanh toán được");
+                return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
             }
             Account user = userRepository.findbyId(userId);
 

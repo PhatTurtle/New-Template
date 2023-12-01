@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ps20652.DATN.entity.Account;
 import com.ps20652.DATN.service.AccountService;
@@ -19,27 +20,49 @@ public class ForgotPassController {
     AccountService accountService;
 
     @GetMapping("/forgot-password")
+    public String showForgotPasswordForme(Model model,@RequestParam(name = "confirmationMessage", required = false) String confirmationMessage) {
+        if (confirmationMessage != null) {
+            model.addAttribute("confirmationMessage", confirmationMessage);
+        }
+        return "app/auth/login/forgotPass"; // Trả về tên của file HTML template cho quên mật khẩu
+    }
+
+     @GetMapping("/sign-up-otp")
     public String showForgotPasswordForm() {
-        return "app/auth/login/forgot_password"; // Trả về tên của file HTML template cho quên mật khẩu
+        return "app/auth/login/DangKy"; // Trả về tên của file HTML template cho quên mật khẩu
     }
     
    
 
     
     @PostMapping("/forgot-password")
-    public String forgotPassword(@RequestParam String email, HttpSession session, Model model) {
+    public String forgotPassword(RedirectAttributes redirectAttributes,@RequestParam String email, HttpSession session, Model model) {
         if (isEmailExists(email)) {
             accountService.sendOTP(email);
             session.setAttribute("email", email); // Lưu email vào session
             return "redirect:/enter-otp"; // Chuyển hướng sang trang nhập OTP khi OTP được gửi thành công
         } else {
-            model.addAttribute("errorMessage", "Không tìm thấy email hoặc có lỗi xãy ra");
-            return "otp-sent-failed"; // Trả về trang thông báo OTP gửi thất bại
+            redirectAttributes.addFlashAttribute("confirmationMessage", "Không tìm thấy email hoặc có lỗi xãy ra");
+
+            return "redirect:/forgot-password"; // Trả về trang thông báo OTP gửi thất bại
         }
     }
 
-    @GetMapping("/enter-otp")
-    public String showEnterOtp(HttpSession session, Model model) {
+    @PostMapping("/forgot-passworde")
+    public String forgotPassworde(@RequestParam String email, HttpSession session, Model model) {
+        if (isEmailExists(email)) {
+            accountService.sendOTP(email);
+            session.setAttribute("email", email); // Lưu email vào session
+            return "redirect:/enter-otp-sign-up"; // Chuyển hướng sang trang nhập OTP khi OTP được gửi thành công
+        } else {
+            model.addAttribute("errorMessage", "Không tìm thấy email hoặc có lỗi xãy ra");
+            return "redirect:/"; // Trả về trang thông báo OTP gửi thất bại
+        }
+    }
+
+
+@GetMapping("/enter-otp-sign-up")
+    public String showEnterOtpe(HttpSession session, Model model) {
         String email = (String) session.getAttribute("email"); // Lấy thông tin email từ session
         if (email != null) {
             // Sử dụng email ở đây cho mục đích hiển thị hoặc xử lý
@@ -50,7 +73,21 @@ public class ForgotPassController {
             return "redirect:/forgot-password"; // Chuyển hướng nếu không có email trong session
         }
     }
+
+    @GetMapping("/enter-otp")
+    public String showEnterOtp(HttpSession session, Model model) {
+        String email = (String) session.getAttribute("email"); // Lấy thông tin email từ session
+        if (email != null) {
+            // Sử dụng email ở đây cho mục đích hiển thị hoặc xử lý
+            model.addAttribute("email", email);
+            return "security2/enter-otp"; // Trả về trang nhập OTP
+        } else {
+            // Xử lý nếu không tìm thấy thông tin email
+            return "redirect:/forgot-password"; // Chuyển hướng nếu không có email trong session
+        }
+    }
     
+
     
    
 

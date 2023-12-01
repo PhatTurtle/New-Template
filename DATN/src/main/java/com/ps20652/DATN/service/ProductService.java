@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.ps20652.DATN.entity.Order;
 import com.ps20652.DATN.entity.Product;
@@ -42,5 +43,7 @@ public interface ProductService {
 	 
 	 public Page<Product> getAllProductCategory(int categoryId, int page, int size);
 
-	 
+	 Page<Product> findByNamePaginated(String productName, Pageable pageable);
+
+	 public List<Product> getProductsSortedByLowToHigh();
 }

@@ -133,15 +133,15 @@
                         <!--  -->
                         <div class="d-flex justify-content-between mt-4">
                             <div class="fw-medium flex justify-between ">
-                                <p>Tổng Tiền</p>
-                                <p>Khuyến Mãi</p>
+                                <!-- <p>Tổng Tiền</p>
+                                <p>Khuyến Mãi</p> -->
                                 <p>Số Thanh Toán</p>
                             </div>
                             <div class="fw-light flex justify-between py-5">
-                                <p style="color: red" class="text-end" th:text="${cartAmount} + ' VND'"></p>
+                                <!-- <p style="color: red" class="text-end" th:text="${cartAmount} + ' VND'"></p>
                                 <p style="color: red" class="text-end"
                                     th:text="${discountAmount != null} ? ('-' + ${discountAmount} + ' VND') : '- 0 VND'">
-                                </p>
+                                </p> -->
 
                                 <input type="hidden" name="selectedVouchers"
                                     th:value="${voucherId != null} ? ( ${voucherId}) : '0'">

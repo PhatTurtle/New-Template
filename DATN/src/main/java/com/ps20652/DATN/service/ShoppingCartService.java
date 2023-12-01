@@ -28,7 +28,7 @@ public interface ShoppingCartService {
 //	Product add(Integer id);
 	
 	public List<UserCart> findById(Integer id);
-	
+
 	void remove(Integer userId, Integer productId);
 	
 //	void clear(Integer userId);

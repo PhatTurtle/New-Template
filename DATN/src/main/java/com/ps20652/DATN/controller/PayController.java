@@ -98,7 +98,7 @@ public class PayController {
 
         return "app/layout/pay";
     }
-
+    static List<UserCart> arr ;
     @GetMapping("/{id}")
     public String bynow(@PathVariable("id") Integer id,Model model, Principal principal,@RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId){
         
@@ -106,10 +106,12 @@ public class PayController {
             String username = principal.getName();
             int userId = getUserIDByUsername(username);
             Account account = userRepository.findbyId(userId);
-            shoppingCartService.add(userId, id);
+            
             Product product = productService.findbyId(id);
             UserCart items = new UserCart(1,account, product, 1);
             List<UserCart> cartItems = Arrays.asList(items);
+
+            arr = Arrays.asList(items);
             Account user = userRepository.findbyId(userId);
               int cartAmount = calculateCartAmount(cartItems);
             if (selectedVoucherId != null) {
@@ -176,31 +178,58 @@ public class PayController {
 
             double totalAmount = 0;
             List<OrderDetail> orderDetails = new ArrayList<>();
-
-            for (UserCart cartItem : userCart) {
+            if(arr.size()>=1){
+                for (UserCart cartItem : arr) {
                 Product product = cartItem.getProduct();
                 totalAmount += product.getPrice() * cartItem.getQuantity();
 
               //  Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
-                if (selectedVoucherId != 0) {
-                    totalAmount -= discountAmount;
-                }
-                
-                if (product.getQuantityInStock() >= cartItem.getQuantity()) {
-                    OrderDetail orderDetail = new OrderDetail();
-                    orderDetail.setOrder(order);
-                    orderDetail.setProduct(product);
-                    orderDetail.setQuantity(cartItem.getQuantity());
-                    orderDetail.setPrice(product.getPrice());
-                    orderDetails.add(orderDetail);
+                    if (selectedVoucherId != 0) {
+                        totalAmount -= discountAmount;
+                    }
+                    
+                    if (product.getQuantityInStock() >= cartItem.getQuantity()) {
+                        OrderDetail orderDetail = new OrderDetail();
+                        orderDetail.setOrder(order);
+                        orderDetail.setProduct(product);
+                        orderDetail.setQuantity(cartItem.getQuantity());
+                        orderDetail.setPrice(product.getPrice());
+                        orderDetails.add(orderDetail);
 
-                    // Giảm số lượng trong kho sau khi đặt hàng
-                    product.setQuantityInStock(product.getQuantityInStock() - cartItem.getQuantity());
-                } else {
-                	  redirectAttributes.addFlashAttribute("errorMessage", "Sản phẩm " + product.getName() + " không có đủ hàng trong kho.");
-                    return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
+                        // Giảm số lượng trong kho sau khi đặt hàng
+                        product.setQuantityInStock(product.getQuantityInStock() - cartItem.getQuantity());
+                    } else {
+                        redirectAttributes.addFlashAttribute("errorMessage", "Sản phẩm " + product.getName() + " không có đủ hàng trong kho.");
+                        return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
+                    }
+                }
+            }else{
+                for (UserCart cartItem : userCart) {
+                    Product product = cartItem.getProduct();
+                    totalAmount += product.getPrice() * cartItem.getQuantity();
+
+                //  Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
+                    if (selectedVoucherId != 0) {
+                        totalAmount -= discountAmount;
+                    }
+                    
+                    if (product.getQuantityInStock() >= cartItem.getQuantity()) {
+                        OrderDetail orderDetail = new OrderDetail();
+                        orderDetail.setOrder(order);
+                        orderDetail.setProduct(product);
+                        orderDetail.setQuantity(cartItem.getQuantity());
+                        orderDetail.setPrice(product.getPrice());
+                        orderDetails.add(orderDetail);
+
+                        // Giảm số lượng trong kho sau khi đặt hàng
+                        product.setQuantityInStock(product.getQuantityInStock() - cartItem.getQuantity());
+                    } else {
+                        redirectAttributes.addFlashAttribute("errorMessage", "Sản phẩm " + product.getName() + " không có đủ hàng trong kho.");
+                        return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
+                    }
                 }
             }
+            
 
             order.setTotalPrice(totalAmount);
             order.setVoucher(voucher);
@@ -215,11 +244,16 @@ public class PayController {
             revenue.setOrderDate(new Date());
             revenue.setTotalAmount(totalAmount);
             revenue.setPaymentMethod("Cash"); // Hoặc phương thức thanh toán khác nếu có
-
+            
             // Lưu thông tin doanh thu vào cơ sở dữ liệu
             revenueService.create(revenue);
-
-            shoppingCartService.clearUserCart(userId);
+            
+           if (arr.size()>=1) {
+                arr.clear();
+                
+            }else{
+                 shoppingCartService.clearUserCart(userId);
+            }
 
             redirectAttributes.addFlashAttribute("confirmationMessage", "Đặt hàng thành công");
             return "redirect:/orders"; // Trả về trang xác nhận đặt hàng hoặc trang thành công

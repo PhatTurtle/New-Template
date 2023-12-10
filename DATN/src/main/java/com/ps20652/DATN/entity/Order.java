@@ -44,6 +44,12 @@ public class Order implements Serializable{
     
     @Column(name = "description", length = 255)
     private String description;
+
+    // @Column(name= "intent" , length = 255)
+    // private String intent;
+
+    // @Column(name= "method", length = 255)
+    // private String method;
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails = new ArrayList<>();

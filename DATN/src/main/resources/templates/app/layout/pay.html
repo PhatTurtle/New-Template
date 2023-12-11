@@ -81,8 +81,40 @@
                             <select name="" id="" class="w-full bg-white text-black py-3 border-b-2 outline-none">
                                 <option value="">Chọn Phương Thức Thanh Toán</option>
                                 <option value="">Tiền mặt</option>
-                                <option value="">PayPal</option>
+                                <option value=""> <button type="button" class="btn btn btn-warning mx-5 fs-2 "
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                        data-bs-whatever="@mdo">Paypal</button></option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title btn btn-warning" id="exampleModalLabel">Thêm sản phẩm</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                
+                                <label for="price">Total</label>
+                                <input type="text" id="price" name="price" value="10">
+                                <label for="currency">Currency</label>
+                                <input type="text" id="currency" name="currency" value="USD">
+                                <!-- <label for="method">Payment Method</label> -->
+                                <input type="hidden" id="method" name="method" placeholder="Payment Method">
+                                <!-- <label for="intent">Intent</label> -->
+                                <input type="hidden" id="intent" name="intent" value="sale">
+                                <!-- <label for="description">Payment
+                                    Description</label> -->
+                                <input type="hidden" id="description" name="description" placeholder="Payment Description">
+        
+                            
+
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                     <!--  -->
@@ -155,7 +187,7 @@
                             </div>
                         </div>
                         <div class="w-full">
-                            <button type="submit" 
+                            <button type="submit"
                                 class="w-full rounded-lg duration-300 border border-orange-300 hover:bg-orange-300 hover:text-white hover:duration-300 py-3">Đặt
                                 Hàng Ngay</button>
                         </div>
@@ -170,17 +202,17 @@
         function applyVoucher() {
             var selectedVoucherId = document.getElementById('selectedVouchers').value;
             var id = document.getElementById('id').value;
-            if(window.location.href === 'http://localhost:8080/pay'){
+            if (window.location.href === 'http://localhost:8080/pay') {
                 window.location.href = '/pay?selectedVoucherId='
-                + selectedVoucherId;
-            }if(window.location.href ==='http://localhost:8080/pay/'+id){
-                window.location.href = '/pay/'+id+'?selectedVoucherId='
-                + selectedVoucherId;
+                    + selectedVoucherId;
+            } if (window.location.href === 'http://localhost:8080/pay/' + id) {
+                window.location.href = '/pay/' + id + '?selectedVoucherId='
+                    + selectedVoucherId;
             }
-               
-            }
-           
-        
+
+        }
+
+
     </script>
 
 </body>

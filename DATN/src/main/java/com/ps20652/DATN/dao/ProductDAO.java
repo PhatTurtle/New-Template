@@ -33,4 +33,17 @@ public interface ProductDAO extends JpaRepository<Product, Integer> {
 
      List<Product> findAllByOrderByPriceAsc();
 
+      Page<Product> findAllByOrderByPriceAsc(Pageable pageable);
+
+      Page<Product> findAllByOrderByPriceDesc(Pageable pageable);
+
+      Page<Product> findByCategoryCategoryIdOrderByPriceAsc(Integer categoryId, Pageable pageable);
+
+       Page<Product> findByCategoryCategoryIdOrderByPriceDesc(Integer categoryId, Pageable pageable);
+
+       @Query("SELECT COUNT(p) FROM Product p")
+        int countTotalProducts();
+      
+        @Query("SELECT COUNT(p) FROM Product p WHERE p.category.categoryId = :categoryId")
+        int countProductsByCategoryId(@Param("categoryId") int categoryId);
 }

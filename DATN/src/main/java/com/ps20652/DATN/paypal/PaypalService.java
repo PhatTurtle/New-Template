@@ -135,6 +135,7 @@ package com.ps20652.DATN.paypal;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +150,11 @@ import com.paypal.api.payments.RedirectUrls;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import com.ps20652.DATN.entity.Account;
 import com.ps20652.DATN.entity.Order; // Đảm bảo bạn đã import đúng đối tượng Order
+import com.ps20652.DATN.entity.UserCart;
+import com.ps20652.DATN.service.AccountService;
+import com.ps20652.DATN.service.ShoppingCartService;
 
 @Service
 public class PaypalService {
@@ -157,13 +162,26 @@ public class PaypalService {
 	@Autowired
 	private APIContext apiContext;
 
+		@Autowired
+    private ShoppingCartService shoppingCartService;
+    
+    @Autowired
+    private AccountService userRepository;
+
 	public Payment createPayment(Order order, String method, String intent, String description, String cancelUrl,
-	        String successUrl) throws PayPalRESTException {
+	        String successUrl, Principal principal) throws PayPalRESTException {
+				String username= principal.getName();
+		System.out.println(username);
+		int userId = getUserIDByUsername(username);
+		 List<UserCart> cartItems = shoppingCartService.findByAccountUserId(userId);
+            Account account = userRepository.findbyId(userId);
+            double cartAmount = calculateCartAmount(cartItems);
 	    Amount amount = new Amount();
-	    order.setTotalPrice(2.0);
+		
+	    order.setTotalPrice(cartAmount);
 	    amount.setCurrency("USD"); // Change to your desired currency code
 	    Double total = order.getTotalPrice().doubleValue(); // Convert BigDecimal to Double
-	    amount.setTotal(String.format("%.2f", total));
+	    amount.setTotal(String.format("%.2f", cartAmount));
 
 	    Transaction transaction = new Transaction();
 	    transaction.setDescription(description);
@@ -195,5 +213,22 @@ public class PaypalService {
 		PaymentExecution paymentExecute = new PaymentExecution();
 		paymentExecute.setPayerId(payerId);
 		return payment.execute(apiContext, paymentExecute);
+	}
+	private int getUserIDByUsername(String username) {
+		// Sử dụng Spring Data JPA để truy vấn cơ sở dữ liệu
+		Account user = userRepository.findByUsername(username);
+
+		if (user != null) {
+			return user.getUserId(); // Trả về userID từ đối tượng User
+		}
+
+		return -1; // Trường hợp không tìm thấy user
+	}
+	private int calculateCartAmount(List<UserCart> cartItems) {
+		int totalAmount = 0;
+		for (UserCart item : cartItems) {
+			totalAmount += item.getProduct().getPrice() * item.getQuantity();
+		}
+		return totalAmount;
 	}
 }

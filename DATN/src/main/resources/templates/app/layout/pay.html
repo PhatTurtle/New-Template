@@ -76,16 +76,18 @@
                     </div>
                     <!--  -->
                     <div class="flex flex-col w-full gap-y-3">
-                        <p class="text-lg font-semibold">Phương Thức Thanh Toán</p>
-                        <div class="w-full">
-                            <select name="" id="" class="w-full bg-white text-black py-3 border-b-2 outline-none">
-                                <option value="">Chọn Phương Thức Thanh Toán</option>
-                                <option value="">Tiền mặt</option>
-                                <option value=""> <button type="button" class="btn btn btn-warning mx-5 fs-2 "
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                        data-bs-whatever="@mdo">Paypal</button></option>
-                            </select>
-                        </div>
+                        <form>
+                            <p class="text-lg font-semibold">Phương Thức Thanh Toán</p>
+                            <div class="w-full">
+                                <select id="paymentMethod" class="w-full bg-white text-black py-3 border-b-2 outline-none">
+                                    <option value="">Chọn Phương Thức Thanh Toán</option>
+                                    <option value="cash">Tiền mặt</option>
+                                    <option value="paypal">Paypal</option>
+                                </select>
+                                <button type="submit" id="submitButton">abc</button>
+                            </div>
+                        </form>
+                        
                     </div>
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
@@ -212,6 +214,21 @@
 
         }
 
+
+    </script>
+
+    <script>
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
+
+    var selectedOption = document.getElementById('paymentMethod').value;
+    if (selectedOption === 'paypal') {
+        window.location.href = '/paypal'; // Chuyển hướng sang trang /paypal nếu chọn PayPal
+    } else {
+        // Xử lý hành động khác khi chọn các phương thức thanh toán khác
+        window.location.href= '/pay/checkout';
+    }
+});
 
     </script>
 

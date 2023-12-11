@@ -65,8 +65,14 @@
 
 package com.ps20652.DATN.paypal;
 
+import java.security.Principal;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,7 +80,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
+import com.ps20652.DATN.entity.Account;
 import com.ps20652.DATN.entity.Order; // Đảm bảo bạn đã import đúng đối tượng Order
+import com.ps20652.DATN.entity.UserCart;
+import com.ps20652.DATN.service.AccountService;
+import com.ps20652.DATN.service.ShoppingCartService;
 
 @Controller
 public class PaypalController {
@@ -82,16 +92,39 @@ public class PaypalController {
 	@Autowired
 	PaypalService service;
 
+	@Autowired
+    private ShoppingCartService shoppingCartService;
+    
+    @Autowired
+    private AccountService userRepository;
+
+
 	public static final String SUCCESS_URL = "pay/success";
 	public static final String CANCEL_URL = "/pay/cancel";
 
 	@GetMapping("/paypal")
-	public String home() {
+	public String home( Model model, Principal principal )  {
+		//lấy username 
+	String username= principal.getName();
+		System.out.println(username);
+		int userId = getUserIDByUsername(username);
+		 List<UserCart> cartItems = shoppingCartService.findByAccountUserId(userId);
+            Account account = userRepository.findbyId(userId);
+            int cartAmount = calculateCartAmount(cartItems);
+			int cartCount = 0;
+			for(UserCart item:cartItems ){
+				 cartCount = cartCount + item.getQuantity();
+			}
+			
+			model.addAttribute("cartItems", cartItems);
+            model.addAttribute("cartAmount", cartAmount);
+            model.addAttribute("account", account);
+		model.addAttribute("cartCount", cartCount);
 		return "paypal/home";
 	}
 
 	@PostMapping("/pay")
-	public String payment(@ModelAttribute("order") Order order) {
+	public String payment(@ModelAttribute("order") Order order, Principal principal) {
 		try {
 			String method = "paypal";
 			String intent = "sale";
@@ -103,7 +136,7 @@ public class PaypalController {
 			order.setDescription(description);
 			// order.setMethod(method);
 
-			Payment payment = service.createPayment(order, method, intent, description, cancelUrl, successUrl);
+			Payment payment = service.createPayment(order, method, intent, description, cancelUrl, successUrl,principal );
 
 			for (Links link : payment.getLinks()) {
 				if (link.getRel().equals("approval_url")) {
@@ -136,4 +169,21 @@ public class PaypalController {
 	        }
 	        return "redirect:/";
 	    }
+		private int getUserIDByUsername(String username) {
+			// Sử dụng Spring Data JPA để truy vấn cơ sở dữ liệu
+			Account user = userRepository.findByUsername(username);
+	
+			if (user != null) {
+				return user.getUserId(); // Trả về userID từ đối tượng User
+			}
+	
+			return -1; // Trường hợp không tìm thấy user
+		}
+		private int calculateCartAmount(List<UserCart> cartItems) {
+			int totalAmount = 0;
+			for (UserCart item : cartItems) {
+				totalAmount += item.getProduct().getPrice() * item.getQuantity();
+			}
+			return totalAmount;
+		}
 }

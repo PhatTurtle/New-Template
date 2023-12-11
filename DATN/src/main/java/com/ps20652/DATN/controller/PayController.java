@@ -183,8 +183,8 @@ public class PayController {
             
             List<OrderDetail> orderDetails = new ArrayList<>();
             System.out.println("voucher"+ selectedVoucherId);
-          
-            if( arr.size() == 0){
+            
+            if( arr == null || arr.size() == 0){
             
                 for (UserCart cartItem : userCart) {
                 Product product = cartItem.getProduct();
@@ -275,7 +275,7 @@ public class PayController {
                 System.out.println("helllo");
                 // Trả về trang xác nhận đặt hàng hoặc trang thành công
             }
-            if(arr.size() == 0 ){
+            if( arr == null || arr.size() ==0 ){
                 shoppingCartService.clearUserCart(userId);
             }else{
                 clearGlobalArrayList(arr);
@@ -294,7 +294,7 @@ public class PayController {
 	
     static void clearGlobalArrayList(List<UserCart> arr) {
         System.out.println(arr.size());
-        arr.clear();
+        arr.remove(0);
         System.out.println(arr.size());
 
 

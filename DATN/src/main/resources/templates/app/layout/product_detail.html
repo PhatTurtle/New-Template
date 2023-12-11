@@ -14,6 +14,7 @@
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <!-- icon -->
   <!-- Library -->
+  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 </head>
 
 <body class="bg-white min-h-screen min-w-full">
@@ -23,8 +24,8 @@
   <section class="w-[90%] md:w-[80%] mx-auto text-black font-light text-xs my-10 border-b pb-5">
     <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-5">
       <div class="flex flex-col lg:flex-row  gap-x-2 gap-y-2">
-        <!--  -->
-        <!-- <div class="h-96   hidden lg:flex lg:flex-col lg:w-[20%] gap-y-2 carousel carousel-vertical rounded-lg">
+   
+         <!-- <div class="h-96   hidden lg:flex lg:flex-col lg:w-[20%] gap-y-2 carousel carousel-vertical rounded-lg">
           <a href="#item1" class="carousel-item w-full">
             <img
               src="https://noithatkdt.vn/wp-content/uploads/2023/11/Ghe-go-nho-gon-cho-phong-khach-S326-8-600x600.jpg" />
@@ -47,7 +48,7 @@
           </a>
 
         </div> -->
-        <!--  -->
+        
         <div class="carousel rounded-lg w-full lg:w-[80%] lg:h-[30rem]">
           <div id="item1" class="carousel-item w-full">
             <img class="w-full mx-auto"
@@ -143,7 +144,8 @@
             <div class="collapse-content">
               <div class="">
                 <ul class="flex flex-col gap-y-2">
-                  <p th:text="${products.description}"></p>
+                  [(${products.description})]
+                  <h2>kdsjfl</h2>
                   <!-- <p>- Chất Liệu : Da Bò Thật</p>a
                                       <p>- Kích Thước: 100x100x100</p>
                                       <p>- Màu Sắc: Màu Be</p>
@@ -264,6 +266,9 @@
                     </div>
                   </div> -->
     </div>
+
+
+ 
   </section>
   <!-- Related Products -->
 

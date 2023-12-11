@@ -46,4 +46,18 @@ public interface ProductService {
 	 Page<Product> findByNamePaginated(String productName, Pageable pageable);
 
 	 public List<Product> getProductsSortedByLowToHigh();
+
+	 public Page<Product> getProductsSortedByLowToHighPaginated(Pageable pageable);
+
+	 public Page<Product> getProductsSortedByHighToLowPaginated(Pageable pageable);
+
+	 Page<Product> findByCategoryCategoryId(Integer categoryId, Pageable pageable);
+
+	 public Page<Product> getProductsSortedByLowToHighForCategory(Integer categoryId, Pageable pageable);
+
+	 public Page<Product> getProductsSortedByHighToLowForCategory(Integer categoryId, Pageable pageable);
+
+	 public int getTotalProducts();
+
+	 public int getTotalProductsByCategory(int categoryId);
 }

@@ -98,7 +98,7 @@ public class RegistrationController {
 		}
 		
 
-		// userService.create(user);
+		// userService.create(user);	
 
 		// Lưu thông tin người dùng đã đăng ký vào session
 		session.setAttribute("registeredUser", user);

@@ -196,11 +196,40 @@ public List<Product> getTop4BestSellingProducts() {
 			// hoặc thực hiện logic sắp xếp ở đây
 		}
 
-		
-	
+		@Override
+		public Page<Product> getProductsSortedByLowToHighPaginated(Pageable pageable) {
+			return productDAO.findAllByOrderByPriceAsc(pageable);
+		}
 
+		@Override
+		public Page<Product> getProductsSortedByHighToLowPaginated(Pageable pageable) {
+			return productDAO.findAllByOrderByPriceDesc(pageable);
+		}
 
+		@Override
+		public Page<Product> findByCategoryCategoryId(Integer categoryId, Pageable pageable) {
+			return productDAO.findByCategoryCategoryId(categoryId, pageable);
+		}
 
+		@Override
+		public Page<Product> getProductsSortedByLowToHighForCategory(Integer categoryId, Pageable pageable) {
+			// TODO Auto-generated method stub
+			return productDAO.findByCategoryCategoryIdOrderByPriceAsc(categoryId, pageable);
+		}
 
+		@Override
+		public Page<Product> getProductsSortedByHighToLowForCategory(Integer categoryId, Pageable pageable) {
+			// TODO Auto-generated method stub
+			return productDAO.findByCategoryCategoryIdOrderByPriceDesc(categoryId, pageable);
+		}
 
+		@Override
+		public int getTotalProducts() {
+			return productDAO.countTotalProducts();
+		}
+
+		@Override
+		public int getTotalProductsByCategory(int categoryId) {
+			return productDAO.countProductsByCategoryId(categoryId);
+		}
 }

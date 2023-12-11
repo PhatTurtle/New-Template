@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -26,8 +27,10 @@ import com.ps20652.DATN.DTO.AccountDTO;
 import com.ps20652.DATN.DTO.ProductDTO;
 import com.ps20652.DATN.dao.AccountDAO;
 import com.ps20652.DATN.entity.Account;
+import com.ps20652.DATN.entity.Category;
 import com.ps20652.DATN.entity.Product;
 import com.ps20652.DATN.service.AccountService;
+import com.ps20652.DATN.service.CategoryService;
 import com.ps20652.DATN.service.ShoppingCartService;
 
 @Controller
@@ -42,6 +45,8 @@ public class UserProfileController {
 	private ResourceLoader resourceLoader;
     @Autowired
 	private AccountService accountService;
+	@Autowired
+	private CategoryService catService;
     
     @Autowired
 	private ShoppingCartService cartService;
@@ -57,6 +62,8 @@ public class UserProfileController {
             int userId = getUserIDByUsername(username);
             int cartItemCount = cartService.getCount(userId);
             model.addAttribute("cartItemCount", cartItemCount);
+			List<Category> cat = catService.findAll();
+            model.addAttribute("allcategory", cat);
         }
         return "app/auth/profile/profile";
     }

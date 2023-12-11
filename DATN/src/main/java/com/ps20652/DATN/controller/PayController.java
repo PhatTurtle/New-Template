@@ -109,7 +109,10 @@ public class PayController {
             
             Product product = productService.findbyId(id);
             UserCart items = new UserCart(1,account, product, 1);
-            
+            // List<UserCart> cartItems = Arrays.asList(items);
+
+            // arr = Arrays.asList(items);
+
             List<UserCart> data = Arrays.asList(items);
             arr = new ArrayList<>(data);
             Account user = userRepository.findbyId(userId);
@@ -137,7 +140,6 @@ public class PayController {
 	
 	@GetMapping("/checkout")
     public String processCheckout(RedirectAttributes redirectAttributes,  @RequestParam("selectedVouchers") Integer selectedVoucherId, @RequestParam("userId") Integer userId, Model model, @RequestParam("fullname") String fullname, @RequestParam("phone") Integer phone, @RequestParam("address") String address, @RequestParam("description") String description) {
-       
         try {
             List<UserCart> userCart = shoppingCartService.findByAccountUserId(userId);
 
@@ -145,7 +147,6 @@ public class PayController {
                 redirectAttributes.addFlashAttribute("errorMessage", "Giỏ hàng của bạn trống. Không thanh toán được");
                 return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
             }
-            
             Account user = userRepository.findbyId(userId);
 
             // Tạo đơn hàng mới
@@ -157,12 +158,12 @@ public class PayController {
             order.setPhone(phone);
             order.setAddress(address);
             order.setDescription(description);
-            
+
             Voucher voucher = null;
             double discountAmount = 0;
 
             if (selectedVoucherId > 0) {
-                 // Nếu selectedVoucherId khác 0, lấy thông tin voucher từ ID
+                // Nếu selectedVoucherId khác 0, lấy thông tin voucher từ ID
                 voucher = voucherService.findbyId(selectedVoucherId);
                 if (voucher != null) {
                     int remainingQuantity = voucher.getQuantity() - 1;
@@ -180,7 +181,6 @@ public class PayController {
             }
 
             double totalAmount = 0.0;
-            
             List<OrderDetail> orderDetails = new ArrayList<>();
             System.out.println("voucher"+ selectedVoucherId);
           
@@ -212,7 +212,6 @@ public class PayController {
                 }
                 order.setTotalPrice(totalAmount);
                 order.setVoucher(voucher);
-
                 orderService.create(order); 
                 orderDetialService.create(orderDetails);
                 
@@ -226,10 +225,7 @@ public class PayController {
                 
                 // Lưu thông tin doanh thu vào cơ sở dữ liệu
                 revenueService.create(revenue);
-                
-                
             }else{
-                
                 for (UserCart cartItem : arr) {
                     Product product = cartItem.getProduct();
                     totalAmount += product.getPrice() * cartItem.getQuantity();
@@ -248,39 +244,44 @@ public class PayController {
                         orderDetails.add(orderDetail);
 
                         // Giảm số lượng trong kho sau khi đặt hàng
+                        System.out.println(product.getQuantityInStock());
                         product.setQuantityInStock(product.getQuantityInStock() - cartItem.getQuantity());
+                        
                     } else {
                         redirectAttributes.addFlashAttribute("errorMessage", "Sản phẩm " + product.getName() + " không có đủ hàng trong kho.");
                         return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
                     }
                 }
-
-                order.setTotalPrice(totalAmount);
-                order.setVoucher(voucher);
-
-                orderService.create(order); 
-                orderDetialService.create(orderDetails);
-                
-                // Thêm vào bảng Doanh Thu
-                Revenue revenue = new Revenue();
-                revenue.setOrder(order);
-                revenue.setCustomer(user); 
-                revenue.setOrderDate(new Date());
-                revenue.setTotalAmount(totalAmount);
-                revenue.setPaymentMethod("Cash"); // Hoặc phương thức thanh toán khác nếu có
-                
-                // Lưu thông tin doanh thu vào cơ sở dữ liệu
-                revenueService.create(revenue);
-                
-                System.out.println("helllo");
-                // Trả về trang xác nhận đặt hàng hoặc trang thành công
             }
-            if(arr.size() == 0 ){
-                shoppingCartService.clearUserCart(userId);
+            
+
+            order.setTotalPrice(totalAmount);
+            order.setVoucher(voucher);
+
+            orderService.create(order); 
+            orderDetialService.create(orderDetails);
+            
+            // Thêm vào bảng Doanh Thu
+            Revenue revenue = new Revenue();
+            revenue.setOrder(order);
+            revenue.setCustomer(user); 
+            revenue.setOrderDate(new Date());
+            revenue.setTotalAmount(totalAmount);
+            revenue.setPaymentMethod("Cash"); // Hoặc phương thức thanh toán khác nếu có
+            
+            // Lưu thông tin doanh thu vào cơ sở dữ liệu
+            revenueService.create(revenue);
+            
+            System.out.println("helllo");
+            // Trả về trang xác nhận đặt hàng hoặc trang thành công
+        
+        if(arr.size() == 0 ){
+            shoppingCartService.clearUserCart(userId);
+                
             }else{
                 clearGlobalArrayList(arr);
             }
-            
+
             redirectAttributes.addFlashAttribute("confirmationMessage", "Đặt hàng thành công");
             return "redirect:/orders"; // Trả về trang xác nhận đặt hàng hoặc trang thành công
         } catch (Exception e) {
@@ -288,16 +289,12 @@ public class PayController {
         	redirectAttributes.addFlashAttribute("errorMessage", "Lỗi trong quá trình đặt hàng");
             return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
         }
-
-        
     }
-	
-    static void clearGlobalArrayList(List<UserCart> arr) {
+    
+	static void clearGlobalArrayList(List<UserCart> arr) {
         System.out.println(arr.size());
         arr.clear();
         System.out.println(arr.size());
-
-
     }
 	
 	private int getUserIDByUsername(String username) {

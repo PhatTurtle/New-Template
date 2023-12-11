@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/components/layout :: areas(~{::title},~{::body})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marious | Sản Phẩm</title>
+
+    <!-- Library -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- icon -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- icon -->
+    <!-- Library -->
+</head>
+
+<body class="bg-white min-h-screen">
+
+
+    <section class="w-[80%] mx-auto my-5">
+        <!-- <div class="carousel w-full rounded-box">
+            <div id="slide1" class="carousel-item relative w-full rounded-lg">
+                <img src="https://img.upanh.tv/2023/11/21/Banner2.png" alt="Banner2.png" class="w-full rounded-lg">
+                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                    <a href="#slide4" class="btn btn-circle">❮</a>
+                    <a href="#slide2" class="btn btn-circle">❯</a>
+                </div>
+            </div>
+            <div id="slide2" class="carousel-item relative w-full">
+                <img src="https://img.upanh.tv/2023/11/21/Banner2.png" alt="Banner2.png" class="w-full rounded-lg">
+                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                    <a href="#slide1" class="btn  btn-outline">❮</a>
+                    <a href="#slide3" class="btn btn-circle">❯</a>
+                </div>
+            </div>
+            <div id="slide3" class="carousel-item relative w-full">
+                <img src="https://img.upanh.tv/2023/11/21/Banner2.png" alt="Banner2.png" class="w-full rounded-lg">
+                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                    <a href="#slide2" class="btn btn-circle">❮</a>
+                    <a href="#slide4" class="btn btn-circle">❯</a>
+                </div>
+            </div>
+            <div id="slide4" class="carousel-item relative w-full">
+                <img src="https://img.upanh.tv/2023/11/21/Banner2.png" alt="Banner2.png" class="w-full rounded-lg">
+                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                    <a href="#slide3" class="btn btn-circle">❮</a>
+                    <a href="#slide1" class="btn btn-circle">❯</a>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="" th:replace="./components/custom/_carousel.html"></div>
+    </section>
+
+
+    <section class="w-[80%] mx-auto mt-5">
+        <div class="w-full flex justify-end">
+            <div class="flex w-full gap-x-2">
+                <button class="border rounded-lg px-5 py-1 border-orange-300 text-orange-300 text-2xl">
+                    <ion-icon name="filter-outline"></ion-icon>
+                </button>
+                <div
+                    class="border grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 px-5 py-2 gap-y-2 items-center rounded-lg border-orange-300 w-full text-black text-sm font-light">
+                    <div class="form-control">
+                        <label class="cursor-pointer flex items-center gap-x-2">
+                            <input type="checkbox" class="checkbox checkbox-warning" id="sortByLowToHigh" />
+                            <span>Giá thấp -> cao</span>
+                        </label>
+                    </div>
+                    <div class="form-control">
+                        <label class="cursor-pointer flex items-center gap-x-2">
+                            <input type="checkbox" class="checkbox checkbox-warning" id="sortByHighToLow" />
+                            <span>Giá cao -> thấp</span>
+                        </label>
+                    </div>
+                    <!-- Các checkbox khác -->
+                </div>
+            </div>
+        </div>
+        <div id="productList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center gap-x-2 my-10">
+
+            <section th:replace="./components/custom/_card.html" >
+
+
+    </section>
+
+
+
+
+
+
+    </div>
+    
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+</body>
+
+</html>

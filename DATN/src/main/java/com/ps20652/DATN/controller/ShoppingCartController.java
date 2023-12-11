@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ps20652.DATN.entity.Account;
+import com.ps20652.DATN.entity.Category;
 import com.ps20652.DATN.entity.UserCart;
 import com.ps20652.DATN.service.AccountService;
+import com.ps20652.DATN.service.CategoryService;
 import com.ps20652.DATN.service.ShoppingCartService;
 
 @Controller
@@ -28,6 +30,9 @@ public class ShoppingCartController {
     
     @Autowired
     private AccountService userRepository;
+
+    @Autowired
+    private CategoryService catService;
     
     @GetMapping
     public String viewCart(Authentication authentication, Model  model, Principal principal, @RequestParam(name = "errorMessage", required = false) String errorMessage) {
@@ -44,6 +49,8 @@ public class ShoppingCartController {
             
             model.addAttribute("cartItems", cartItems);
             model.addAttribute("cartAmount", cartAmount);
+            List<Category> cat = catService.findAll();
+            model.addAttribute("allcategory", cat);
             
  		   if (errorMessage != null) {
  		         model.addAttribute("errorMessage", errorMessage);

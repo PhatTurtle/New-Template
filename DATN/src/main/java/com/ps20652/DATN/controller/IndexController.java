@@ -80,18 +80,22 @@ public class IndexController {
             model.addAttribute("username", username);
         }
 
-        int pageSize = 12; // Số lượng đơn hàng trên mỗi trang
+        int pageSize = 8; // Số lượng đơn hàng trên mỗi trang
         Page<Product> productPage = productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
         List<Category> cat = categoryService.findAll();
         model.addAttribute("allcategory", cat);
         model.addAttribute("products", productPage);
         model.addAttribute("check", "check2");
+        
         Map<Integer, Integer> unitsSoldMap = new HashMap<>();
         for (Product product : products) {
             int unitsSold = orderDetailService.getProductSell(product);
             unitsSoldMap.put(product.getProductId(), unitsSold);
         }
         model.addAttribute("unitsSoldMap", unitsSoldMap);
+
+        int totalProducts = productService.getTotalProducts(); // Đây là phương thức bạn cần thay thế để lấy tổng số sản phẩm từ dữ liệu thực tế
+        model.addAttribute("totalProducts", totalProducts);
         return "app/layout/list_product";
     }
 
@@ -297,7 +301,7 @@ public class IndexController {
         model.addAttribute("products", searchResults);
         
 
-        return "app/layout/list_product"; // Trả về view để hiển thị kết quả tìm kiếm
+        return "app/layout/list_product2"; // Trả về view để hiển thị kết quả tìm kiếm
     }
 
     @GetMapping("/searchPrice")
@@ -341,6 +345,8 @@ public class IndexController {
             unitsSoldMap.put(product.getProductId(), unitsSold);
         }
         model.addAttribute("unitsSoldMap", unitsSoldMap);
+        int totalProducts = productService.getTotalProductsByCategory(categoryId); // Đây là phương thức bạn cần thay thế để lấy tổng số sản phẩm từ dữ liệu thực tế
+        model.addAttribute("totalProducts", totalProducts);
         return "app/layout/list_product";
     }
 

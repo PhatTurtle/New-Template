@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ps20652.DATN.entity.Account;
+import com.ps20652.DATN.entity.Category;
 import com.ps20652.DATN.entity.Voucher;
 import com.ps20652.DATN.service.AccountService;
+import com.ps20652.DATN.service.CategoryService;
 import com.ps20652.DATN.service.ShoppingCartService;
 import com.ps20652.DATN.service.VoucherService;
 
@@ -27,6 +29,8 @@ public class UserVoucherController {
     AccountService accountService;
 	@Autowired
     private ShoppingCartService cartService;
+	@Autowired
+    private CategoryService catService;
 	  @GetMapping
 	    public String adminVoucher(Model model, Principal principal,  @RequestParam(name = "confirmationMessage", required = false) String confirmationMessage) {
 		  
@@ -44,6 +48,10 @@ public class UserVoucherController {
 	            model.addAttribute("user", user);
 	            model.addAttribute("username", username);
 	            
+			
+
+            List<Category> cat = catService.findAll();
+            model.addAttribute("allcategory", cat);
 	            
 	            
 	            if (confirmationMessage != null) {
@@ -91,6 +99,8 @@ public class UserVoucherController {
 	            int userId = getUserIDByUsername(username);
 	            int cartItemCount = cartService.getCount(userId);
 	            model.addAttribute("cartItemCount", cartItemCount);
+				List<Category> cat = catService.findAll();
+            model.addAttribute("allcategory", cat);
 
 	            if (user != null) {
 	                model.addAttribute("user", user);

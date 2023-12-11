@@ -18,6 +18,46 @@
 
 <body class="bg-white min-h-screen">
 
+<style>
+  .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #ffc107;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.pagination button.active {
+  background-color: #ff9800;
+}
+
+.pagination button:hover {
+  background-color: #ffa000;
+}
+
+
+
+</style>
+
+
 
     <section class="w-[80%] mx-auto my-5">
         <!-- <div class="carousel w-full rounded-box">
@@ -54,6 +94,7 @@
         <div class="" th:replace="./components/custom/_carousel.html"></div>
     </section>
 
+    
 
     <section class="w-[80%] mx-auto mt-5">
         <div class="w-full flex justify-end">
@@ -61,7 +102,8 @@
                 <button class="border rounded-lg px-5 py-1 border-orange-300 text-orange-300 text-2xl">
                     <ion-icon name="filter-outline"></ion-icon>
                 </button>
-                <div class="border grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 px-5 py-2 gap-y-2 items-center rounded-lg border-orange-300 w-full text-black text-sm font-light">
+                <div
+                    class="border grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 px-5 py-2 gap-y-2 items-center rounded-lg border-orange-300 w-full text-black text-sm font-light">
                     <div class="form-control">
                         <label class="cursor-pointer flex items-center gap-x-2">
                             <input type="checkbox" class="checkbox checkbox-warning" id="sortByLowToHigh" />
@@ -78,37 +120,48 @@
                 </div>
             </div>
         </div>
+
+        <div class="w-full flex justify-center">
+            <!-- <div th:if="${check == 'check2'}" class="join">
+                    <a th:href="@{'/listproduct/?page=' + ${i}}"
+                        th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
+                        th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
+                        <button class="page-link" th:text="${i} + 1"></button>
+                    </a>
+    
+                </div> -->
+            <!-- <div th:if="${check == 'check'}" class="join">
+                    <a th:href="@{'/product/category/' + ${categoryID} + '?page=' + ${i}}"
+                        th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
+                        th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
+                        <button class="page-link" th:text="${i} + 1"></button>
+                    </a>
+    
+                </div> -->
+                <div class="w-full flex justify-center">
+                    <div class="join">
+                        <div id="pagination" class="pagination">
+                            <!-- Các nút phân trang sẽ được thêm vào đây bằng JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
         <div id="productList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center gap-x-2 my-10">
 
-            <section th:replace="./components/custom/_card.html" >
-           
-            
-        </section>
-        
-        
-        
+            <!-- <section th:replace="./components/custom/_card.html" > -->
+
+
+    </section>
 
 
 
-        </div>
-        <div th:if="${products.totalPages > 1}" class="w-full flex justify-center">
-            <div th:if="${check == 'check2'}" class="join">
-                <a th:href="@{'/listproduct/?page=' + ${i}}"
-                    th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
-                    th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
-                    <button class="page-link" th:text="${i} + 1"></button>
-                </a>
 
-            </div>
-            <div th:if="${check == 'check'}" class="join">
-                <a th:href="@{'/product/category/' + ${categoryID} + '?page=' + ${i}}"
-                    th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
-                    th:class="${products.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
-                    <button class="page-link" th:text="${i} + 1"></button>
-                </a>
 
-            </div>
-        </div>
+
+    </div>
+  
 
 
 
@@ -119,61 +172,57 @@
 
 
 
-<!-- <script th:inline="javascript">
+<script th:inline="javascript">
+// Hàm để thêm các nút phân trang vào phần tử có id="pagination"
+// Hàm để thêm các nút phân trang vào phần tử có id="pagination"
+// Function to render pagination buttons
 
-const sortByLowToHighCheckbox = document.getElementById('sortByLowToHigh');
-const sortByHighToLowCheckbox = document.getElementById('sortByHighToLow');
+// Function to render pagination buttons
+function renderPaginationButtons(totalPages, currentPage) {
+    const paginationElement = document.getElementById('pagination');
 
-sortByLowToHighCheckbox.addEventListener('change', function () {
-    if (this.checked) {
-        // Nếu checkbox được chọn, thực hiện sắp xếp từ thấp đến cao
-        sortProductsByLowToHigh();
-    } else {
-        // Nếu checkbox không được chọn, thực hiện hành động khác (nếu cần)
-    }
-});
+    if (paginationElement) {
+        paginationElement.innerHTML = '';
 
-sortByHighToLowCheckbox.addEventListener('change', function () {
-    if (this.checked) {
-        // Nếu checkbox được chọn, thực hiện sắp xếp từ cao đến thấp
-        sortProductsByHighToLow();
-    } else {
-        // Nếu checkbox không được chọn, thực hiện hành động khác (nếu cần)
-    }
-});
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.innerText = i;
 
-function sortProductsByLowToHigh() {
-    fetch('/api/products/sort/low-to-high')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            // Add an active class to the current page button
+            if (i === currentPage) {
+                button.classList.add('active');
             }
-            return response.json();
-        })
-        .then(sortedProducts => {
-            // Cập nhật giao diện với dữ liệu đã sắp xếp
-            console.log('Dữ liệu đã sắp xếp từ thấp đến cao:', sortedProducts);
-            // Gọi hàm cập nhật giao diện với dữ liệu đã nhận được tại đây
-             updateUI(sortedProducts);
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-            // Xử lý lỗi nếu có
-        });
-    console.log('Đã chọn sắp xếp giá thấp -> cao');
+
+            
+
+            // Add an event listener to each button to handle pagination
+            button.addEventListener('click', function () {
+                // Remove the 'active' class from all buttons
+                const allButtons = document.querySelectorAll('#pagination button');
+                allButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Add 'active' class to the clicked button
+                this.classList.add('active');
+
+                // Call function to fetch products for the selected page
+
+
+                fetchProductsForPage(i);
+            });
+
+            paginationElement.appendChild(button);
+        }
+    }
 }
 
-function sortProductsByHighToLow() {
-    // Thực hiện logic sắp xếp sản phẩm từ giá cao đến thấp
-    // Gọi các hàm hoặc thực hiện logic sắp xếp tại đây
-    // Ví dụ:
-    // 1. Gửi yêu cầu đến backend để lấy dữ liệu đã sắp xếp từ cao đến thấp
-    // 2. Cập nhật giao diện với dữ liệu đã sắp xếp
-    console.log('Đã chọn sắp xếp giá cao -> thấp');
-}
+const categoryId = extractCategoryIdFromUrl();
 
-function fetchProducts() {
-    fetch('/api/product') // Thay đổi URL này thành địa chỉ URL thực tế của API lấy sản phẩm
+function fetchProductsForPage(pageNumber) {
+    // Call your API here to fetch products for the specified page number
+    const pageSize = 8;
+const currentUrl = window.location.pathname;
+    if (currentUrl === '/listproduct') {
+        fetch(`/api/products/list?page=${pageNumber - 1}&pageSize=${pageSize}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -181,7 +230,195 @@ function fetchProducts() {
             return response.json();
         })
         .then(products => {
-            updateUI(products);
+            updateUI(products); // Update the UI with the fetched products
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            // Handle errors if any
+        });
+    } else if (currentUrl.startsWith('/product/category/')) {
+        fetch(`/api/products/category/${categoryId}?page=${pageNumber - 1}&pageSize=${pageSize}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(products => {
+            updateUI(products); // Update the UI with the fetched products
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            // Handle errors if any
+        });
+}
+}
+
+    
+// Example usage: Assuming 100 products and 8 products per page
+const totalProducts = /*[[${totalProducts}]]*/ 0; // Sử dụng 0 nếu không có dữ liệu
+
+const productsPerPage = 8;
+const totalPages = Math.ceil(totalProducts / productsPerPage);
+
+// Assuming current page as 1
+const currentPage = 1;
+
+// Render pagination buttons with 100 products and 8 products per page
+renderPaginationButtons(totalPages, currentPage);
+
+
+
+
+
+
+function extractCategoryIdFromUrl() {
+    const currentUrl = window.location.pathname;
+    const parts = currentUrl.split('/'); // Tách URL thành mảng
+    return parseInt(parts[parts.length - 1]); // Trả về phần tử cuối cùng là categoryId
+}
+
+
+
+
+const sortByLowToHighCheckbox = document.getElementById('sortByLowToHigh');
+const sortByHighToLowCheckbox = document.getElementById('sortByHighToLow');
+
+sortByLowToHighCheckbox.addEventListener('change', function () {
+    if (this.checked) {
+        sortByHighToLowCheckbox.checked = false;
+        // Nếu checkbox được chọn, thực hiện sắp xếp từ thấp đến cao
+        sortProductsByLowToHigh();
+    } else {
+        loadProductsBasedOnUrl();
+        // Nếu checkbox không được chọn, thực hiện hành động khác (nếu cần)
+    }
+});
+
+sortByHighToLowCheckbox.addEventListener('change', function () {
+    if (this.checked) {
+        sortByLowToHighCheckbox.checked = false;
+        // Nếu checkbox được chọn, thực hiện sắp xếp từ cao đến thấp
+        sortProductsByHighToLow();
+    } else {
+        loadProductsBasedOnUrl();
+        // Nếu checkbox không được chọn, thực hiện hành động khác (nếu cần)
+    }
+});
+
+
+
+function sortProductsByLowToHigh() {
+
+    const currentUrl = window.location.pathname;
+   
+    if (currentUrl === '/listproduct') {
+        fetch(`/api/products/sort/low-to-high?page=0&pageSize=8`)
+.then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(sortedProducts => {
+            console.log('Dữ liệu đã sắp xếp từ thấp đến cao:', sortedProducts);
+            updateUI(sortedProducts.content); // Chỉ truyền dữ liệu sản phẩm (không phải trang đầy đủ)
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            // Xử lý lỗi nếu có
+        });
+    console.log('Đã chọn sắp xếp giá thấp -> cao');
+    
+    } else if (currentUrl.startsWith('/product/category/')) {
+        // Hàm để lấy ID danh mục từ URL
+
+// Gọi API để lấy danh sách sản phẩm theo categoryId
+fetch(`/api/products/category/${categoryId}/sort/low-to-high?page=0&pageSize=8`)
+.then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(sortedProducts => {
+            console.log('Dữ liệu đã sắp xếp từ thấp đến cao:', sortedProducts);
+            updateUI(sortedProducts.content); // Chỉ truyền dữ liệu sản phẩm (không phải trang đầy đủ)
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            // Xử lý lỗi nếu có
+        });
+    console.log('Đã chọn sắp xếp giá thấp -> cao');
+    }
+
+
+   
+
+}
+
+function sortProductsByHighToLow() {
+
+const currentUrl = window.location.pathname;
+
+if (currentUrl === '/listproduct') {
+    fetch(`/api/products/sort/high-to-low?page=0&pageSize=8`)
+.then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(sortedProducts => {
+        console.log('Dữ liệu đã sắp xếp từ cao đến thấp:', sortedProducts);
+        updateUI(sortedProducts.content); // Chỉ truyền dữ liệu sản phẩm (không phải trang đầy đủ)
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+        // Xử lý lỗi nếu có
+    });
+console.log('Đã chọn sắp xếp giá cao -> thấp');
+
+} else if (currentUrl.startsWith('/product/category/')) {
+    // Hàm để lấy ID danh mục từ URL
+
+// Gọi API để lấy danh sách sản phẩm theo categoryId
+fetch(`/api/products/category/${categoryId}/sort/high-to-low?page=0&pageSize=8`)
+.then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(sortedProducts => {
+        console.log('Dữ liệu đã sắp xếp từ cao đến thấp:', sortedProducts);
+        updateUI(sortedProducts.content); // Chỉ truyền dữ liệu sản phẩm (không phải trang đầy đủ)
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+        // Xử lý lỗi nếu có
+    });
+console.log('Đã chọn sắp xếp giá cao -> thấp');
+}
+
+
+
+
+}
+
+function fetchProducts() {
+
+    const currentUrl = window.location.pathname;
+
+    fetch('/api/products/list?page=0&pageSize=8') // Thêm thông tin phân trang vào URL
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(products => {
+            updateUI(products); // Chỉ truyền dữ liệu sản phẩm (không phải trang đầy đủ)
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
@@ -189,16 +426,23 @@ function fetchProducts() {
         });
 }   
 
-function updateUI(products) {
+// Hàm để lấy ID danh mục từ URL
+
+
+function updateCategoryUI(products) {
     const productList = document.getElementById('productList'); // Thay 'productList' bằng id thực tế của phần tử chứa danh sách sản phẩm
 
     // Xóa các sản phẩm cũ trước khi cập nhật danh sách mới
     productList.innerHTML = '';
-
+ 
     // Duyệt qua danh sách sản phẩm và thêm vào giao diện
     products.forEach(product => {
         const productElement = document.createElement('section');
         // Tạo các thành phần HTML cho mỗi sản phẩm và thêm vào productElement
+        const formattedPrice = product.price.toLocaleString('en-US');
+        
+        
+       
         // Ví dụ:
         productElement.innerHTML = `
         <a href="/ProductDetails/${product.productId}"> 
@@ -210,7 +454,11 @@ function updateUI(products) {
     <div class=" flex flex-col text-center items-center my-2 mx-2 text-black font-light gap-y-3">
         <div class="">
             <p>${product.name}</p>
-            <p>${product.price}</p>
+          
+            <p class="text-orange-300 font-semibold">${formattedPrice} VND</p>
+            
+            
+            
         </div>
         <div class="rating rating-xs">
             <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
@@ -226,11 +474,90 @@ function updateUI(products) {
             <form action="/cart/addItem" method="post">
                 <input hidden="" value="${product.productId}" name="productId">
               
-                <button class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon class="text-sm" name="cart-outline"></ion-icon></button>
+                <button class="border py-1 px-3 bg-orange-300 rounded"><ion-icon class="text-sm" name="cart-outline"></ion-icon></button>
             </form>
-            <a href="/"
-                class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon
-                    name="wallet-outline"></ion-icon></a>
+            <a name="pay" href="/pay/${product.productId}"
+                class="border py-1 px-3 bg-orange-300 rounded"><ion-icon
+                   name="wallet-outline"></ion-icon></a>
+        </div>
+    </div>
+    </a>
+       
+      
+        `;
+
+        // Thêm productElement vào productList
+        productList.appendChild(productElement);
+    });
+}
+
+function fetchProductsCategory(pageNumber) {
+    const pageSize = 8; // Số lượng sản phẩm trên mỗi trang
+    // Lấy ID danh mục từ URL
+
+    // Gọi API để lấy danh sách sản phẩm của một danh mục theo từng trang
+    fetch(`/api/products/category/${categoryId}?page=${pageNumber}&pageSize=${pageSize}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(products => {
+            updateCategoryUI(products);
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            // Xử lý lỗi nếu có
+        });
+}
+
+
+
+function updateUI(products) {
+    const productList = document.getElementById('productList'); // Thay 'productList' bằng id thực tế của phần tử chứa danh sách sản phẩm
+
+    // Xóa các sản phẩm cũ trước khi cập nhật danh sách mới
+    productList.innerHTML = '';
+
+    // Duyệt qua danh sách sản phẩm và thêm vào giao diện
+    products.forEach(product => {
+        const productElement = document.createElement('section');
+        // Tạo các thành phần HTML cho mỗi sản phẩm và thêm vào productElement
+        const formattedPrice = product.price.toLocaleString('en-US');
+        // Ví dụ:
+        productElement.innerHTML = `
+        <a href="/ProductDetails/${product.productId}"> 
+    <div class="w-full py-2">
+        <img class="w-[90%] h-[225px] mx-auto shadow rounded"
+        src="/assets/images/products/${product.image}"
+            alt="">
+    </div>
+    <div class=" flex flex-col text-center items-center my-2 mx-2 text-black font-light gap-y-3">
+        <div class="">
+            <p>${product.name}</p>
+            <p class="text-orange-300 font-semibold">${formattedPrice} VND</p>
+            
+        </div>
+        <div class="rating rating-xs">
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+        </div>
+        
+      
+        <p>Hàng còn: ${product.quantityInStock} </p>
+        <div class="flex  duration-300   group-hover:duration-300">
+            <form action="/cart/addItem" method="post">
+                <input hidden="" value="${product.productId}" name="productId">
+              
+                <button class="border py-1 px-3 bg-orange-300 rounded"><ion-icon class="text-sm" name="cart-outline"></ion-icon></button>
+            </form>
+            <a name="pay" href="/pay/${product.productId}"
+                class="border py-1 px-3 bg-orange-300 rounded"><ion-icon
+                   name="wallet-outline"></ion-icon></a>
         </div>
     </div>
     </a>
@@ -244,10 +571,48 @@ function updateUI(products) {
 }
 
 // Gọi hàm fetchProducts khi trang được tải
-fetchProducts();
+// fetchProducts();
+
+function loadProductsBasedOnUrl() {
+    const currentUrl = window.location.pathname;
+    if (currentUrl === '/listproduct') {
+        fetch('/api/products/list?page=0&pageSize=8') // Thêm thông tin phân trang vào URL
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(products => {
+            updateUI(products); // Chỉ truyền dữ liệu sản phẩm (không phải trang đầy đủ)
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            // Xử lý lỗi nếu có
+        });
+    } else if (currentUrl.startsWith('/product/category/')) {
+        fetch(`/api/products/category/${categoryId}?page=0&pageSize=8`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(products => {
+            updateCategoryUI(products);
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            // Xử lý lỗi nếu có
+        });
+    }
+}
+
+loadProductsBasedOnUrl();
 
 
-</script> -->
+
+</script>
 
 </body>
 

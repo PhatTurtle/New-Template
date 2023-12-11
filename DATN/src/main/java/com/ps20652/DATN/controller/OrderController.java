@@ -20,10 +20,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ps20652.DATN.dao.OrderDAO;
 import com.ps20652.DATN.entity.Account;
+import com.ps20652.DATN.entity.Category;
 import com.ps20652.DATN.entity.Order;
 import com.ps20652.DATN.entity.OrderDetail;
 import com.ps20652.DATN.entity.Product;
 import com.ps20652.DATN.service.AccountService;
+import com.ps20652.DATN.service.CategoryService;
 import com.ps20652.DATN.service.OrderDetailService;
 import com.ps20652.DATN.service.OrderService;
 import com.ps20652.DATN.service.ProductService;
@@ -49,6 +51,9 @@ public class OrderController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+	private CategoryService catService;
 
     @GetMapping("/orders")
     public String viewOrdersForUser(Model model, Principal principal,
@@ -76,6 +81,9 @@ public class OrderController {
             int userId = getUserIDByUsername(username);
             int cartItemCount = cartService.getCount(userId);
             model.addAttribute("cartItemCount", cartItemCount);
+            List<Category> cat = catService.findAll();
+            model.addAttribute("allcategory", cat);
+            
         }
 
         if (confirmationMessage != null) {
@@ -106,6 +114,8 @@ public class OrderController {
             int userId = getUserIDByUsername(username);
             int cartItemCount = cartService.getCount(userId);
             model.addAttribute("cartItemCount", cartItemCount);
+            List<Category> cat = catService.findAll();
+            model.addAttribute("allcategory", cat);
         }
         Order order = orderService.getOrderById(orderId);
         model.addAttribute("order", order);

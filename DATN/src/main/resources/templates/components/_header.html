@@ -98,7 +98,20 @@
           </div>
           <a href="/cart"
             class=" text-center items-center duration-300 hover:border hover:pt-1 hover:px-2 hover:border-orange-300 rounded hover:duration-300"><ion-icon
-              name="cart-outline"></ion-icon></a>
+              name="cart-outline"></ion-icon>
+              <span th:if="${cartItemCount != null}" th:text="${cartItemCount}" style=" background-color: orange;
+              color: white;
+              border-radius: 50%;
+              padding: 2px 6px;
+              font-size: 12px;
+              margin-left: 5px;">0</span> <!-- Thêm cartItemCount vào span này -->
+               <span th:unless="${cartItemCount != null}" style=" background-color: orange;
+               color: white;
+               border-radius: 50%;
+               padding: 2px 6px;
+               font-size: 12px;
+               margin-left: 5px;">0</span> <!-- Thêm cartItemCount vào span này -->
+            </a>
 
 
           <div class="drawer drawer-end z-[9999] block lg:hidden">

@@ -25,12 +25,12 @@ public class RevenueController {
     private HistoryStockService historyService;
     
     
-    @GetMapping("/admin/dashboard")
-    public String showDashboard(Model model) {
+    // @GetMapping("/admin/dashboard")
+    // public String showDashboard(Model model) {
 
      
-        return "aaa/index"; // Trả về template Thymeleaf
-    }
+    //     return "aaa/index"; // Trả về template Thymeleaf
+    // }
     
     @GetMapping("/admin/revenue-chart")
     public String showRevenueChart(Model model) {
@@ -85,6 +85,10 @@ public class RevenueController {
         }
         
         Double netRevenue = totalRevenue - totalPurchaseCost;
+
+        List<Integer> sortedYears = revenueService.getSortedYears();
+
+        model.addAttribute("years", sortedYears);
         
         model.addAttribute("monthlyRevenues", monthlyRevenues);
         model.addAttribute("revenues", revenues);

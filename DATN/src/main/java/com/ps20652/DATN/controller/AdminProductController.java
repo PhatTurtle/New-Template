@@ -205,9 +205,9 @@ public class AdminProductController {
 	int pageSize = 6;
 	// Đây là ví dụ tìm kiếm theo tên sản phẩm
 	List<Product> searchResults = productService.findByName(productName);
-	Page<Product> productPage =
-	productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
-	model.addAttribute("products", productPage);
+	// Page<Product> productPage =
+	// productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
+	// model.addAttribute("products", productPage);
 	model.addAttribute("products", searchResults);
 	
 	return "AdminCpanel/ui-buttons"; // Trả về view để hiển thị kết quả tìm kiếm

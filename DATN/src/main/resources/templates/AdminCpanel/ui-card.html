@@ -84,7 +84,15 @@
       <!--  Header Start -->
      
       
+      <div class="filter-by-year">
+        <select id="yearDropdown" onchange="filterByYear()">
+          <!-- Option elements will be added dynamically using JavaScript -->
+          
+        </select>
+      </div>
       
+    
+    
       
        <div class="container-fluid">
     <div class="container-fluid">
@@ -109,13 +117,13 @@
                 <th>Doanh Thu</th>
             </tr>
         </thead>
-        <tbody>
-            <tr th:each="entry : ${monthlyRevenues}">
-                <td th:text="${entry.key}"></td> <!-- Tháng -->
-                <td th:text="${#numbers.formatDecimal(entry.value, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td> <!-- Doanh thu -->
-                <td th:text="${#numbers.formatDecimal(totalPurchasePrices[entry.key], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td> <!-- Tiền mua vào -->
-                <td th:text="${#numbers.formatDecimal(monthlyNetRevenues[entry.key], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td> <!-- Net Revenue -->
-            </tr>
+        <tbody id="tableBody">
+            <!-- <tr th:each="entry : ${monthlyRevenues}"> -->
+                <!-- <td th:text="${entry.key}"></td> Tháng -->
+                <!-- <td th:text="${#numbers.formatDecimal(entry.value, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td> Doanh thu -->
+                <!-- <td th:text="${#numbers.formatDecimal(totalPurchasePrices[entry.key], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td> Tiền mua vào -->
+                <!-- <td th:text="${#numbers.formatDecimal(monthlyNetRevenues[entry.key], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td> Net Revenue -->
+            <!-- </tr> -->
         </tbody>
     </table>
             </div>
@@ -127,61 +135,122 @@
   </div>
   </div>
    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
- <script th:inline="javascript">
-    var monthlyRevenues = /*[[${monthlyRevenues}]]*/ [];
-    var totalPurchasePrices = /*[[${totalPurchasePrices}]]*/ [];
-    var monthlyNetRevenues = /*[[${monthlyNetRevenues}]]*/ [];
+   <script th:inline="javascript">
 
-    var months = Object.keys(monthlyRevenues); // Lấy danh sách tháng
-    var revenueValues = Object.values(monthlyRevenues); // Lấy danh sách doanh thu
-    var purchasePrices = Object.values(totalPurchasePrices); // Lấy danh sách tiền mua vào
-    var netRevenues = Object.values(monthlyNetRevenues); // Lấy danh sách netRevenue
+var monthlyRevenues = /*[[${monthlyRevenues}]]*/ {};
+    var totalRevenue = /*[[${totalRevenue}]]*/ 0;
+    var totalPurchasePrices = /*[[${totalPurchasePrices}]]*/ {};
+    var monthlyNetRevenues = /*[[${monthlyNetRevenues}]]*/ {};
+    var NetRevenues = /*[[${NetRevenues}]]*/ 0;
+    var totalPurchaseCost = /*[[${totalPurchaseCost}]]*/ 0;
 
-    const ctx = document.getElementById("myChart").getContext("2d");
-    const myChart = new Chart(ctx, {
-        type: "line",
+    const yearDropdown = document.getElementById('yearDropdown');
+  
+    // Gọi API để lấy danh sách các năm khi trang được tải
+    fetch('/api/revenue/getAllYears')
+      .then(response => response.json())
+      .then(data => {
+        // Xóa tất cả các option cũ trong dropdown nếu có
+        yearDropdown.innerHTML = '';
+  
+        // Tạo các option mới cho dropdown từ dữ liệu nhận được từ API
+        data.forEach(year => {
+          const option = document.createElement('option');
+          option.value = year;
+          option.textContent = year;
+          yearDropdown.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching years:', error));
+  
+    // Hàm xử lý khi người dùng chọn năm
+    function filterByYear() {
+      const selectedYear = yearDropdown.value;
+  
+      // Gọi API để lấy dữ liệu dựa trên năm đã chọn
+      fetch(`/api/revenues?year=${selectedYear}`)
+        .then(response => response.json())
+        .then(data => {
+          // Xóa dữ liệu cũ trong bảng
+          const tableBody = document.getElementById('tableBody');
+          tableBody.innerHTML = '';
+  
+          // Thêm dữ liệu mới vào bảng
+          data.monthlyRevenues.forEach((value, key) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${key}</td>
+              <td>${formatCurrency(value)}</td>
+              <td>${formatCurrency(data.totalPurchasePrices[key])}</td>
+              <td>${formatCurrency(data.monthlyNetRevenues[key])}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+  
+          // Cập nhật dữ liệu cho biểu đồ
+          updateChartData(data);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+  
+    // Hàm cập nhật dữ liệu cho biểu đồ
+    function updateChartData(data) {
+      const months = Object.keys(data.monthlyRevenues);
+      const revenueValues = Object.values(data.monthlyRevenues);
+      const purchaseValues = Object.values(data.totalPurchasePrices);
+      const netRevenueValues = Object.values(data.monthlyNetRevenues);
+  
+      const ctx = document.getElementById('myChart').getContext('2d');
+      const myChart = new Chart(ctx, {
+        type: 'line',
         data: {
-            labels: months, // Sử dụng mảng tháng
-            datasets: [
-                {
-                    label: "Tiền bán ra",
-                    data: revenueValues, // Sử dụng mảng doanh thu
-                    fill: false,
-                    borderColor: "#000000",
-                    pointBorderColor: "#000000",
-                    pointRadius: 5,
-                },
-                {
-                    label: "Tiền nhập hàng",
-                    data: purchasePrices, // Sử dụng mảng tiền mua vào
-                    fill: false,
-                    borderColor: "#ff0000",
-                    pointBorderColor: "#ff0000",
-                    pointRadius: 5,
-                },
-                {
-                    label: "Doanh thu",
-                    data: netRevenues, // Sử dụng mảng netRevenue
-                    fill: false,
-                    borderColor: "#00ff00",
-                    pointBorderColor: "#00ff00",
-                    pointRadius: 5,
-                },
-            ],
+          labels: months,
+          datasets: [
+            {
+              label: 'Tiền bán ra',
+              data: revenueValues,
+              fill: false,
+              borderColor: '#000000',
+              pointBorderColor: '#000000',
+              pointRadius: 5,
+            },
+            {
+              label: 'Tiền nhập hàng',
+              data: purchaseValues,
+              fill: false,
+              borderColor: '#ff0000',
+              pointBorderColor: '#ff0000',
+              pointRadius: 5,
+            },
+            {
+              label: 'Doanh thu',
+              data: netRevenueValues,
+              fill: false,
+              borderColor: '#00ff00',
+              pointBorderColor: '#00ff00',
+              pointRadius: 5,
+            },
+          ],
         },
         options: {
+          title: {
+            text: 'Biểu đồ doanh thu',
+            fontSize: 20,
+          },
+          yAxis: {
             title: {
-                text: "Biểu đồ doanh thu",
-                fontSize: 20,
+              text: 'Doanh thu (VND)',
             },
-            yAxis: {
-                title: {
-                    text: "Doanh thu (VND)"
-                },
-            },
+          },
         },
-    });
-</script>
+      });
+    }
+  
+    // Hàm định dạng số tiền thành chuỗi có dấu phân cách
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
+  </script>
 
   <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

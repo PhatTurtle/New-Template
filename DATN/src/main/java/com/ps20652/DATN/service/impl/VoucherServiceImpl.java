@@ -19,42 +19,31 @@ public class VoucherServiceImpl implements VoucherService {
     @Autowired
     VoucherDAO voucherRepository;
 
-    
-
     @Override
     public Voucher createVoucher(Voucher voucher) {
- 
+
         return voucherRepository.save(voucher);
     }
 
+    @Override
+    public List<Voucher> findAll() {
 
+        return voucherRepository.findAll();
+    }
 
-	@Override
-	public List<Voucher> findAll() {
-	
-		return voucherRepository.findAll();
-	}
+    @Override
+    public Voucher findbyId(Integer id) {
+        return voucherRepository.findById(id).get();
+    }
 
+    @Override
 
+    public void deleteVoucher(Integer voucherId) {
+        voucherRepository.deleteById(voucherId);
 
-	@Override
-	public Voucher findbyId(Integer id) {
-		return voucherRepository.findById(id).get();
-	}
+    }
 
-
-
-	@Override
-	
-	public void deleteVoucher(Integer voucherId) {
-		voucherRepository.deleteById(voucherId);
-		
-	}
-
-
-
-	
-	@Override
+    @Override
     public void deleteExpiredVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
         Date currentDate = new Date();
@@ -67,7 +56,7 @@ public class VoucherServiceImpl implements VoucherService {
         }
     }
 
-	@Scheduled(cron = "0 0 0 * * ?") // Chạy vào mỗi ngày lúc 00:00:00
+    @Scheduled(cron = "0 0 0 * * ?") // Chạy vào mỗi ngày lúc 00:00:00
     public void scheduleTaskToDeleteExpiredVouchers() {
         deleteExpiredVouchers(); // Gọi phương thức xóa voucher hết hạn
     }

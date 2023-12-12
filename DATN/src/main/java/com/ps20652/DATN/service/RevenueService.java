@@ -15,4 +15,9 @@ public interface RevenueService {
 	 
 	 void deleteByOrderId(Integer orderId);
 	 
+	 public List<Integer> getAllYears();
+
+	 public List<Integer> getSortedYears();
+
+	 public List<Revenue> getRevenuesByYear(int year);
 }

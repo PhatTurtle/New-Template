@@ -1,8 +1,10 @@
 package com.ps20652.DATN.service.impl;
 
 import java.math.BigDecimal;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -19,85 +21,115 @@ import com.ps20652.DATN.entity.Revenue;
 import com.ps20652.DATN.entity.StockHistory;
 import com.ps20652.DATN.service.RevenueService;
 
-
 @Service
 public class RevenueServiceImpl implements RevenueService {
 
-	 @Autowired
-	 private OrderDAO orderRepository;
-	 @Autowired
-	 private RevenueDAO revenueRepository;
-	
-	 public List<Revenue> calculateRevenueForYear(int year) {
-		 
-	        List<Revenue> revenues = new ArrayList<>();
-	        // Tính toán doanh thu cho mỗi tháng trong năm
-	        for (int month = 1; month <= 12; month++) {
-	            Date startDate = getStartDate(year, month);
-	            Date endDate = getEndDate(year, month);
+	@Autowired
+	private OrderDAO orderRepository;
+	@Autowired
+	private RevenueDAO revenueRepository;
 
-	            List<Order> ordersForMonth = orderRepository.findByOrderDateBetween(startDate, endDate);
+	public List<Revenue> calculateRevenueForYear(int year) {
 
-	            Double totalRevenueForMonth = calculateTotalRevenue(ordersForMonth);
+		List<Revenue> revenues = new ArrayList<>();
+		// Tính toán doanh thu cho mỗi tháng trong năm
+		for (int month = 1; month <= 12; month++) {
+			Date startDate = getStartDate(year, month);
+			Date endDate = getEndDate(year, month);
 
-	            // Tạo đối tượng Revenue và thêm vào danh sách revenues
-	            Revenue revenue = new Revenue();
-	            revenue.setOrderDate(startDate); // Đặt ngày bắt đầu của tháng
-	            revenue.setTotalAmount(totalRevenueForMonth);
-	            revenues.add(revenue);
-	        }
+			List<Order> ordersForMonth = orderRepository.findByOrderDateBetween(startDate, endDate);
 
-	        return revenues;
-	    }
+			Double totalRevenueForMonth = calculateTotalRevenue(ordersForMonth);
 
-	    // Tính tổng doanh thu từ danh sách các đơn hàng
-	 private Double calculateTotalRevenue(List<Order> orders) {
-		    Double total = 0.0;
-		    for (Order order : orders) {
-		        total += order.getTotalPrice();
-		    }
-		    return total;
+			// Tạo đối tượng Revenue và thêm vào danh sách revenues
+			Revenue revenue = new Revenue();
+			revenue.setOrderDate(startDate); // Đặt ngày bắt đầu của tháng
+			revenue.setTotalAmount(totalRevenueForMonth);
+			revenues.add(revenue);
 		}
-//	 private Double calculateTotalPurchaseCost(List<StockHistory> histories) {
-//		    Double total = 0.0;
-//		    for (StockHistory stockHistory : histories) {
-//		        total += stockHistory.getProduct().getPurchasePrice() * stockHistory.getQuantityAdded();
-//		    }
-//		    return total;
-//		}
 
-	    // Hàm hỗ trợ để lấy ngày bắt đầu của tháng
-	    private Date getStartDate(int year, int month) {
-	        Calendar calendar = Calendar.getInstance();
-	        calendar.set(year, month - 1, 1); // Đặt ngày đầu tiên của tháng
-	        return calendar.getTime();
-	    }
+		return revenues;
+	}
 
-	    // Hàm hỗ trợ để lấy ngày kết thúc của tháng
-	    private Date getEndDate(int year, int month) {
-	        Calendar calendar = Calendar.getInstance();
-	        calendar.set(year, month - 1, 1); // Đặt ngày đầu tiên của tháng
-	        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-	        calendar.set(Calendar.DAY_OF_MONTH, lastDay); // Đặt ngày cuối cùng của tháng
-	        return calendar.getTime();
-	    }
+	// Tính tổng doanh thu từ danh sách các đơn hàng
+	private Double calculateTotalRevenue(List<Order> orders) {
+		Double total = 0.0;
+		for (Order order : orders) {
+			total += order.getTotalPrice();
+		}
+		return total;
+	}
+	// private Double calculateTotalPurchaseCost(List<StockHistory> histories) {
+	// Double total = 0.0;
+	// for (StockHistory stockHistory : histories) {
+	// total += stockHistory.getProduct().getPurchasePrice() *
+	// stockHistory.getQuantityAdded();
+	// }
+	// return total;
+	// }
 
-		@Override
-	    public List<Revenue> getAllRevenues() {
-	        return revenueRepository.findAll();
+	// Hàm hỗ trợ để lấy ngày bắt đầu của tháng
+	private Date getStartDate(int year, int month) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, 1); // Đặt ngày đầu tiên của tháng
+		return calendar.getTime();
+	}
+
+	// Hàm hỗ trợ để lấy ngày kết thúc của tháng
+	private Date getEndDate(int year, int month) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, 1); // Đặt ngày đầu tiên của tháng
+		int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		calendar.set(Calendar.DAY_OF_MONTH, lastDay); // Đặt ngày cuối cùng của tháng
+		return calendar.getTime();
+	}
+
+	@Override
+	public List<Revenue> getAllRevenues() {
+		return revenueRepository.findAll();
 
 	}
 
-		@Override
-		public Revenue create(Revenue revenue) {
-		
-			return revenueRepository.save(revenue);
+	@Override
+	public Revenue create(Revenue revenue) {
+
+		return revenueRepository.save(revenue);
+	}
+
+	@Override
+	@Transactional
+	public void deleteByOrderId(Integer orderId) {
+		revenueRepository.deleteByOrder_OrderId(orderId);
+
+	}
+
+	@Override
+	public List<Integer> getAllYears() {
+		List<Integer> yearsFromDatabase = revenueRepository.findAllYearsWithRevenue(); // ... code để lấy danh sách các
+																						// năm từ cơ sở dữ liệu
+
+		// Sắp xếp danh sách các năm theo thứ tự giảm dần
+		Collections.sort(yearsFromDatabase, Collections.reverseOrder());
+
+		return yearsFromDatabase;
+	}
+
+	@Override
+	public List<Integer> getSortedYears() {
+		List<Integer> yearsFromDatabase = getAllYears();
+
+		// Đặt năm hiện tại lên đầu danh sách
+		Integer currentYear = Year.now().getValue();
+		if (yearsFromDatabase.contains(currentYear)) {
+			yearsFromDatabase.remove(currentYear);
+			yearsFromDatabase.add(0, currentYear);
 		}
 
-		@Override
-		 @Transactional
-		public void deleteByOrderId(Integer orderId) {
-			revenueRepository.deleteByOrder_OrderId(orderId);
-			
-		}
+		return yearsFromDatabase;
+	}
+
+	@Override
+	public List<Revenue> getRevenuesByYear(int year) {
+		return revenueRepository.findByOrderYear(year);
+	}
 }

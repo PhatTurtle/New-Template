@@ -58,7 +58,7 @@ public class PayController {
     private ProductService productService;
 	
     @GetMapping
-    public String pay(Principal principal, Model model, @RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId) {
+    public String pay(Principal principal, Model model, @RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId, RedirectAttributes redirectAttributes) {
         if (principal != null) {
             String username = principal.getName();
             int userId = getUserIDByUsername(username);
@@ -69,7 +69,10 @@ public class PayController {
             int cartItemCount = shoppingCartService.getCount(userId);
             model.addAttribute("cartItemCount", cartItemCount);
             
-
+            if(cartItemCount == 0){
+                redirectAttributes.addFlashAttribute("errorMessage", "Giỏ hàng của bạn đang trống");
+               return "redirect:/cart";
+            }
             List<UserCart> cartItems = shoppingCartService.findByAccountUserId(userId);
             Account account = userRepository.findbyId(userId);
             int cartAmount = calculateCartAmount(cartItems);
@@ -252,8 +255,6 @@ public class PayController {
                         return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
                     }
                 }
-            }
-            
 
             order.setTotalPrice(totalAmount);
             order.setVoucher(voucher);
@@ -271,6 +272,10 @@ public class PayController {
             
             // Lưu thông tin doanh thu vào cơ sở dữ liệu
             revenueService.create(revenue);
+            }
+            
+
+          
             
             System.out.println("helllo");
             // Trả về trang xác nhận đặt hàng hoặc trang thành công

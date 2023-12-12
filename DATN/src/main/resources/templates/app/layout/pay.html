@@ -79,12 +79,12 @@
                         <form>
                             <p class="text-lg font-semibold">Phương Thức Thanh Toán</p>
                             <div class="w-full">
-                                <select id="paymentMethod" class="w-full bg-white text-black py-3 border-b-2 outline-none">
+                                <select id="paymentMethod" onchange="hide()" class="w-full bg-white text-black py-3 border-b-2 outline-none">
                                     <option value="">Chọn Phương Thức Thanh Toán</option>
                                     <option value="cash">Tiền mặt</option>
                                     <option value="paypal">Paypal</option>
                                 </select>
-                                <button type="submit" id="submitButton">abc</button>
+                                <button hidden type="submit" class="border bg-orange-300 rounded-lg px-10 py-2" id="submitButton">abc</button>
                             </div>
                         </form>
                         
@@ -229,6 +229,18 @@
         window.location.href= '/pay/checkout';
     }
 });
+
+    function hide() {
+        let paymentMethod = document.getElementById('paymentMethod')
+        let submitButton = document.getElementById('submitButton')
+
+        if(paymentMethod.value === 'paypal'){
+          
+            window.location.href = '/paypal';
+        }else{
+      
+        }
+    }
 
     </script>
 

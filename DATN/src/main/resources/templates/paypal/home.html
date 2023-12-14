@@ -132,16 +132,16 @@
                             <i class="fa fa-cc-discover" style="color:orange;"></i>
                         </div>
                         <label for="price">Total</label>
-                        <input th:value="${cartAmount}" type="text" id="price" name="price"  >
+                        <input readonly th:value="'$'+${#numbers.formatDecimal(cartAmount/24252, 0, 'COMMA', 0, 'POINT')}" type="text" id="price" name="price"  >
                         <label for="currency">Currency</label>
-                        <input type="text" id="currency" name="currency" value="USD">
+                        <input readonly type="text" id="currency" name="currency" value="USD">
                         <!-- <label for="method">Payment Method</label> -->
                         <input type="hidden" id="method" name="method" placeholder="Payment Method">
                         <!-- <label for="intent">Intent</label> -->
-                        <input type="hidden" id="intent" name="intent" value="sale">
+                        <input readonly type="hidden" id="intent" name="intent" value="sale">
                         <!-- <label for="description">Payment
                             Description</label> -->
-                        <input type="hidden" id="description" name="description" placeholder="Payment Description">
+                        <input readonly type="hidden" id="description" name="description" placeholder="Payment Description">
 
                     </div>
 
@@ -154,11 +154,11 @@
                 <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b th:text="${cartCount}"></b></span>
                 </h4>
                 <p th:each="item : ${cartItems}"><a th:text="${item.product.name}"></a> <span class="price"
-                        th:text="${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></span>
+                        th:text=" '$'+${#numbers.formatDecimal(item.product.price/24252, 0, 'COMMA', 0, 'POINT')}"></span>
                 </p>
 
                 <hr>
-                <p>Total <span class="price" style="color:black"><b th:text="${cartAmount}"></b></span></p>
+                <p>Total <span class="price" style="color:black"><b th:text="'$'+${#numbers.formatDecimal(cartAmount/24252, 0, 'COMMA', 0, 'POINT')}"></b></span></p>
             </div>
         </div>
     </div>

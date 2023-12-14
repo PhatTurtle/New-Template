@@ -102,7 +102,7 @@
 
         </div>
       </div>
-      <div class="flex flex-col gap-y-5">
+      <form method="post" th:action="@{/cart/addProductDetail}" class="flex flex-col gap-y-5">
         <!-- Title Product -->
         <div class=" text-lg md:text-xl lg:text-4xl font-semibold">
           <p th:text="${products.name}"></p>
@@ -123,17 +123,18 @@
                             <button class="py-2 px-3 border rounded-lg hover:border-orange-300 duration-300 hover:duration-300">XL</button>
                         </div> -->
         <!-- Count -->
-        <div class="flex flex-col md:flex-row justify-between w-full md:gap-x-1 ">
+        <div class="flex flex-col md:flex-row justify-between items-center w-full md:gap-x-1 ">
           <div class="w-[40%]">
             <div class="flex  rounded-lg text-black border">
-              <button class=" btn btn-ghost">-</button>
-              <input class="w-[80%] bg-transparent  border-0 outline-none text-center" name="quality" value="" type='text' />
-              <button class=" btn btn-ghost">+</button>
+             
+              <input class="w-full py-2 text-xl bg-transparent  border-0 outline-none text-center" name="quantity" value="1" min="1"  type='number' />
+              
             </div>
           </div>
 
-          <div class="w-[100%] lg:w-[70%] mt-5 md:mt-0  mx-auto">
-            <button class=' btn w-full btn-warning'>Thêm Vào Giỏ Hàng</button>
+          <div    class="w-[100%] lg:w-[70%] mt-5 md:mt-0  mx-auto">
+            <input type="hidden" name="productId" th:value="${products.productId}">
+            <button type="submit" class=' btn w-full btn-warning'>Thêm Vào Giỏ Hàng</button>
           </div>
         </div>
         <div class="flex flex-col gap-y-5">
@@ -166,7 +167,7 @@
                                 </div>
                               </div> -->
         </div>
-      </div>
+      </form>
     </div>
   </section>
   <!-- Product Detail -->
@@ -237,34 +238,45 @@
 
 
   <!-- Related Products -->
-  <section class="w-[90%] md:w-[80%] mx-auto text-black font-light text-xs my-10  ">
+  <section class="w-[90%] md:w-[80%] h-full mx-auto text-black font-light text-xs my-10  ">
     <div class="text-3xl font-semibold text-center">
       <p>Sản Phẩm Liên Quan</p>
     </div>
-    <div class=" py-5 w-full">
-      <!-- <div class="carousel rounded-lg flex gap-x-2 py-10 w-full">
-                    <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-                      <div class="" th:replace="./components/custom/_card.html"></div>
-                    </div> 
-                    <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-                        <div class="" th:replace="./components/custom/_card.html"></div>
-                    </div> 
-                    <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-                        <div class="" th:replace="./components/custom/_card.html"></div>
-                    </div> 
-                    <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-                        <div class="" th:replace="./components/custom/_card.html"></div>
-                    </div> 
-                    <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-                        <div class="" th:replace="./components/custom/_card.html"></div>
-                    </div> 
-                    <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-                        <div class="" th:replace="./components/custom/_card.html"></div>
-                    </div> 
-                    <div class="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-                        <div class="" th:replace="./components/custom/_card.html"></div>
-                    </div>
-                  </div> -->
+    <div class=" my-5 w-full flex ">
+          
+      <section   th:each="product4 : ${top4Product} "  class="w-full group duration-300 hover:border hover:border-orange-300 hover:duration-300 rounded-lg flex   flex-col items-center">
+        <a th:href="@{'/ProductDetails/' + ${product4.productId}}">   <div class="w-full py-2">
+          <img class="w-full h-[218px] mx-auto px-5 rounde" th:src="'/assets/images/products/' + ${product4.image}" alt="product4">
+          
+          <div class=" flex flex-col text-center items-center my-2 mx-2 text-black font-light gap-y-3">
+            <div class="">
+                <p th:text="${product4.name}"></p>
+            </div>
+            <div class="rating rating-xs">
+                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+            </div>
+            <div class="text-orange-300 font-semibold">
+                <p th:text="${#numbers.formatDecimal(product4.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></p>
+            </div>
+            <!-- <p th:text="'Đã bán: ' + ${unitsSoldMap[__${product4.productId}__]}"></p> -->
+            <p th:text="'Hàng còn: ' + ${product4.quantityInStock}"></p>
+            <div class="flex  duration-300   group-hover:duration-300">
+                <form th:action="@{/cart/addItem}" method="post">
+                    <input hidden="" th:value="${product4.productId}" name="productId">
+                  
+                    <button class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon class="text-sm" name="cart-outline"></ion-icon></button>
+                </form>
+                
+                <a th:href="@{'/pay/'+${product4.productId}}" class="border py-1 px-3 bg-orange-300 rounded invisible duration-300 group-hover:visible group-hover:duration-300"><ion-icon name="wallet-outline"></ion-icon></a>
+            </div>
+          </div>
+        </a>
+      </section>
+                  
     </div>
 
 

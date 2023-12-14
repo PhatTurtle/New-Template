@@ -43,7 +43,7 @@ public class ShoppingCartController {
             
             // Sử dụng userId để lấy giỏ hàng
             List<UserCart> cartItems = shoppingCartService.findByAccountUserId(userId);
-
+            int total = shoppingCartService.getAmount(userId);
             // Tính tổng tiền của giỏ hàng
             int cartAmount = calculateCartAmount(cartItems);
             
@@ -51,7 +51,7 @@ public class ShoppingCartController {
             model.addAttribute("cartAmount", cartAmount);
             List<Category> cat = catService.findAll();
             model.addAttribute("allcategory", cat);
-            
+            model.addAttribute("total", total);
  		   if (errorMessage != null) {
  		         model.addAttribute("errorMessage", errorMessage);
  		     }
@@ -81,6 +81,25 @@ public class ShoppingCartController {
 
             // Thêm sản phẩm vào giỏ hàng của người dùng
             shoppingCartService.add(userId, productId);
+            
+            redirectAttributes.addFlashAttribute("confirmationMessage", "Thêm vào giỏ hàng thành công");
+            return "redirect:/";
+        } else {
+            // Người dùng chưa đăng nhập, chuyển họ đến trang đăng nhập
+            return "redirect:/login";
+        }
+    }
+
+
+    @PostMapping("/addProductDetail")
+    public String addToProductDetail(Model model,@RequestParam Integer productId, Principal principal,   RedirectAttributes redirectAttributes, @RequestParam("quantity") Integer quantity) {
+        if (principal != null) {
+            // Lấy userID của người dùng đăng nhập
+            String username = principal.getName();
+            int userId = getUserIDByUsername(username);
+
+            // Thêm sản phẩm vào giỏ hàng của người dùng
+            shoppingCartService.addProductDetail(userId, productId, quantity);
             
             redirectAttributes.addFlashAttribute("confirmationMessage", "Thêm vào giỏ hàng thành công");
             return "redirect:/";

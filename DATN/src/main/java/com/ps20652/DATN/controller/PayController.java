@@ -101,7 +101,7 @@ public class PayController {
 
         return "app/layout/pay";
     }
-    static List<UserCart> arr ;
+    static List<UserCart> arr = new ArrayList<>();
     @GetMapping("/{id}")
     public String bynow(@PathVariable("id") Integer id,Model model, Principal principal,@RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId){
         

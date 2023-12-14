@@ -233,7 +233,7 @@ public class IndexController {
     public String IDProducts(@PathVariable("productId") Integer productId, Model model, Principal principal) {
         Product product = productService.findbyId(productId);
         List<CustomerFeedback> feedback = feedbackService.findByProductProductId(productId);
-
+        List<Product> top4Product = productService.getTop4BestSellingProducts();
         if (principal != null) {
             if (principal != null) {
                 String username = principal.getName();
@@ -243,10 +243,10 @@ public class IndexController {
                 model.addAttribute("userId", userId);
                 int cartItemCount = cartService.getCount(userId);
                 model.addAttribute("cartItemCount", cartItemCount);
-
+                
             }
         }
-
+        model.addAttribute("top4Product", top4Product);
         model.addAttribute("products", product);
         model.addAttribute("feedbacks", feedback);
 
@@ -330,6 +330,7 @@ public class IndexController {
 
             int cartItemCount = cartService.getCount(userId);
             model.addAttribute("cartItemCount", cartItemCount);
+            
 
         }
 

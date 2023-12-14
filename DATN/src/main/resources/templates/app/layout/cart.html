@@ -73,11 +73,11 @@
                                 <form th:action="@{/cart/updateItem}" class="text-xs" method="post">
                                     <input hidden="" type="text" name="productId"
                                         th:value="${item.product.productId}" /> 
-                                        <button class=" p-2 lg:py-2 lg:px-3 border rounded-lg border-orange-300">-</button>
-                                        <input  type="text" class="w-[30%] text-center border border-orange-300 py-2 rounded-lg"
+                                        
+                                        <input  type="number" class="w-[30%] text-center border border-orange-300 py-2 rounded-lg"
                                         name="qty" th:value="${item.quantity}"
                                         onblur="this.form.submit()" min="1"  />
-                                        <button class="p-2  lg:py-2 lg:px-3 border rounded-lg border-orange-300">+</button>
+                                        
                                 </form>
                             </div>
                             <div class="flex flex-col text-end text-sm md:text-lg md:text-xl justify-end lg:justify-between text-orange-300">
@@ -107,6 +107,7 @@
         <!-- Button  -->
         <section class="w-full sticky bottom-0 border border-orange-300 rounded-lg text-black bg-white">
             <div class="flex px-5 py-3 justify-between text-xs lg:text-lg" >
+                
                 <div class="form-control">
                     <label class="cursor-pointer label gap-x-2">
                       
@@ -115,7 +116,9 @@
                     </label>
                 </div>
                 <!--  -->
-                <div class="">
+                <div class="flex gap-x-5 items-center ">
+                    <p class=" p-2" th:text="  ${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} +' VND'"></p>
+
                     <a th:href="@{/pay}">
                     <button class="text-center px-5 py-2 border rounded-lg border-orange-300 text-black duration-300 hover:bg-orange-300 hover:duration-300 hover:text-white">Thanh Toán</button>
                 </a>

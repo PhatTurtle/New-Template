@@ -21,7 +21,9 @@ public interface ShoppingCartService {
 //	 public boolean removeFromCart(int orderDetailId);
 //	 public boolean checkout();
 	
-	UserCart add(Integer userId, Integer productId);
+	UserCart add(Integer userId, Integer productId);	
+	UserCart addProductDetail(Integer userId, Integer productId, Integer quantity);
+
 	
 	List<UserCart> findByAccountUserId(Integer userId);
 	

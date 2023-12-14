@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ps20652.DATN.dao.AccountDAO;
 import com.ps20652.DATN.dao.OrderDAO;
@@ -70,6 +71,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
 	     return null; // Trường hợp sản phẩm không tồn tại hoặc có lỗi khác
 	 }
+
+
+
+	
 
 
 
@@ -138,6 +143,40 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			for (UserCart cartItem : userCart) {
 				userCartRepository.delete(cartItem);
 			}
+		}
+
+
+
+		@Override
+		public UserCart addProductDetail(Integer userId, Integer productId, @RequestParam("quantity") Integer quantity) {
+			// TODO Auto-generated method stub
+			  // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng chưa
+	     UserCart userCart = userCartRepository.findByAccount_UserIdAndProduct_ProductId(userId, productId);
+
+	     if (userCart == null) {
+	         // Sản phẩm chưa tồn tại trong giỏ hàng, thêm mới
+	         Product product = productRepository.findById(productId).orElse(null);
+
+	         if (product != null) {
+	             UserCart cartItem = new UserCart();
+	             Account user = accountRepository.findById(userId).orElse(null);
+ 
+	             if (user != null) {
+	                 cartItem.setAccount(user);
+	                 cartItem.setProduct(product);
+	                 cartItem.setQuantity(quantity); // Đặt quantity (thường là 1 khi thêm sản phẩm mới vào giỏ hàng)
+	                 userCartRepository.save(cartItem); // Lưu giỏ hàng mới vào cơ sở dữ liệu
+	                 return cartItem;
+	             }
+	         }
+	     } else {
+	         // Sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng
+	         userCart.setQuantity(userCart.getQuantity() + quantity);
+	         userCartRepository.save(userCart); // Lưu giỏ hàng cũ sau khi tăng số lượng
+	         return userCart;
+	     }
+
+	     return null; // Trường hợp sản phẩm không tồn tại hoặc có lỗi khác
 		}
 
 

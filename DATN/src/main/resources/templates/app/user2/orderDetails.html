@@ -89,12 +89,12 @@
                         
                         <button
                             th:if="${detail.customerFeedback != null and (detail.customerFeedback.status == 'Đã đánh giá' or detail.customerFeedback.status == 'Đã trả lời')}"
-                            type="button" class="btn btn-primary mt-2">Đã đánh giá</button>
+                            type="button" class="btn btn-primary mt-4">Đã đánh giá</button>
 
                         <button
                             th:unless="${detail.customerFeedback != null and (detail.customerFeedback.status == 'Đã đánh giá' or detail.customerFeedback.status == 'Đã trả lời')}"
                             th:if="${order.status == 'Đã giao hàng thành công'}" type="button"
-                            class="btn btn-primary mt-2 " onclick="toggleReviewForm(this)">Đánh giá</button>
+                            class="btn btn-primary mt-4 " onclick="toggleReviewForm(this)">Đánh giá</button>
 
 
                         <form th:action="@{'/feedbacks/submitReview'}" method="post" class="review-form hidden">
@@ -102,11 +102,12 @@
                                 <input type="hidden" th:name="productId" th:value="${detail.product.productId}">
                                 <input type="hidden" th:name="orderId" th:value="${order.orderId}">
                                 <input type="hidden" th:name="orderDetailId" th:value="${detail.orderDetailId}">
-                                <input type="hidden" th:name="userId" th:value="${order.user.userId}">
-                                <textarea name="comments" rows="4-2" cols="50" placeholder="Nhập ý kiến của bạn" ></textarea>  
-                                <button type="submit" class="btn btn-primary mt-2 ">Gửi đánh giá</button>
-          
-                        
+                                <input type="hidden" th:name="userId" th:value="${order.user.userId}">   <br>
+                                <textarea type="text" class="border border-black   rounded-lg " name="content" rows="4" cols="61" placeholder="Nhập ý kiến của bạn"  style="height: 100px; text-align: left"></textarea>  
+                            <div style="text-align: center;">
+                                <button type="submit" class="btn btn-primary mt-4">Gửi đánh giá</button>
+                            </div>          
+               
                      
                         </form>
                         

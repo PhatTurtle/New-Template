@@ -1,131 +1,210 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/components/layout :: areas(~{::title},~{::body})}" >
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{/components/layout :: areas(~{::title},~{::body})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
+      .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
 
-        .card-body {
-            padding: 1.25rem;
-        }
+      .card-body {
+        padding: 1.25rem;
+      }
 
-        .card-title {
-            margin-bottom: 0.75rem;
-        }
+      .card-title {
+        margin-bottom: 0.75rem;
+      }
 
-        .card-text span {
-            font-weight: bold;
-        }
+      .card-text span {
+        font-weight: bold;
+      }
 
-        .card-img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
+      .card-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+      }
 
-        .review-form {
-            display: none;
-   
-        }
+      .review-form {
+        display: none;
+      }
     </style>
-</head>
+  </head>
 
-<body class="bg-white min-h-screen">
+  <body class="bg-white min-h-screen">
+    <section
+      class="w-[90%] md:w-[80%] xl:w-[80%] mx-auto text-xs text-black font-light py-24"
+    >
+      <div class="w-full flex flex-col lg:flex-row gap-y-5 gap-x-5">
+        <section
+          class="flex flex-row lg:flex-col gap-x-5 gap-y-5 w-full lg:w-[40%] text-sm"
+        >
+          <div
+            class="border border-orange-300 rounded-lg flex flex-col justify-center items-center py-3 gap-y-3 px-5"
+          >
+            <div class="avatar">
+              <div class="w-24 rounded-full">
+                <img th:src="@{'/assets/images/' + ${user.photo}}" />
+              </div>
+            </div>
 
-    <section class="w-[90%] md:w-[80%] xl:w-[80%] mx-auto text-xs text-black font-light  py-24">
-        <div class="w-full flex flex-col lg:flex-row gap-y-5 gap-x-5">
-            <section class="flex flex-row lg:flex-col gap-x-5 gap-y-5 w-full lg:w-[40%] text-sm">
-                <div class="border border-orange-300 rounded-lg flex flex-col justify-center items-center py-3 gap-y-3 px-5">
-                    
-                    <div class="avatar">
-                        <div class="w-24 rounded-full">
-                          <img th:src="@{'/assets/images/' + ${user.photo}}" />
-                        </div>
-                    </div>
-                  
-                    <div class="flex flex-col gap-y-5">
-                        <p th:text="${user.fullName}"></p>
-                    </div>
-                  
+            <div class="flex flex-col gap-y-5">
+              <p th:text="${user.fullName}"></p>
+            </div>
+          </div>
+          <div
+            class="flex flex-col h-[40%] items-end lg:flex-col justify-between lg:justify-start rounded-lg gap-y-2 flex-1 gap-x-5"
+          >
+            <div
+              class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300"
+            >
+              <ion-icon
+                class="text-xl group-hover:text-white"
+                name="people-outline"
+              ></ion-icon>
+              <a th:href="@{/profile}" class="group-hover:text-white"
+                >Thông Tin Cá Nhân</a
+              >
+            </div>
+            <div
+              class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300"
+            >
+              <ion-icon
+                class="text-lg group-hover:text-white"
+                name="car-outline"
+              ></ion-icon>
+              <a th:href="@{/orders}" class="group-hover:text-white"
+                >Đơn hàng đã đặt</a
+              >
+            </div>
+
+            <div
+              class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300"
+            >
+              <ion-icon
+                class="text-lg group-hover:text-white"
+                name="car-outline"
+              ></ion-icon>
+              <a
+                th:href="@{/vouchers/voucher-stock}"
+                class="group-hover:text-white"
+                >Kho voucher</a
+              >
+            </div>
+          </div>
+        </section>
+        <section class="w-full lg:w-[60%]">
+          <div
+            th:each="detail : ${order.orderDetails}"
+            class="border border-orange-300 w-full rounded-lg py-5 px-5 text-sm"
+          >
+            <div
+              class="text-xl font-medium text-black flex flex-col lg:flex-row justify-between flex-1 gap-y-4"
+            >
+              <div class="flex-col flex md:w-[40%] lg:w-[30%] xl:w-[25%]">
+                <img
+                  th:src="'/assets/images/products/' + ${detail.product.image}"
+                  class="w-full h-[150px]"
+                  alt=""
+                />
+              </div>
+              <div class="flex-col flex md:w-[50%] lg:w-[65%] xl:w-[70%]">
+                <p th:text="${detail.product.name}"></p>
+
+                <p
+                  th:text="'Số lượng : ' +  ${ detail.quantity}"
+                  class="text-[17px] font-light"
+                ></p>
+
+                <p
+                  th:text=" 'Số tiền : ' + ${#numbers.formatDecimal(detail.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"
+                  class="text-[17px] font-light"
+                ></p>
+                <p
+                  th:text=" 'Tổng tiền : ' +${#numbers.formatDecimal(detail.price * detail.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"
+                  class="text-[17px] font-light"
+                ></p>
+              </div>
+            </div>
+
+            <section class="w-full">
+              <button
+                th:if="${detail.customerFeedback != null and (detail.customerFeedback.status == 'Đã đánh giá' or detail.customerFeedback.status == 'Đã trả lời')}"
+                type="button"
+                disabled
+                class="btn btn-warning w-full mt-4"
+              >
+                Đã đánh giá
+              </button>
+
+              <button
+                th:unless="${detail.customerFeedback != null and (detail.customerFeedback.status == 'Đã đánh giá' or detail.customerFeedback.status == 'Đã trả lời')}"
+                th:if="${order.status == 'Đã giao hàng thành công'}"
+                type="button"
+                class="btn w-full btn-warning mt-4"
+                onclick="toggleReviewForm(this)"
+              >
+                Đánh giá
+              </button>
+
+              <form
+                th:action="@{'/feedbacks/submitReview'}"
+                method="post"
+                class="review-form hidden"
+              >
+                <input
+                  type="hidden"
+                  th:name="productId"
+                  th:value="${detail.product.productId}"
+                />
+                <input
+                  type="hidden"
+                  th:name="orderId"
+                  th:value="${order.orderId}"
+                />
+                <input
+                  type="hidden"
+                  th:name="orderDetailId"
+                  th:value="${detail.orderDetailId}"
+                />
+                <input
+                  type="hidden"
+                  th:name="userId"
+                  th:value="${order.user.userId}"
+                />
+                <br />
+                <textarea
+                  type="text"
+                  class="border w-full textarea border-warning !outline-orange-300 rounded-lg"
+                  name="content"
+                  rows="4"
+                  cols="61"
+                  placeholder="Nhập ý kiến của bạn"
+                  style="height: 100px; text-align: left"
+                ></textarea>
+                <div style="text-align: center">
+                  <button type="submit" class="btn btn-warning w-full mt-4">
+                    Gửi đánh giá
+                  </button>
                 </div>
-                <div class=" flex flex-col h-[40%] items-end  lg:flex-col justify-between lg:justify-start rounded-lg gap-y-2 flex-1 gap-x-5">
-                    <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
-                        <ion-icon class="text-xl group-hover:text-white" name="people-outline"></ion-icon>
-                        <a th:href="@{/profile}" class="group-hover:text-white">Thông Tin Cá Nhân</a>
-                    </div>
-                    <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
-                        <ion-icon class="text-lg group-hover:text-white" name="car-outline"></ion-icon>
-                        <a th:href="@{/orders}" class="group-hover:text-white">Đơn hàng đã đặt</a>
-                    </div>
-
-                    <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
-                        <ion-icon class="text-lg group-hover:text-white" name="car-outline"></ion-icon>
-                        <a th:href="@{/vouchers/voucher-stock}" class="group-hover:text-white">Kho voucher</a>
-                    </div>
-                    
-                </div>
+              </form>
             </section>
-            <section class="w-full lg:w-[60%]">
-                
-                <div th:each="detail : ${order.orderDetails}" class="border border-orange-300 flex justify-between  rounded-lg py-5 mt-5 px-5 text-sm">
-                    <div class="text-xl font-medium text-black flex flex-col gap-y-4  ">
-                        <div class="flex-col flex">
-                        <img th:src="'/assets/images/products/' + ${detail.product.image}" class="w-[200px] h-[150px]" alt="">
-                    </div>
-                    <div class="flex-col flex">
-                        <p th:text="${detail.product.name}"></p>
-                       
-                    <p   th:text="'Số lượng : ' +  ${ detail.quantity}" class="text-[17px]  font-light "></p>
-          
-                        <p th:text=" 'Số tiền : ' + ${#numbers.formatDecimal(detail.price, 0, 'COMMA', 0, 'POINT')} + ' VND'" class="text-[17px] font-light"></p>
-                        <p th:text=" 'Tổng tiền : ' +${#numbers.formatDecimal(detail.price * detail.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'" class="text-[17px] font-light"></p>
-                        
-                        <button
-                            th:if="${detail.customerFeedback != null and (detail.customerFeedback.status == 'Đã đánh giá' or detail.customerFeedback.status == 'Đã trả lời')}"
-                            type="button" class="btn btn-primary mt-4">Đã đánh giá</button>
-
-                        <button
-                            th:unless="${detail.customerFeedback != null and (detail.customerFeedback.status == 'Đã đánh giá' or detail.customerFeedback.status == 'Đã trả lời')}"
-                            th:if="${order.status == 'Đã giao hàng thành công'}" type="button"
-                            class="btn btn-primary mt-4 " onclick="toggleReviewForm(this)">Đánh giá</button>
-
-
-                        <form th:action="@{'/feedbacks/submitReview'}" method="post" class="review-form hidden">
-               
-                                <input type="hidden" th:name="productId" th:value="${detail.product.productId}">
-                                <input type="hidden" th:name="orderId" th:value="${order.orderId}">
-                                <input type="hidden" th:name="orderDetailId" th:value="${detail.orderDetailId}">
-                                <input type="hidden" th:name="userId" th:value="${order.user.userId}">   <br>
-                                <textarea type="text" class="border border-black   rounded-lg " name="content" rows="4" cols="61" placeholder="Nhập ý kiến của bạn"  style="height: 100px; text-align: left"></textarea>  
-                            <div style="text-align: center;">
-                                <button type="submit" class="btn btn-primary mt-4">Gửi đánh giá</button>
-                            </div>          
-               
-                     
-                        </form>
-                        
-                    </div>
-                </div>
-                    
-                  
-                </div> 
-                
-                 
-            </section>
-        </div>
+          </div>
+        </section>
+      </div>
     </section>
 
-
-   
-
-     <!-- <div class="container">
+    <!-- <div class="container">
         <h1 class="text-center mb-4">Order Details</h1>
         <div class="card mb-4">
             <div class="card-body">
@@ -173,13 +252,15 @@
             </div>
         </div>
     </div> -->
- 
-    <script>
-        function toggleReviewForm(btn) {
-            var form = btn.nextElementSibling;
-            form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
-        }
-    </script> 
-</body>
 
+    <script>
+      function toggleReviewForm(btn) {
+        var form = btn.nextElementSibling;
+        form.style.display =
+          form.style.display === "none" || form.style.display === ""
+            ? "block"
+            : "none";
+      }
+    </script>
+  </body>
 </html>

@@ -20,6 +20,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -43,6 +46,7 @@ import com.ps20652.DATN.entity.Product;
 import com.ps20652.DATN.entity.ReviewReply;
 import com.ps20652.DATN.service.AccountService;
 import com.ps20652.DATN.service.CategoryService;
+import com.ps20652.DATN.service.EmailService;
 import com.ps20652.DATN.service.FeedbackService;
 import com.ps20652.DATN.service.OrderDetailService;
 import com.ps20652.DATN.service.ProductService;
@@ -66,6 +70,8 @@ public class IndexController {
     private AccountService accountService;
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private JavaMailSender emailSender;
     // @Autowired
     // private ReviewReplyService replyService;
     //
@@ -204,6 +210,24 @@ public class IndexController {
         model.addAttribute("allcategory", cat);
         return "app/layout/contact";
     }
+    @PostMapping("/send-mail")
+    public String sendMail(
+            @RequestParam("fromEmail") String fromEmail,
+            @RequestParam("message") String message,
+            @RequestParam("fullName") String fullName) { // Thêm tham số mới cho họ và tên
+    
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(fromEmail); // Sử dụng địa chỉ email bạn đã điền vào form
+        mailMessage.setTo("shopmarious@gmail.com"); // Địa chỉ email bạn muốn gửi đến, có sẵn
+        mailMessage.setSubject("LIÊN HỆ");
+        mailMessage.setText("Họ và tên: " + fullName +  "\nEmail: "  + fromEmail + "\n\n Nội dung: " + message); // Thêm họ và tên vào nội dung email
+    
+        emailSender.send(mailMessage);
+    
+        return "redirect:/contact"; // Redirect đến trang thành công sau khi gửi email
+    }
+    
+    
 
     @GetMapping("/about")
     public String About(Principal principal, Model model) {

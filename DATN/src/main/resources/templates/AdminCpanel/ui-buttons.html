@@ -273,90 +273,51 @@ body {
 
 
 
-							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-								aria-hidden="true">
-								<div class="modal-dialog">
+							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-warning text-white">
 											<h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal"
-												aria-label="Close"></button>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
-										<div class="modal-body text-center">
-											
-												<form class="contact-form row" th:action="@{/admin/products/add}" method="post"
-												enctype="multipart/form-data">
-													<div class="form-field col-lg-6">
-														<input id="name" class="input-text js-input" name="name" style="font-size: 13px;"  type="text" required>
-														<label class="label" for="name" >Name</label>
-													</div>
-													<div class="form-field col-lg-6 ">
-														<input id="text" class="input-text js-input" type="text" style="font-size: 13px;" name="price" required>
-														<label class="label" for="email">Giá</label>
-													</div>
-													<div class="form-field col-lg-6 ">
-														<input id="company" class="input-text js-input" type="text" style="font-size: 13px;" name="purchasePrice" required>
-														<label class="label" for="company">Giá nhập</label>
-													</div>
-													<div class="form-field col-lg-6 ">
-														<select id="category" name="category" style="border-radius: 5px; 
-														width: calc(100% - 10px); 
-														padding: 8px" required>
-															<option value="">-- Chọn danh mục --</option>
-															<option th:each="category : ${categories}"
-																th:value="${category.categoryId}" th:text="${category.name}">
-															</option>
-														</select> <br />
-														<label class="label" for="phone">Loại</label>
-													</div>
-													<div class="form-field col-lg-12">
-														<input type="file" id="image" name="image" accept="image/*"
-													required /><br />
-														<label class="label" for="message">Ảnh</label>
-													</div>
-													<div class="form-field col-lg-12">
-														<input class="submit-btn" type="submit" value="Submit">
-													</div>
-												</form>
-											</div>
-											<!--  -->
-											<!-- <form th:action="@{/admin/products/add}" method="post"
-												enctype="multipart/form-data">
-												<label class="col-sm-2 col-form-label" for="name">Tên</label>
-												<input type="text" id="name" name="name" required /><br />
-
-
-												<label class="col-sm-2 col-form-label" for="price">Giá</label>
-												<input type="text" id="price" name="price" required /><br />
-
-
-												<label class="col-sm-2 col-form-label" for="price">Giá nhập</label>
-												<input type="text" id="priceStaff" name="purchasePrice" required /><br />
-
-
-												<label class="col-sm-2 col-form-label" for="category">Loại</label>
-												<select id="category" name="category" required>
-													<option value="">-- Chọn danh mục --</option>
-													<option th:each="category : ${categories}"
-														th:value="${category.categoryId}" th:text="${category.name}">
-													</option>
-												</select> <br />
-
-
-												
-
-												<label class="col-sm-2 col-form-label" for="image">Ảnh</label>
-												<input type="file" id="image" name="image" accept="image/*"
-													required /><br />
-
-
-
-												<button type="submit" class="btn btn-primary">Add</button>
-											</form> -->
+										<div class="modal-body">
+											<form class="row g-3" th:action="@{/admin/products/add}" method="post" enctype="multipart/form-data">
+												<div class="col-md-6">
+													<label for="name" class="form-label">Tên</label>
+													<input type="text" class="form-control" id="name" name="name" required>
+												</div>
+												<div class="col-md-6">
+													<label for="price" class="form-label">Giá</label>
+													<input type="text" class="form-control" id="price" name="price" required>
+												</div>
+												<div class="col-md-6">
+													<label for="purchasePrice" class="form-label">Giá nhập</label>
+													<input type="text" class="form-control" id="purchasePrice" name="purchasePrice" required>
+												</div>
+												<div class="col-md-6">
+													<label for="description" class="form-label">Mô tả</label>
+													<input type="text" class="form-control" id="description" name="description" required>
+												</div>
+												<div class="col-md-6">
+													<label for="category" class="form-label">Loại</label>
+													<select class="form-select" id="category" name="category" required>
+														<option value="">-- Chọn danh mục --</option>
+														<option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>
+													</select>
+												</div>
+												<div class="col-md-6">
+													<label for="image" class="form-label">Ảnh</label>
+													<input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+												</div>
+												<div class="col-12">
+													<button type="submit" class="btn btn-warning text-white">Thêm sản phẩm</button>
+												</div>
+											</form>
 										</div>
-
 									</div>
 								</div>
+							</div>
+							
 							</div>
 
 							<table class="table table-striped ">
@@ -396,92 +357,52 @@ body {
 											 data-bs-whatever="@mdo">Edit</button>
 
 
-											<div  class="modal fade"tabindex="-1" aria-labelledby="exampleModalLabel"
-								aria-hidden="true" th:id="'exampleModal2-' + ${product.productId}">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal"
-												aria-label="Close"></button>
-										</div>
-										<div class="modal-body text-center">
-											<!-- <form th:action="@{'/admin/products/edit/' + ${product.productId}}" method="post"
-												enctype="multipart/form-data">
-												<label class="col-sm-2 col-form-label" for="name">Tên</label>
-												<input type="hidden" id="name" name="productId" th:value="${product.productId}" /><br />
-												<input type="text" id="name" name="name" th:value="${product.name}" required /><br />
-
-
-												<label class="col-sm-2 col-form-label" for="price">Giá</label>
-												<input type="text" id="price" name="price"  th:value="${product.price}" required /><br />
-
-
-												<label class="col-sm-2 col-form-label" for="price">Giá nhập</label>
-												<input type="text" id="priceStaff" name="purchasePrice"  th:value="${product.purchasePrice}" required /><br />
-
-
-												<label class="col-sm-2 col-form-label" for="category">Loại</label>
-												<select id="category" name="category" required>
-													<option th:text="${product.category.name}" th:value="${product.category.categoryId}" ></option>
-													<option th:unless="${product.category.name == category.name}" th:each="category : ${categories}"
-														th:value="${category.categoryId}" th:text="${category.name}">
-													</option>
-												</select> <br />
-
-
-												
-
-												<label class="col-sm-2 col-form-label" for="image">Ảnh</label>
-												<input type="file" id="image" name="image" accept="image/*"
-													 /><br />
-
-
-
-												<button type="submit" class="btn btn-primary">Update</button>
-											</form> -->
-
-											
-												
-												<form th:action="@{'/admin/products/edit/' + ${product.productId}}" method="post" enctype="multipart/form-data" class="contact-form row">
-													<div class="form-field col-lg-6 ">
-														<input type="hidden" id="name" name="productId" th:value="${product.productId}">
-														<input id="name" name="name" class="input-text js-input " style="font-size: 13px;" type="text" th:value="${product.name}"   required>
-														<label class="label" for="name">Tên sản phẩm</label>
+											 <div class="modal fade" th:id="'exampleModal2-' + ${product.productId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												<div class="modal-dialog modal-lg">
+													<div class="modal-content">
+														<div class="modal-header bg-warning text-white">
+															<h5 class="modal-title" id="exampleModalLabel">CHỈNH SỬA</h5>
+															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															<form th:action="@{'/admin/products/edit/' + ${product.productId}}" method="post" enctype="multipart/form-data" class="row g-3">
+																<div class="col-md-6">
+																	<input type="hidden" id="productId" name="productId" th:value="${product.productId}">
+																	<label for="name" class="form-label">Tên sản phẩm</label>
+																	<input id="name" name="name" class="form-control" style="font-size: 13px;" type="text" th:value="${product.name}" required>
+																</div>
+																<div class="col-md-6">
+																	<label for="price" class="form-label">Giá</label>
+																	<input class="form-control" type="text" style="font-size: 13px;" id="price" name="price" th:value="${product.price}" required>
+																</div>
+																<div class="col-md-6">
+																	<label for="purchasePrice" class="form-label">Giá nhập</label>
+																	<input class="form-control" type="text" style="font-size: 13px;" id="purchasePrice" name="purchasePrice" th:value="${product.purchasePrice}" required>
+																</div>
+																<div class="col-md-6">
+																	<label for="description" class="form-label">Mô tả</label>
+																	<input class="form-control" type="text" style="font-size: 13px;" id="description" name="description" th:value="${product.description}" required>
+																</div>
+																<div class="col-md-6">
+																	<label for="category" class="form-label">Loại sản phẩm</label>
+																	<select id="category" name="category" class="form-select" style="font-size: 13px;" required>
+																		<option th:text="${product.category.name}" th:value="${product.category.categoryId}" ></option>
+																		<option th:unless="${product.category.name == category.name}" th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>
+																	</select>
+																</div>
+																<div class="col-md-12">
+																	<label for="image" class="form-label">Ảnh</label>
+																	<input type="file" class="form-control" id="image" name="image" accept="image/*">
+																</div>
+																<div class="col-12 text-center">
+																	<button type="submit" class="btn btn-warning text-white">Cập nhật</button>
+																</div>
+															</form>
+														</div>
 													</div>
-													<div class="form-field col-lg-6 ">
-														<input id="price" class="input-text js-input" style="font-size: 13px;" name="price"  th:value="${product.price}" type="text" required>
-														<label class="label" for="email">Giá</label>
-													</div>
-													<div class="form-field col-lg-6 ">
-														<input class="input-text js-input" type="text" style="font-size: 13px;" id="priceStaff" name="purchasePrice"  th:value="${product.purchasePrice}" required >
-														<label class="label" for="company">Giá nhập</label>
-													</div>
-													<div class="form-field col-lg-6 ">
-														<select id="category" name="category" class="border-1 custom-select " style="border-radius: 5px; 
-														width: calc(100% - 10px); 
-														padding: 8px" required>
-															<option th:text="${product.category.name}" th:value="${product.category.categoryId}" ></option>
-															<option th:unless="${product.category.name == category.name}" th:each="category : ${categories}"
-																th:value="${category.categoryId}" th:text="${category.name}">
-															</option>
-														</select>
-														<label class="label" for= "phone">Loại sản phẩm</label>
-													</div>
-													<div class="form-field col-lg-12">
-														<input type="file" id="image" name="image" accept="image/*">
-														<label class="label" for="message">Ảnh</label>
-													</div>
-													<div class="form-field col-lg-12">
-														<input class="submit-btn" type="submit" value="Update">
-													</div>
-												</form>
+												</div>
 											</div>
-										
-
-									</div>
-								</div>
-							</div>
+											
 								<form th:action="@{'/admin/products/delete/' + ${product.productId}}" >
 									<button type="submit" class="btn btn-warning mx-5 fs-2 mt-2 ">  Delete</button>
 

@@ -227,21 +227,21 @@
             </div>
             <img src="/assets/images/logos/favicon.png" alt="" class="p-6 h-52 md:h-64">
         </div>
-        <form novalidate="" class="space-y-6">
+        <form th:action="@{/send-mail}" method="post" novalidate="" class="space-y-6">
             <div>
-                <label for="name" class="text-sm">Họ Và Tên</label>
-                <input id="name" type="text" placeholder=""
+                <label for="fullname" class="text-sm">Họ Và Tên</label>
+                <input name="fullName" id="name" type="text" placeholder=""
                     class=" p-3 rounded-lg bg-transparent border text-black border-orange-300  w-full outline-none ">
             </div>
             <div>
-                <label for="email" class="text-sm">Email</label>
-                <input id="email" type="email"
+                <label for="fromEmail" class="text-sm">Email</label>
+                <input name="fromEmail" id="email" type="email"
                     class=" p-3 rounded-lg bg-transparent border text-black border-orange-300  w-full outline-none ">
             </div>
             <div>
                 <label for="message" class="text-sm">Ghi Chú</label>
-                <textarea id="message" rows="3"
-                    class=" p-3 rounded-lg bg-transparent border text-black border-orange-300  w-full outline-none "></textarea>
+                <input name="message" id="message" rows="3"
+                    class=" p-3 rounded-lg bg-transparent border text-black border-orange-300  w-full outline-none "></input>
             </div>
             <button type="submit"
                 class="w-full p-3 text-sm font-bold tracki uppercase rounded bg-orange-300 text-gray-900">Gửi

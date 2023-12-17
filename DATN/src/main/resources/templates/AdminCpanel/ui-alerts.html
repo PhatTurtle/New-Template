@@ -8,7 +8,10 @@
   <link rel="shortcut icon" type="image/png" href="/assets/images/logos/logo2.png" />
   <link rel="stylesheet" href="/assets/css/styles.min.css" />
 </head>
+<style>
 
+
+</style>
 <body>
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -127,47 +130,60 @@
                       name="reload-outline"></ion-icon></button>
                 </form>
               </h5>
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title btn btn-warning" id="exampleModalLabel">Thêm sản phẩm</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning text-white">
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" th:action="@{/admin/accounts/add}">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="username" class="form-label">Tên tài khoản:</label>
+                                            <input type="text" class="form-control" id="username" name="username" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Mật khẩu:</label>
+                                            <input type="password" class="form-control" id="password" name="password" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="fullName" class="form-label">Họ và tên:</label>
+                                            <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email:</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label">Địa chỉ:</label>
+                                            <input type="text" class="form-control" id="address" name="address" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="role" class="form-label">Vai trò:</label>
+                                            <select class="form-select" id="role" name="role" required>
+                                                <option value="USER">Khách Hàng</option>
+                                                <option value="STAFF">Nhân Viên</option>
+                                                <option value="ADMIN">Quản Lý</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-warning text-white">Thêm tài khoản</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                      <form method="post" th:action="@{/admin/accounts/add}">
-                        <label for="username">Tên tài khoản:</label>
-                        <input type="text" id="username" name="username" required><br><br>
-
-                        <label for="password">Mật khẩu:</label>
-                        <input type="password" id="password" name="password" required><br><br>
-
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required><br><br>
-
-                        <label for="fullName">Họ và tên:</label>
-                        <input type="text" id="fullName" name="fullName" required><br><br>
-
-                        <label for="address">Địa chỉ:</label>
-                        <input type="text" id="address" name="address" required><br><br>
-
-                        <label for="role">Vai trò:</label>
-                        <select id="role" name="role" required>
-                          <option value="USER">Khách Hàng</option>
-                          <option value="STAFF">Nhân Viên</option>
-                          <option value="ADMIN">Quản Lý</option>
-                        </select><br>
-                        <br>
-                        <button type="submit">Thêm tài khoản</button>
-                      </form>
-
-
-                    </div>
-
-                  </div>
                 </div>
-              </div>
+            </div>
+            
+            
+            
               <div class="card mb-0">
                 <table class="table table-striped">
                   <thead>
@@ -193,8 +209,58 @@
                       <td th:text="${account.address}"></td>
                       <td th:text="${account.role}"></td>
                       <td>
-                      <button class="btn btn-warning"> <a th:href="@{'/admin/accounts/edit/' + ${account.userId}}">Edit</a></button> 
-                       <button class="btn btn-warning"> <a th:href="@{'/admin/accounts/delete/' + ${account.userId}}">Delete</a></button>
+                      <button
+											type="button" class="btn btn-warning " data-bs-toggle="modal" th:data-bs-target="'#exampleModal2-' + ${account.userId}"
+											 data-bs-whatever="@mdo">Edit</button>
+
+                       <div class="modal fade" th:id="'exampleModal2-' + ${account.userId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content" style="background-color: #fff;">
+                                <div class="modal-header bg-warning text-white">
+                                    <h5 class="modal-title text-dark" id="exampleModalLabel">CHỈNH SỬA</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{'/admin/accounts/edit/' + ${account.userId}}" method="post" enctype="multipart/form-data" class="row g-3">
+                                        <div class="col-md-6">
+                                            <input type="hidden" id="userId" name="userId" th:value="${account.userId}">
+                                            <label for="username" class="form-label text-dark">Tên người dùng</label>
+                                            <input id="username" name="username" class="form-control" style="font-size: 13px;" type="text" th:value="${account.username}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="fullname" class="form-label text-dark">Họ và tên</label>
+                                            <input class="form-control" type="text" style="font-size: 13px;" id="fullname" name="fullname" th:value="${account.fullName}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="address" class="form-label text-dark">Địa chỉ</label>
+                                            <input class="form-control" type="text" style="font-size: 13px;" id="address" name="address" th:value="${account.address}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="role" class="form-label text-dark">Vai trò</label>
+                                            <select id="role" name="role" class="form-select" required style="background-color: #fff; ">
+                                                <option value="USER" th:selected="${account.role == 'USER'}">Người Dùng</option>
+                                                <option value="STAFF" th:selected="${account.role == 'STAFF'}">Nhân Viên</option>
+                                                <option value="ADMIN" th:selected="${account.role == 'ADMIN'}">Quản Lý</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="image" class="form-label text-dark">Ảnh</label>
+                                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn btn-warning text-white">Cập nhật</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+
+
+
+                       <button class="btn btn-warning"> <a style="color: white;" th:href="@{'/admin/accounts/delete/' + ${account.userId}}">Delete</a></button>
                       </td>
                     </tr>
                   </tbody>

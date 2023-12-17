@@ -80,10 +80,10 @@
           <div class="text-center flex flex-col">
             <p href="#">Bạn đã có tài khoản? <a
                 class="hover:text-orange-300 hover:underline hover:underline-offset-2 text-orange-300"
-                th:href="@{/register}">Đăng Nhập</a></p>
+                th:href="@{/login}">Đăng Nhập</a></p>
 
-            <a href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2"> <a
-                class="text-orange-300 hover:underline" th:href="@{/forgot-password}">Quên Mật Khẩu</a></a>
+            <!-- <a href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2"> <a
+                class="text-orange-300 hover:underline" th:href="@{/forgot-password}">Quên Mật Khẩu</a></a> -->
 
           </div>
           <p th:if="${registrationError}" th:text="${registrationError}" style="color: red;"></p>

@@ -104,7 +104,7 @@ public class UserProfileController {
 				if (!photo.isEmpty()) {
 					try {
 	
-						// Lấy đường dẫn thực của dự án
+						// Lấy đường dẫn thực của folder
 						Resource resource = resourceLoader.getResource("classpath:/");
 						String projectPath = resource.getFile().getAbsolutePath();
 	
@@ -138,7 +138,7 @@ public class UserProfileController {
 				}
 			}
 	
-			// Sau khi cập nhật thông tin, chuyển hướng người dùng về trang profile hoặc
+			// Sau khi cập nhật thông tin, trả về người dùng về trang profile hoặc
 			// trang chính
 			return "redirect:/profile";
 		}
@@ -152,25 +152,25 @@ public class UserProfileController {
     	                                 @RequestParam("confirmNewPassword") String confirmNewPassword,
     	                                 Model model, Principal principal) {
 
-    	        // Assuming UserService or UserRepository methods to fetch user details
+    	        // Phương thức để lấy chi tiết của người dùng
     	        Account user = accountService.findbyId(userId);
 
     	        if (user != null && passwordEncoder.matches(currentPassword, user.getPassword())) {
     	            if (newPassword.equals(confirmNewPassword)) {
-    	                // Encode the new password before saving
+    	                // Nhập mật khẩu mới khi vừa lưu
     	                String encodedNewPassword = passwordEncoder.encode(newPassword);
     	                user.setPassword(encodedNewPassword);
 
-    	                // Save the updated user (this is a simplification, please use your data access layer)
+    	                // Lưu người dùng đã cập nhật
     	                accountService.update(user);
 
-    	                // Redirect to profile page or a success page
+    	                // Trả về trang thông tin khi đã lưu thành công
     	                return "redirect:/profile";
     	            } else {
-    	                model.addAttribute("error", "New password and confirmation do not match");
+    	                model.addAttribute("error", "Mật khẩu mới và xác nhận không khớp");
     	            }
     	        } else {
-    	            model.addAttribute("error", "Current password is incorrect");
+    	            model.addAttribute("error", "Mật khẩu không đúng");
     	        }
 
     	        if (principal != null) {

@@ -27,36 +27,46 @@ public class ShoppingCartController {
 
     @Autowired
     private ShoppingCartService shoppingCartService;
-    
+
     @Autowired
     private AccountService userRepository;
 
     @Autowired
     private CategoryService catService;
-    
+
     @GetMapping
-    public String viewCart(Authentication authentication, Model  model, Principal principal, @RequestParam(name = "errorMessage", required = false) String errorMessage) {
+    public String viewCart(Authentication authentication, Model model, Principal principal,
+            @RequestParam(name = "errorMessage", required = false) String errorMessage) {
         if (principal != null) {
             // Lấy userID của người dùng đăng nhập
             String username = principal.getName();
             int userId = getUserIDByUsername(username);
-            
+
             // Sử dụng userId để lấy giỏ hàng
             List<UserCart> cartItems = shoppingCartService.findByAccountUserId(userId);
-            int total = shoppingCartService.getAmount(userId);
+
+            int total = 0; 
+
+            int cartItemCount = shoppingCartService.getCount(userId);
+            if (cartItemCount == 0) {
+                total = 0; 
+            } else {
+                total = shoppingCartService.getAmount(userId);
+            }
+
             // Tính tổng tiền của giỏ hàng
             int cartAmount = calculateCartAmount(cartItems);
-            
+
             model.addAttribute("cartItems", cartItems);
             model.addAttribute("cartAmount", cartAmount);
             List<Category> cat = catService.findAll();
             model.addAttribute("allcategory", cat);
             model.addAttribute("total", total);
- 		   if (errorMessage != null) {
- 		         model.addAttribute("errorMessage", errorMessage);
- 		     }
+            if (errorMessage != null) {
+                model.addAttribute("errorMessage", errorMessage);
+            }
         }
-        
+
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
             model.addAttribute("username", username);
@@ -67,13 +77,13 @@ public class ShoppingCartController {
             int cartItemCount = shoppingCartService.getCount(userId);
             model.addAttribute("cartItemCount", cartItemCount);
         }
-        
 
         return "app/layout/cart";
     }
 
     @PostMapping("/addItem")
-    public String addToCart(Model model,@RequestParam Integer productId, Principal principal,   RedirectAttributes redirectAttributes) {
+    public String addToCart(Model model, @RequestParam Integer productId, Principal principal,
+            RedirectAttributes redirectAttributes) {
         if (principal != null) {
             // Lấy userID của người dùng đăng nhập
             String username = principal.getName();
@@ -81,7 +91,7 @@ public class ShoppingCartController {
 
             // Thêm sản phẩm vào giỏ hàng của người dùng
             shoppingCartService.add(userId, productId);
-            
+
             redirectAttributes.addFlashAttribute("confirmationMessage", "Thêm vào giỏ hàng thành công");
             return "redirect:/";
         } else {
@@ -90,9 +100,9 @@ public class ShoppingCartController {
         }
     }
 
-
     @PostMapping("/addProductDetail")
-    public String addToProductDetail(Model model,@RequestParam Integer productId, Principal principal,   RedirectAttributes redirectAttributes, @RequestParam("quantity") Integer quantity) {
+    public String addToProductDetail(Model model, @RequestParam Integer productId, Principal principal,
+            RedirectAttributes redirectAttributes, @RequestParam("quantity") Integer quantity) {
         if (principal != null) {
             // Lấy userID của người dùng đăng nhập
             String username = principal.getName();
@@ -100,7 +110,7 @@ public class ShoppingCartController {
 
             // Thêm sản phẩm vào giỏ hàng của người dùng
             shoppingCartService.addProductDetail(userId, productId, quantity);
-            
+
             redirectAttributes.addFlashAttribute("confirmationMessage", "Thêm vào giỏ hàng thành công");
             return "redirect:/";
         } else {
@@ -110,12 +120,13 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/removeItem")
-    public String removeFromCart(@RequestParam Integer productId, Principal principal, RedirectAttributes redirectAttributes) {
+    public String removeFromCart(@RequestParam Integer productId, Principal principal,
+            RedirectAttributes redirectAttributes) {
         if (principal != null) {
             // Lấy userID của người dùng đăng nhập
             String username = principal.getName();
             int userId = getUserIDByUsername(username);
-            
+
             // Xóa sản phẩm khỏi giỏ hàng của người dùng
             shoppingCartService.remove(userId, productId);
             redirectAttributes.addFlashAttribute("confirmationMessage", "Xóa sản phẩm thành công");
@@ -124,18 +135,20 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/updateItem")
-    public String updateCartItem(@RequestParam Integer productId, @RequestParam("qty") int quantity, Principal principal, RedirectAttributes redirectAttributes) {
+    public String updateCartItem(@RequestParam Integer productId, @RequestParam("qty") int quantity,
+            Principal principal, RedirectAttributes redirectAttributes) {
         if (principal != null) {
             // Lấy userID của người dùng đăng nhập
             String username = principal.getName();
             int userId = getUserIDByUsername(username);
-            
+
             // Cập nhật số lượng sản phẩm trong giỏ hàng của người dùng
             shoppingCartService.update(userId, productId, quantity);
             redirectAttributes.addFlashAttribute("confirmationMessage", "Cập nhật số lượng thành công");
         }
         return "redirect:/cart";
     }
+
     private int getUserIDByUsername(String username) {
         // Sử dụng Spring Data JPA để truy vấn cơ sở dữ liệu
         Account user = userRepository.findByUsername(username);
@@ -146,6 +159,7 @@ public class ShoppingCartController {
 
         return -1; // Trường hợp không tìm thấy user
     }
+
     private int calculateCartAmount(List<UserCart> cartItems) {
         int totalAmount = 0;
         for (UserCart item : cartItems) {

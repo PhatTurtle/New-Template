@@ -51,7 +51,7 @@
             <section class="w-full lg:w-[60%]">
                 <div class="border border-orange-300  rounded-lg py-5 px-5 text-sm">
                     <form action="/profile/updateProfile" method="post" enctype="multipart/form-data">
-                    <section class="flex justify-between">
+                    <section class="flex justify-between ">
                         <div class="flex flex-col justify-between gap-y-10">
                             <div class="">
                                 <p>Tên Đăng Nhập</p>
@@ -93,7 +93,10 @@
 
                                 <input type="text" name="address" class="w-full bg-white text-black py-1 text-end outline-none" th:value="${user.address}">
                             </div>
-                            <input type="file" id="photo" name="photo" accept="image/*" class="form-control" />
+                            <div class="flex justify-end ">
+                                <input type="file" id="photo" name="photo" accept="image/*" class="file-input  file-input-bordered file-input-warning w-full " />
+                                
+                            </div>
                         </div>
                     </section>
                     <div class="mt-5 flex justify-end">

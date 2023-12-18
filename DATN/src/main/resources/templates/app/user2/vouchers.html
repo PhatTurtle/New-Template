@@ -10,8 +10,9 @@
    
 </head>
 
-<body>
+<body class="">
   
+
     <!-- <div th:each="voucher : ${vouchers}" class="card lg:card-side bg-base-100 w-[30%] shadow-xl">
         <div class="card lg:card-side bg-base-100 shadow-xl">
             <figure><img class="w-[100px] h-[75px]" src="./assets/images/voucher.jpg" alt="Album"/></figure>
@@ -40,17 +41,18 @@
 
 
     
-          <section class="w-[80%] mx-auto py-5">
-              <h2 class="text-4xl font-light py-8">Danh Sách Vouchers</h2> 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 ">
-              <div class="" th:each="voucher : ${vouchers}">
-                <div  class="card-horizontal shadow-xl mb-4">
-                  <div class="row g-0">
-                    <div class="col-md-4  flex justify-center">
-                      <img src="./assets/images/voucher.jpg" alt="Album" class="img-fluid pt-4 h-[150px]">
+          <section class="w-[80%] min-h-screen mx-auto py-5">
+              <h2 class="text-2xl md:text-4xl font-light py-8">Danh Sách Vouchers</h2> 
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 ">
+              <div class="" th:each="voucher : ${vouchers}"    >
+                <div  class="flex border rounded-lg py-10 x-5 gap-2  h-[230px]">
+                  
+                    <div class=" w-[30%]">
+                      <img src="./assets/images/voucher.jpg" alt="Album" class="">
                     </div>
-                    <div class="col-md-8 pt-3">
-                      <div  class="card-body">
+                    <!--  -->
+                    <div class="text-xs">
+                      
                         <h2 class="card-title " th:text="'Mã: ' + ${voucher.voucherCode}"></h2>
                         <h4 class="" th:text="${'Giảm: ' + voucher.discountAmount} + 'K'"></h4>
                         <p th:text="${'Ngày bắt đầu: ' + voucher.startDate}" ></p>
@@ -60,18 +62,18 @@
 
                           <p class="text-error text-end mx-5 py-2 my-2 " th:if="${voucher.quantity == 0}">Đã Hết Mã</p>
 
-                          <form th:action="@{vouchers/add-voucher}" method="post">
+                          <form th:action="@{vouchers/add-voucher}" class="w-full mt-5" method="post">
                             <input type="hidden" name="voucherId" th:value="${voucher.voucherId}" />
                             <input type="hidden" name="password" th:value="${user.password}" />
                             <input type="hidden" name="userId" th:value="${user.userId}" />
-                            <p class="text-success mx-5 py-2 my-2 " th:text="'Đã lấy mã'" th:if="${user.hasVoucher(voucher)}">Đã lấy mã</p>
-                            <button class="btn text-black hover:bg-orange-300 mx-5 py-2 my-2 border border-orange-300 btn-outline  "type="submit"   th:unless="${voucher.quantity == 0 || user.hasVoucher(voucher)}" >Lấy mã</button>
+                            <p class="text-success mx-5 py-2 my-2 text-end " th:text="'Đã lấy mã'" th:if="${user.hasVoucher(voucher)}">Đã lấy mã</p>
+                            <button class="btn btn-warning w-full "type="submit"   th:unless="${voucher.quantity == 0 || user.hasVoucher(voucher)}" >Lấy mã</button>
                             
                           </form>
                         </div>
-                      </div>
+                      
                     </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>

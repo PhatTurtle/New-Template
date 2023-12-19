@@ -320,6 +320,10 @@ public class IndexController {
         //     unitsSoldMap.put(product.getProductId(), unitsSold);
         // }
         
+        if (searchResults.isEmpty()) {
+            model.addAttribute("Thongbao", "Không có sản phẩm");
+        }
+
         
         model.addAttribute("unitsSoldMap", unitsSoldMap);
         model.addAttribute("products", searchResults);

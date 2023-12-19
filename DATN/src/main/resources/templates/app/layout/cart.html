@@ -43,7 +43,6 @@
         
         <section class="w-full">
             <div class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5 bg-white">
-                <input type="checkbox" class="checkbox checkbox-warning">
                 <div class="flex flex-1 justify-between">
                     <ion-icon class="text-2xl text-orange-300" name="cart-outline"></ion-icon>
                     
@@ -55,7 +54,6 @@
             <div th:each="item : ${cartItems}" class="w-full mx-auto flex items-center gap-x-2 border border-orange-300 rounded-lg px-2 md:px-5 py-3 my-5 bg-white">
                 <div class="flex w-full flex-col gap-y-5 text-black text-sm font-light">
                     <div class="flex w-full items-center   py-2 gap-x-2">
-                        <input type="checkbox"  class="checkbox checkbox-warning" />
                         <div class="w-[30%] sm:w-[20%] md:w-[30%] lg:w-[20%] xl:w-[10%]">
                             <img class="w-full" th:src="'/assets/images/products/' + ${item.product.image}" alt="Product Image">
                         </div>  
@@ -109,9 +107,7 @@
                 
                 <div class="form-control">
                     <label class="cursor-pointer label gap-x-2">
-                      
-                      <input type="checkbox"  class="checkbox checkbox-warning" />
-                      <span class="">Chọn Tất Cả</span>
+                 
                     </label>
                 </div>
                 <!--  -->

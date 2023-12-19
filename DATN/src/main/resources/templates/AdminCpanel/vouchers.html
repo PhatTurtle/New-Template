@@ -240,15 +240,19 @@
               <td th:text="${voucher.quantity}"></td>
 
               <td>
-                <form th:action="@{/admin/vouchers/delete}" method="post">
-                  <input type="hidden" th:name="voucherId" th:value="${voucher.voucherId}">
-                  <button type="submit" class="btn btn-danger">Xóa mã</button>
-                </form>
+                <div class="d-flex align-items-center px-3 ">
+                  <form th:action="@{/admin/vouchers/delete}" method="post">
+                    <input type="hidden" th:name="voucherId" th:value="${voucher.voucherId}">
+                    <button type="submit" class="btn btn-danger">Xóa mã</button>
+                  </form>
 
+                  <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                    th:data-bs-target="'#exampleModal2-' + ${voucher.voucherId}" data-bs-whatever="@mdo">Sửa mã</button>
+                </div>
               </td>
-              <td>
-                <button type="button" class="btn btn-warning mx-5 fs-2 " data-bs-toggle="modal"
-                  th:data-bs-target="'#exampleModal2-' + ${voucher.voucherId}" data-bs-whatever="@mdo">Edit</button>
+              
+              
+               
 
 
                 <div class="modal fade" th:id="'exampleModal2-' + ${voucher.voucherId}" tabindex="-1"
@@ -299,7 +303,7 @@
                 </div>
 
 
-              </td>
+              
             </tr>
             <!-- End of Loop -->
           </tbody>

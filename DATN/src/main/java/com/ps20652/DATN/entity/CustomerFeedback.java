@@ -42,6 +42,6 @@ public class CustomerFeedback implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "customerFeedback")
+    @OneToMany(mappedBy = "customerFeedback", cascade = CascadeType.ALL)
     private List<ReviewReply> replies;
 }

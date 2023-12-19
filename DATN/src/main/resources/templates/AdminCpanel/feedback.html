@@ -102,7 +102,7 @@
 		<aside class="left-sidebar">
 			<!-- Sidebar scroll-->
 			<div>
-				
+
 				<!-- Sidebar navigation-->
 				<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
 					<ul id="sidebarnav">
@@ -119,20 +119,20 @@
 									<i class="ti ti-article"></i>
 								</span> <span class="hide-menu">Sản Phẩm</span>
 							</a></li>
-						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/accounts}"
-								aria-expanded="false"> <span>
+						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a
+								class="sidebar-link" th:href="@{/admin/accounts}" aria-expanded="false"> <span>
 									<i class="ti ti-user"></i>
 								</span> <span class="hide-menu">Tài Khoản</span>
 							</a></li>
-						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/revenue-chart}"
-								aria-expanded="false"> <span>
+						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a
+								class="sidebar-link" th:href="@{/admin/revenue-chart}" aria-expanded="false"> <span>
 									<i class="ti ti-cards"></i>
 								</span> <span class="hide-menu">Doanh Thu</span>
 							</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/feedback}"
 								aria-expanded="false"> <span>
 									<i class="ti ti-file-description"></i>
-								</span> <span class="hide-menu">Feedback</span>
+								</span> <span class="hide-menu">Phản Hồi</span>
 							</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/orders}"
 								aria-expanded="false"> <span>
@@ -222,10 +222,20 @@
 									<td th:text="${feedback.customer.fullName}"></td>
 									<td th:text="${feedback.feedback_date}"></td>
 									<td th:text="${feedback.status}"></td>
-									<td> <button type="button" class="btn btn-primary reply-button"
-											data-bs-toggle="modal"
-											th:data-bs-target="'#exampleModal-' + ${feedback.feedbackId}"
-											data-bs-whatever="@mdo">Trả lời</button>
+									<td>
+										<div class="d-flex align-items-center  "><button type="button"
+												class="btn btn-primary reply-button m-2 " style="width: 100px;"
+												data-bs-toggle="modal"
+												th:data-bs-target="'#exampleModal-' + ${feedback.feedbackId}"
+												data-bs-whatever="@mdo">Trả lời</button>
+											<form th:action="@{'/admin/delete/'+ ${feedback.feedbackId}}" method="post">
+												<input type="hidden" th:name="feedbackId"
+													th:value="${feedback.feedbackId}">
+												<button style="width: 100px;" type="submit"
+													class="btn btn-danger m-2">Xóa
+												</button>
+											</form>
+										</div>
 										<!-- 						  <button th:if="${feedback.status == 'Đã trả lời'}" type="button" class="btn btn-warning mt-2"></button> -->
 										<div class="modal fade" th:id="'exampleModal-' + ${feedback.feedbackId}"
 											tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

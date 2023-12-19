@@ -30,6 +30,7 @@ public interface ProductService {
 	void delete(Product id);
 	
 	List<Product> findByName(String name);
+	public Page<Product> findByKeywordPaginated(String keyword, Pageable pageable);
 	
 	List<Product> findByPrice(double minPrice, double maxPrice);
 	

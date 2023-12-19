@@ -1,6 +1,5 @@
 package com.ps20652.DATN.controller;
 
-
 import java.security.Principal;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,61 +32,55 @@ public class AdminFeedbackController {
     private ReviewReplyService replyService;
     @Autowired
     private AccountService accountService;
-//    @Autowired
-//    private ReviewReplyService replyService;
-  
-//    @GetMapping("/list")
-//    public String listFeedbacks(Model model) {
-//        List<CustomerFeedback> feedbacks = feedbackService.findAll();
-//        model.addAttribute("feedbacks", feedbacks);
-//        return "feedback/list";
-//    }
+    // @Autowired
+    // private ReviewReplyService replyService;
+
+    // @GetMapping("/list")
+    // public String listFeedbacks(Model model) {
+    // List<CustomerFeedback> feedbacks = feedbackService.findAll();
+    // model.addAttribute("feedbacks", feedbacks);
+    // return "feedback/list";
+    // }
 
     @GetMapping("/feedback")
-    public String showAllFeedback(Model model,  Principal principal) {
-    	
-    	  if (principal != null) {
-              String username = principal.getName();
-              int id = getUserIDByUsername(username);
-              model.addAttribute("adminId", id);
-              
-          }
-    	
-    	List<CustomerFeedback> feedbacks = feedbackService.findAll();
-    	
-    	model.addAttribute("feedbacks", feedbacks);
-        
+    public String showAllFeedback(Model model, Principal principal) {
+
+        if (principal != null) {
+            String username = principal.getName();
+            int id = getUserIDByUsername(username);
+            model.addAttribute("adminId", id);
+
+        }
+
+        List<CustomerFeedback> feedbacks = feedbackService.findAll();
+
+        model.addAttribute("feedbacks", feedbacks);
+
         return "AdminCpanel/feedback";
     }
-    
+
     @PostMapping("/feedback")
-    public String replyFeedback(Model model, 
-    		@RequestParam("replyText") String replyText,
-    		@RequestParam("feedbackId") Integer feedbackId,
-    		@RequestParam("adminId") Integer adminId
-    		) {
-    	
-    	  
-    
-    	
-    	Account acc = accountService.findbyId(adminId);	
-    	CustomerFeedback feedback = feedbackService.findbyId(feedbackId);
-    	
-    	feedback.setStatus("Đã trả lời");
-    	feedbackService.create(feedback);
-    	
-    	
-    	  ReviewReply reply = new ReviewReply();
-    	  reply.setReplyText(replyText);
-    	  reply.setCustomer(acc);
-    	  reply.setCustomerFeedback(feedback);
-    	
-    	replyService.create(reply);
-    	
-    	
-        
+    public String replyFeedback(Model model,
+            @RequestParam("replyText") String replyText,
+            @RequestParam("feedbackId") Integer feedbackId,
+            @RequestParam("adminId") Integer adminId) {
+
+        Account acc = accountService.findbyId(adminId);
+        CustomerFeedback feedback = feedbackService.findbyId(feedbackId);
+
+        feedback.setStatus("Đã trả lời");
+        feedbackService.create(feedback);
+
+        ReviewReply reply = new ReviewReply();
+        reply.setReplyText(replyText);
+        reply.setCustomer(acc);
+        reply.setCustomerFeedback(feedback);
+
+        replyService.create(reply);
+
         return "redirect:/admin/feedback";
     }
+
     private int getUserIDByUsername(String username) {
         // Sử dụng Spring Data JPA để truy vấn cơ sở dữ liệu
         Account user = accountService.findByUsername(username);
@@ -99,16 +92,30 @@ public class AdminFeedbackController {
         return -1; // Trường hợp không tìm thấy user
     }
 
-//    @PostMapping("/create")
-//    public String createFeedback(@ModelAttribute CustomerFeedback customerFeedback) {
-//        feedbackService.create(customerFeedback);
-//        return "redirect:/";
-//    }
-//    
-  
-    
- 
-    
-   
-    
+    @PostMapping("/delete/{feedbackId}")
+    public String deleteCategory(@PathVariable("feedbackId") Integer id) {
+
+        CustomerFeedback feedback = feedbackService.findbyId(id);
+
+        try {
+            feedbackService.delete(feedback);
+        } catch (Exception e) {
+
+        }
+
+        // Lưu sản phẩm vào cơ sở dữ liệu
+
+        // Chuyển hướng đến trang danh sách sản phẩm sau khi thêm
+        return "redirect:/admin/feedback";
+
+    }
+
+    // @PostMapping("/create")
+    // public String createFeedback(@ModelAttribute CustomerFeedback
+    // customerFeedback) {
+    // feedbackService.create(customerFeedback);
+    // return "redirect:/";
+    // }
+    //
+
 }

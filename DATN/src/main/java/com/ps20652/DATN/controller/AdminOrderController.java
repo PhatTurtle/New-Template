@@ -126,16 +126,18 @@ public class AdminOrderController {
     }
 
     @PostMapping("/admin/orders/deletePermanently")
-    public String deleteOrderPermanently(@RequestParam("orderId") Integer orderId, Model model) {
+    public String deleteOrderPermanently(@RequestParam("orderId") Integer orderId, Model model,
+            RedirectAttributes redirectAttributes) {
         Order orderOptional = orderDAO.findByOrderId(orderId);
 
         if (orderOptional != null) {
 
             revenueService.deleteByOrderId(orderId);
             orderService.deleteById(orderId); // Xóa đơn hàng khỏi cơ sở dữ liệu
+            redirectAttributes.addFlashAttribute("confirmationMessage", "Xóa đơn hàng thành công");
         }
 
-        return "redirect:/admin/orders/trash"; // Điều hướng về trang danh sách đơn hàng
+        return "redirect:/admin/orders"; // Điều hướng về trang danh sách đơn hàng
     }
 
 }

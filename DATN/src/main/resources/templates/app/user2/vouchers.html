@@ -2,18 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/components/layout :: areas(~{::title},~{::body})}">
 
 <head>
-    <title>User Vouchers</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
-   
+  <title>User Vouchers</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
 </head>
 
 <body class="">
-  
 
-    <!-- <div th:each="voucher : ${vouchers}" class="card lg:card-side bg-base-100 w-[30%] shadow-xl">
+
+  <!-- <div th:each="voucher : ${vouchers}" class="card lg:card-side bg-base-100 w-[30%] shadow-xl">
         <div class="card lg:card-side bg-base-100 shadow-xl">
             <figure><img class="w-[100px] h-[75px]" src="./assets/images/voucher.jpg" alt="Album"/></figure>
             <div class="card-body">
@@ -35,56 +35,60 @@
               </div>
             </div>
           </div> 
-          </div> --><div id="notification" th:if="${confirmationMessage != null}" class="alert alert-success">
-            <p th:text="${confirmationMessage}"></p>
+          </div> -->
+  <div id="notification" th:if="${confirmationMessage != null}" class="alert alert-success">
+    <p th:text="${confirmationMessage}"></p>
+  </div>
+
+
+
+  <section class="w-[80%] min-h-screen mx-auto py-5">
+    <h2 class="text-2xl md:text-4xl font-light py-8">Danh Sách Vouchers</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 ">
+      <div class="" th:each="voucher : ${vouchers}">
+        <div class="flex border rounded-lg py-10 x-5 gap-2  h-[230px]">
+
+          <div class=" w-[30%]">
+            <img src="./assets/images/voucher.jpg" alt="Album" class="">
+          </div>
+          <!--  -->
+          <div class="text-xs">
+
+            <h2 class="card-title " th:text="'Mã: ' + ${voucher.voucherCode}"></h2>
+            <h4 class="" th:text="${'Giảm: ' + voucher.discountAmount} + 'K'"></h4>
+            <p th:text="${'Ngày bắt đầu: ' + voucher.startDate}"></p>
+            <p th:text="${'Ngày kết thúc: ' + voucher.endDate}"></p>
+            <p th:text="${'Số lượng: ' + voucher.quantity}"></p>
+            <div class="card-actions justify-end">
+
+
+              <p class="text-error text-end mx-5 py-2 my-2 " th:if="${voucher.quantity == 0}">Đã Hết Mã</p>
+              <form th:action="@{vouchers/add-voucher}" class="w-full mt-5" method="post">
+                <input type="hidden" name="voucherId" th:value="${voucher.voucherId}" />
+                <input type="hidden" name="password" th:value="${user.password}" />
+                <input type="hidden" name="userId" th:value="${user.userId}" />
+
+                <p class="text-success mx-5 py-2 my-2 text-end " th:text="'Đã lấy mã'"
+                  th:if="${user.hasVoucher(voucher)}">Đã lấy mã</p>
+                <button class="btn btn-warning w-full " type="submit"
+                  th:unless="${voucher.quantity == 0 || user.hasVoucher(voucher)}">Lấy mã</button>
+
+              </form>
+            </div>
+
           </div>
 
+        </div>
+      </div>
+    </div>
+  </section>
 
-    
-          <section class="w-[80%] min-h-screen mx-auto py-5">
-              <h2 class="text-2xl md:text-4xl font-light py-8">Danh Sách Vouchers</h2> 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 ">
-              <div class="" th:each="voucher : ${vouchers}"    >
-                <div  class="flex border rounded-lg py-10 x-5 gap-2  h-[230px]">
-                  
-                    <div class=" w-[30%]">
-                      <img src="./assets/images/voucher.jpg" alt="Album" class="">
-                    </div>
-                    <!--  -->
-                    <div class="text-xs">
-                      
-                        <h2 class="card-title " th:text="'Mã: ' + ${voucher.voucherCode}"></h2>
-                        <h4 class="" th:text="${'Giảm: ' + voucher.discountAmount} + 'K'"></h4>
-                        <p th:text="${'Ngày bắt đầu: ' + voucher.startDate}" ></p>
-                        <p th:text="${'Ngày kết thúc: ' + voucher.endDate}" ></p>
-                        <p th:text="${'Số lượng: ' + voucher.quantity}" ></p>
-                        <div class="card-actions justify-end">
 
-                          <p class="text-error text-end mx-5 py-2 my-2 " th:if="${voucher.quantity == 0}">Đã Hết Mã</p>
+  <div class="container mt-5">
+    <!-- <h2 class="my-5">Danh Sách Vouchers</h2> -->
 
-                          <form th:action="@{vouchers/add-voucher}" class="w-full mt-5" method="post">
-                            <input type="hidden" name="voucherId" th:value="${voucher.voucherId}" />
-                            <input type="hidden" name="password" th:value="${user.password}" />
-                            <input type="hidden" name="userId" th:value="${user.userId}" />
-                            <p class="text-success mx-5 py-2 my-2 text-end " th:text="'Đã lấy mã'" th:if="${user.hasVoucher(voucher)}">Đã lấy mã</p>
-                            <button class="btn btn-warning w-full "type="submit"   th:unless="${voucher.quantity == 0 || user.hasVoucher(voucher)}" >Lấy mã</button>
-                            
-                          </form>
-                        </div>
-                      
-                    </div>
-                  
-                </div>
-              </div>
-            </div>
-          </section>
-          
-
-    <div class="container mt-5">
-        <!-- <h2 class="my-5">Danh Sách Vouchers</h2> -->
-        
-        <div class="row">
-             <!-- <div th:each="voucher : ${vouchers}" class="col-xl-6 col-md-12 mb-4">
+    <div class="row">
+      <!-- <div th:each="voucher : ${vouchers}" class="col-xl-6 col-md-12 mb-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between p-md-1">
@@ -116,21 +120,21 @@
                   
                 </div>
             </div> -->
-        </div> 
     </div>
-    
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        // Hiển thị thông báo khi trang được tải
-        $(document).ready(function () {
-            showNotification();
-        });
+  </div>
 
-        // Hiển thị thông báo và tự động ẩn sau 2 giây
-        function showNotification() {
-            $('#notification').fadeIn().delay(1500).fadeOut();
-        }
-    </script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    // Hiển thị thông báo khi trang được tải
+    $(document).ready(function () {
+      showNotification();
+    });
+
+    // Hiển thị thông báo và tự động ẩn sau 2 giây
+    function showNotification() {
+      $('#notification').fadeIn().delay(1500).fadeOut();
+    }
+  </script>
 </body>
 
 </html>

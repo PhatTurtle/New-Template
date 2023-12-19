@@ -51,6 +51,10 @@
     th {
       background-color: #e9ecef;
     }
+
+    .d-flex>form {
+      margin-right: 10px;
+    }
   </style>
 </head>
 
@@ -115,7 +119,7 @@
                 <span>
                   <i class="ti ti-file-description"></i>
                 </span>
-                <span class="hide-menu">Phản hồi</span>
+                <span class="hide-menu">Phản Hồi</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -220,7 +224,7 @@
             <label for="quantity">Số lượng mã:</label>
             <input type="number" name="quantity" id="quantity" class="form-control" min="1">
           </div>
-          <button type="submit" class="btn btn-primary">Thêm</button>
+          <button type="submit" class="btn btn-primary">Thêm Mã </button>
         </form>
 
         <h2>Danh sách Mã giảm</h2>
@@ -255,60 +259,60 @@
                     th:data-bs-target="'#exampleModal2-' + ${voucher.voucherId}" data-bs-whatever="@mdo">Sửa mã</button>
                 </div>
               </td>
-              
-              
-               
 
 
-                <div class="modal fade" th:id="'exampleModal2-' + ${voucher.voucherId}" tabindex="-1"
-                  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header bg-warning text-white">
-                        <h5 class="modal-title" id="exampleModalLabel">CHỈNH SỬA</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <form th:action="@{'/admin/vouchers/edit/' + ${voucher.voucherId}}" method="post"
-                          enctype="multipart/form-data" class="row g-3">
-                          <div class="col-md-6">
-                            <input type="hidden" id="productId" name="voucherId" th:value="${voucher.voucherId}">
-                            <label for="name" class="form-label">Mã Voucher:</label>
-                            <input id="name" name="voucherCode" class="form-control" style="font-size: 13px;"
-                              type="text" th:value="${voucher.voucherCode}" required>
-                          </div>
-                          <div class="col-md-6">
-                            <label for="price" class="form-label">Giảm tiền (đơn vị VND):</label>
-                            <input class="form-control" type="text" style="font-size: 13px;" id="price"
-                              name="discountAmount" th:value="${voucher.discountAmount}" required>
-                          </div>
-                          <div class="col-md-6">
-                            <label for="purchasePrice" class="form-label">Ngày bắt đầu:</label>
-                            <input class="form-control" type="text" style="font-size: 13px;" id="purchasePrice"
-                              name="startDate" th:value="${voucher.startDate}" required>
-                          </div>
-                          <div class="col-md-6">
-                            <label for="description" class="form-label">Ngày kết thúc:</label>
-                            <input class="form-control" type="text" style="font-size: 13px;" id="description"
-                              name="endDate" th:value="${voucher.endDate}" required>
-                          </div>
-                          <div class="col-md-6">
-                            <label for="description" class="form-label">Số lượng mã:</label>
-                            <input class="form-control" type="text" style="font-size: 13px;" id="description"
-                              name="quantity" th:value="${voucher.quantity}" required>
-                          </div>
 
-                          <div class="col-12 text-center">
-                            <button type="submit" class="btn btn-warning text-white">Cập nhật</button>
-                          </div>
-                        </form>
-                      </div>
+
+
+              <div class="modal fade" th:id="'exampleModal2-' + ${voucher.voucherId}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header bg-warning text-white">
+                      <h5 class="modal-title" id="exampleModalLabel">CHỈNH SỬA</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form th:action="@{'/admin/vouchers/edit/' + ${voucher.voucherId}}" method="post"
+                        enctype="multipart/form-data" class="row g-3">
+                        <div class="col-md-6">
+                          <input type="hidden" id="productId" name="voucherId" th:value="${voucher.voucherId}">
+                          <label for="name" class="form-label">Mã Voucher:</label>
+                          <input id="name" name="voucherCode" class="form-control" style="font-size: 13px;" type="text"
+                            th:value="${voucher.voucherCode}" required>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="price" class="form-label">Giảm tiền (đơn vị VND):</label>
+                          <input class="form-control" type="text" style="font-size: 13px;" id="price"
+                            name="discountAmount" th:value="${voucher.discountAmount}" required>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="purchasePrice" class="form-label">Ngày bắt đầu:</label>
+                          <input class="form-control" type="text" style="font-size: 13px;" id="purchasePrice"
+                            name="startDate" th:value="${voucher.startDate}" required>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="description" class="form-label">Ngày kết thúc:</label>
+                          <input class="form-control" type="text" style="font-size: 13px;" id="description"
+                            name="endDate" th:value="${voucher.endDate}" required>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="description" class="form-label">Số lượng mã:</label>
+                          <input class="form-control" type="text" style="font-size: 13px;" id="description"
+                            name="quantity" th:value="${voucher.quantity}" required>
+                        </div>
+
+                        <div class="col-12 text-center">
+                          <button type="submit" class="btn btn-success text-white">Cập nhật</button>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
+              </div>
 
 
-              
+
             </tr>
             <!-- End of Loop -->
           </tbody>

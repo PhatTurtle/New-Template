@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Product Management</title>
 </head>
+
 <body>
 
 
-<a th:href="@{/}">Home</a>
-<a style="padding-left: 2%" th:href="@{/admin/accounts}">Quản Lý Tài Khoản</a>
-<a style="padding-left: 2%" th:href="@{/admin/products}">Quản Lý Sản Phẩm</a>
+    <a th:href="@{/}">Home</a>
+    <a style="padding-left: 2%" th:href="@{/admin/accounts}">Quản Lý Tài Khoản</a>
+    <a style="padding-left: 2%" th:href="@{/admin/products}">Quản Lý Sản Phẩm</a>
 
-<h1>Thêm Sản Phẩm</h1>
- <form th:action="@{/admin/products/add}"  method="post" enctype="multipart/form-data">
+    <h1>Thêm Sản Phẩm</h1>
+    <form th:action="@{/admin/products/add}" method="post" enctype="multipart/form-data">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name"  required /><br/>
-        
+        <input type="text" id="name" name="name" required /><br />
+
         <label for="category">Product Type:</label>
-<select id="category" name="category" required>
-    <option value="">-- Chọn danh mục --</option>
-    <option th:each="category : ${categories}" 
-            th:value="${category.categoryId}"
-            th:text="${category.name}">
-    </option>
-</select><br/>
+        <select id="category" name="category" required>
+            <option value="">-- Chọn danh mục --</option>
+            <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}">
+            </option>
+        </select><br />
 
 
         <label for="description">Description:</label>
-        <input type="text" id="description" name="description"  required /><br/>
+        <input type="text" id="description" name="description" required /><br />
 
         <label for="price">Price:</label>
-        <input type="text" id="price" name="price"  required /><br/>
-        
+        <input type="text" id="price" name="price" required /><br />
+
         <label for="purchasePrice">PurchasePrice:</label>
-        <input type="number" min="1" id="purchasePrice" name="purchasePrice"  required /><br/>
+        <input type="number" min="1" id="purchasePrice" name="purchasePrice" required /><br />
 
         <label for="quantityInStock">Quantity in Stock:</label>
-        <input type="text" id="quantityInStock" name="quantityInStock"  required /><br/>
+        <input type="text" id="quantityInStock" name="quantityInStock" required /><br />
 
         <label for="image">Image:</label>
-        <input type="file" id="image" name="image" accept="image/*" required /><br/>
+        <input type="file" id="image" name="image" accept="image/*" required /><br />
 
 
 
@@ -50,36 +50,36 @@
 
 
 
-    
-     <h1>Thông tin sản phẩm</h1>
-    
+
+    <h1>Thông tin sản phẩm</h1>
+
     <form th:action="@{/admin/products/searchName}" method="get">
-    <input type="text" name="name" placeholder="Tìm kiếm tên sản phẩm" required> 
-    <button type="submit">Tìm kiếm Tên</button>
-</form>
+        <input type="text" name="name" placeholder="Tìm kiếm tên sản phẩm" required>
+        <button type="submit">Tìm kiếm Tên</button>
+    </form>
 
-<form th:action="@{/admin/products/searchId}" method="get">
-    <input type="text" name="productId" placeholder="Tìm kiếm ID sản phẩm" required>
-    <button type="submit">Tìm kiếm ID</button>
-</form>
+    <form th:action="@{/admin/products/searchId}" method="get">
+        <input type="text" name="productId" placeholder="Tìm kiếm ID sản phẩm" required>
+        <button type="submit">Tìm kiếm ID</button>
+    </form>
 
-<form th:action="@{/admin/products/searchPrice}" method="get">
-Min
-    <input id="min" th:name="min" required />
-    <br />
-Max
-    <input id="max" th:name="max" required />
-    <br />
-    <button type="submit">Xem theo giá</button>
-</form>
+    <form th:action="@{/admin/products/searchPrice}" method="get">
+        Min
+        <input id="min" th:name="min" required />
+        <br />
+        Max
+        <input id="max" th:name="max" required />
+        <br />
+        <button type="submit">Xem theo giá</button>
+    </form>
 
-   
 
-<!-- Liên kết hoặc nút để hiển thị tất cả sản phẩm -->
-<form th:action="@{/admin/products}" method="get">
-    <button type="submit">Show all</button>
-</form>
-    
+
+    <!-- Liên kết hoặc nút để hiển thị tất cả sản phẩm -->
+    <form th:action="@{/admin/products}" method="get">
+        <button type="submit">Show all</button>
+    </form>
+
     <table border="1">
         <thead>
             <tr>
@@ -105,13 +105,14 @@ Max
                 <td th:text="${product.quantityInStock}"></td>
                 <td> <img style="width: 100px" th:src="@{'/assets/images/products' + ${product.image}}"></td>
                 <td>
-            <a th:href="@{'/admin/products/edit/' + ${product.productId}}">Edit</a>
-            <a th:href="@{'/admin/products/delete/' + ${product.productId}}">Delete</a>
+                    <a th:href="@{'/admin/products/edit/' + ${product.productId}}">Edit</a>
+                    <a class="bg-danger" th:href="@{'/admin/products/delete/' + ${product.productId}}">Delete</a>
                 </td>
             </tr>
         </tbody>
     </table>
-    
+
     <a th:href="@{/admin/dashboard}">Back to Admin Dashboard</a>
 </body>
+
 </html>

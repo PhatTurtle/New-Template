@@ -37,41 +37,42 @@ import com.ps20652.DATN.service.VoucherService;
 @RequestMapping("/pay")
 public class PayController {
 
-	@Autowired
+    @Autowired
     private ShoppingCartService shoppingCartService;
-    
+
     @Autowired
     private AccountService userRepository;
-    
+
     @Autowired
     private OrderService orderService;
-  
+
     @Autowired
     private OrderDetailService orderDetialService;
-    
+
     @Autowired
     private RevenueService revenueService;
-    
+
     @Autowired
     private VoucherService voucherService;
-	@Autowired
+    @Autowired
     private ProductService productService;
-	
+
     @GetMapping
-    public String pay(Principal principal, Model model, @RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId, RedirectAttributes redirectAttributes) {
-        if (principal != null) {
+    public String pay(Principal principal, Model model,
+            @RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId,
+            RedirectAttributes redirectAttributes) {
+        if (principal != null) {// lấy thông tin người đăng nhập
             String username = principal.getName();
             int userId = getUserIDByUsername(username);
-            
+
             model.addAttribute("username", username);
-             
-           
+
             int cartItemCount = shoppingCartService.getCount(userId);
             model.addAttribute("cartItemCount", cartItemCount);
-            
-            if(cartItemCount == 0){
+
+            if (cartItemCount == 0) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Giỏ hàng của bạn đang trống");
-               return "redirect:/cart";
+                return "redirect:/cart";
             }
             List<UserCart> cartItems = shoppingCartService.findByAccountUserId(userId);
             Account account = userRepository.findbyId(userId);
@@ -101,17 +102,20 @@ public class PayController {
 
         return "app/layout/pay";
     }
+
     static List<UserCart> arr = new ArrayList<>();
+
     @GetMapping("/{id}")
-    public String bynow(@PathVariable("id") Integer id,Model model, Principal principal,@RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId){
-        
+    public String bynow(@PathVariable("id") Integer id, Model model, Principal principal,
+            @RequestParam(value = "selectedVoucherId", required = false) Integer selectedVoucherId) {
+
         if (principal != null) {
             String username = principal.getName();
             int userId = getUserIDByUsername(username);
             Account account = userRepository.findbyId(userId);
-            
+
             Product product = productService.findbyId(id);
-            UserCart items = new UserCart(1,account, product, 1);
+            UserCart items = new UserCart(1, account, product, 1);
             // List<UserCart> cartItems = Arrays.asList(items);
 
             // arr = Arrays.asList(items);
@@ -119,7 +123,7 @@ public class PayController {
             List<UserCart> data = Arrays.asList(items);
             arr = new ArrayList<>(data);
             Account user = userRepository.findbyId(userId);
-              int cartAmount = calculateCartAmount(arr);
+            int cartAmount = calculateCartAmount(arr);
             if (selectedVoucherId != null) {
                 // Lấy thông tin về mã giảm giá từ ID và thực hiện logic của bạn ở đây.
                 // Ví dụ:
@@ -133,24 +137,26 @@ public class PayController {
             }
             model.addAttribute("user", user);
             model.addAttribute("username", username);
-             model.addAttribute("cartItems", arr);
-             model.addAttribute("cartAmount", cartAmount);
-             model.addAttribute("account", account);
+            model.addAttribute("cartItems", arr);
+            model.addAttribute("cartAmount", cartAmount);
+            model.addAttribute("account", account);
         }
         return "app/layout/pay";
     }
-	
-	
-	@GetMapping("/checkout")
-    public String processCheckout(RedirectAttributes redirectAttributes,  @RequestParam("selectedVouchers") Integer selectedVoucherId, @RequestParam("userId") Integer userId, Model model, @RequestParam("fullname") String fullname, @RequestParam("phone") Integer phone, @RequestParam("address") String address, @RequestParam("description") String description) {
+
+    @GetMapping("/checkout")
+    public String processCheckout(RedirectAttributes redirectAttributes,
+            @RequestParam("selectedVouchers") Integer selectedVoucherId, @RequestParam("userId") Integer userId,
+            Model model, @RequestParam("fullname") String fullname, @RequestParam("phone") Integer phone,
+            @RequestParam("address") String address, @RequestParam("description") String description) {
         try {
             List<UserCart> userCart = shoppingCartService.findByAccountUserId(userId);
 
-            if (userCart.isEmpty() && arr == null) {
+            if (userCart.isEmpty() && arr == null) { // kiểm tra giỏ rỗng nếu rỗng thì hiện thông báo
                 redirectAttributes.addFlashAttribute("errorMessage", "Giỏ hàng của bạn trống. Không thanh toán được");
                 return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
             }
-            Account user = userRepository.findbyId(userId);
+            Account user = userRepository.findbyId(userId); // lấy id của người dùng
 
             // Tạo đơn hàng mới
             Order order = new Order();
@@ -169,15 +175,15 @@ public class PayController {
                 // Nếu selectedVoucherId khác 0, lấy thông tin voucher từ ID
                 voucher = voucherService.findbyId(selectedVoucherId);
                 if (voucher != null) {
-                    int remainingQuantity = voucher.getQuantity() - 1;
+                    int remainingQuantity = voucher.getQuantity() - 1; // nếu áp dụng thì sẽ trừ vào số lượng mã đó
                     if (remainingQuantity >= 0) {
                         // System.out.println("test");
                         voucher.setQuantity(remainingQuantity);
                         voucherService.createVoucher(voucher); // Cập nhật số lượng mã giảm giá
                         discountAmount = voucher.getDiscountAmount(); // Lấy giá trị giảm giá từ voucher
                     } else {
-                    	 
-                         redirectAttributes.addFlashAttribute("errorMessage", "Số lượng mã giảm giá đã hết");
+
+                        redirectAttributes.addFlashAttribute("errorMessage", "Số lượng mã giảm giá đã hết");
                         return "redirect:/cart";
                     }
                 }
@@ -186,24 +192,24 @@ public class PayController {
             double totalAmount = 0.0;
             List<OrderDetail> orderDetails = new ArrayList<>();
             // System.out.println("voucher"+ selectedVoucherId);
-            
-            if( arr == null || arr.size() == 0){
-            
+
+            if (arr == null || arr.size() == 0) { // nếu user_cart = 0
+
                 for (UserCart cartItem : userCart) {
-                Product product = cartItem.getProduct();
-                totalAmount = shoppingCartService.getAmount(userId);
+                    Product product = cartItem.getProduct();
+                    totalAmount = shoppingCartService.getAmount(userId);
 
-                System.out.println(product.getPrice());
-System.out.println(cartItem.getQuantity());
-                    
+                    System.out.println(product.getPrice());
+                    System.out.println(cartItem.getQuantity());
 
-              //  Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
+                    // Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
                     if (selectedVoucherId != 0) {
                         totalAmount -= discountAmount;
                     }
-                    
-                    if (product.getQuantityInStock() >= cartItem.getQuantity()) {
-                        OrderDetail orderDetail = new OrderDetail();
+
+                    if (product.getQuantityInStock() >= cartItem.getQuantity()) {// nếu hàng tồn ít hơn số lượng đặt thì
+                                                                                 // trả về else
+                        OrderDetail orderDetail = new OrderDetail();// tạo orderDetail mới
                         orderDetail.setOrder(order);
                         orderDetail.setProduct(product);
                         orderDetail.setQuantity(cartItem.getQuantity());
@@ -213,38 +219,37 @@ System.out.println(cartItem.getQuantity());
                         // Giảm số lượng trong kho sau khi đặt hàng
                         product.setQuantityInStock(product.getQuantityInStock() - cartItem.getQuantity());
                     } else {
-                        redirectAttributes.addFlashAttribute("errorMessage", "Sản phẩm " + product.getName() + " không có đủ hàng trong kho.");
+                        redirectAttributes.addFlashAttribute("errorMessage",
+                                "Sản phẩm " + product.getName() + " không có đủ hàng trong kho.");
                         return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
                     }
                 }
 
-                
-
                 order.setTotalPrice(totalAmount);
                 order.setVoucher(voucher);
-                orderService.create(order); 
-                orderDetialService.create(orderDetails);
-                
+                orderService.create(order);
+                orderDetialService.create(orderDetails);// tạo orderDetail là nút đặt hàng
+
                 // Thêm vào bảng Doanh Thu
-                Revenue revenue = new Revenue();
+                Revenue revenue = new Revenue();// tạo lớp doanh thu
                 revenue.setOrder(order);
                 revenue.setCustomer(user);
                 revenue.setOrderDate(new Date());
                 revenue.setTotalAmount(totalAmount);
-                revenue.setPaymentMethod("Cash"); // Hoặc phương thức thanh toán khác nếu có
-                
+                revenue.setPaymentMethod("Tiền mặt"); // Hoặc phương thức thanh toán khác nếu có
+
                 // Lưu thông tin doanh thu vào cơ sở dữ liệu
                 revenueService.create(revenue);
-            }else{
+            } else {
                 for (UserCart cartItem : arr) {
                     Product product = cartItem.getProduct();
                     totalAmount += product.getPrice() * cartItem.getQuantity();
 
-                //  Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
+                    // Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
                     if (selectedVoucherId != 0) {
                         totalAmount -= discountAmount;
                     }
-                    
+
                     if (product.getQuantityInStock() >= cartItem.getQuantity()) {
                         OrderDetail orderDetail = new OrderDetail();
                         orderDetail.setOrder(order);
@@ -256,41 +261,39 @@ System.out.println(cartItem.getQuantity());
                         // Giảm số lượng trong kho sau khi đặt hàng
                         System.out.println(product.getQuantityInStock());
                         product.setQuantityInStock(product.getQuantityInStock() - cartItem.getQuantity());
-                        
+
                     } else {
-                        redirectAttributes.addFlashAttribute("errorMessage", "Sản phẩm " + product.getName() + " không có đủ hàng trong kho.");
+                        redirectAttributes.addFlashAttribute("errorMessage",
+                                "Sản phẩm " + product.getName() + " không có đủ hàng trong kho.");
                         return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
                     }
                 }
 
-            order.setTotalPrice(totalAmount);
-            order.setVoucher(voucher);
+                order.setTotalPrice(totalAmount);
+                order.setVoucher(voucher);
 
-            orderService.create(order); 
-            orderDetialService.create(orderDetails);
-            
-            // Thêm vào bảng Doanh Thu
-            Revenue revenue = new Revenue();
-            revenue.setOrder(order);
-            revenue.setCustomer(user); 
-            revenue.setOrderDate(new Date());
-            revenue.setTotalAmount(totalAmount);
-            revenue.setPaymentMethod("Cash"); // Hoặc phương thức thanh toán khác nếu có
-            
-            // Lưu thông tin doanh thu vào cơ sở dữ liệu
-            revenueService.create(revenue);
+                orderService.create(order);
+                orderDetialService.create(orderDetails);
+
+                // Thêm vào bảng Doanh Thu
+                Revenue revenue = new Revenue();
+                revenue.setOrder(order);
+                revenue.setCustomer(user);
+                revenue.setOrderDate(new Date());
+                revenue.setTotalAmount(totalAmount);
+                revenue.setPaymentMethod("Cash"); // Hoặc phương thức thanh toán khác nếu có
+
+                // Lưu thông tin doanh thu vào cơ sở dữ liệu
+                revenueService.create(revenue);
             }
-            
 
-          
-            
             System.out.println("helllo");
             // Trả về trang xác nhận đặt hàng hoặc trang thành công
-        
-        if(arr.size() == 0 ){
-            shoppingCartService.clearUserCart(userId);
-                
-            }else{
+
+            if (arr.size() == 0) {
+                shoppingCartService.clearUserCart(userId);
+
+            } else {
                 clearGlobalArrayList(arr);
             }
 
@@ -298,18 +301,18 @@ System.out.println(cartItem.getQuantity());
             return "redirect:/orders"; // Trả về trang xác nhận đặt hàng hoặc trang thành công
         } catch (Exception e) {
             e.printStackTrace();
-        	redirectAttributes.addFlashAttribute("errorMessage", "Lỗi trong quá trình đặt hàng");
+            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi trong quá trình đặt hàng");
             return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
         }
     }
-    
-	static void clearGlobalArrayList(List<UserCart> arr) {
+
+    static void clearGlobalArrayList(List<UserCart> arr) {
         System.out.println(arr.size());
         arr.remove(0);
         System.out.println(arr.size());
     }
-	
-	private int getUserIDByUsername(String username) {
+
+    private int getUserIDByUsername(String username) {
         // Sử dụng Spring Data JPA để truy vấn cơ sở dữ liệu
         Account user = userRepository.findByUsername(username);
 
@@ -319,6 +322,7 @@ System.out.println(cartItem.getQuantity());
 
         return -1; // Trường hợp không tìm thấy user
     }
+
     private int calculateCartAmount(List<UserCart> cartItems) {
         int totalAmount = 0;
         for (UserCart item : cartItems) {
@@ -326,6 +330,5 @@ System.out.println(cartItem.getQuantity());
         }
         return totalAmount;
     }
-	
-	
+
 }

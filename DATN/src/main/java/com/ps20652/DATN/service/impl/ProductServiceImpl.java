@@ -232,4 +232,11 @@ public List<Product> getTop4BestSellingProducts() {
 		public int getTotalProductsByCategory(int categoryId) {
 			return productDAO.countProductsByCategoryId(categoryId);
 		}
+
+		@Override
+		public Page<Product> findByKeywordPaginated(String keyword, Pageable pageable) {
+				return productDAO.findByKeywordPaginated(keyword, pageable);
+		}
+
+
 }

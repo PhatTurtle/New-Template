@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/components/layout :: areas(~{::title},~{::body})}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marious | Đặt hàng</title>
-        <!-- Library -->
-        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
-        <script src="https://cdn.tailwindcss.com"></script>
-            <!-- icon -->
-            <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-            <!-- icon -->
-        <!-- Library -->
+    <!-- Library -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- icon -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- icon -->
+    <!-- Library -->
 </head>
+
 <body class="bg-white min-h-screen">
     <div id="notification" th:if="${confirmationMessage != null}" class="alert alert-success">
         <p th:text="${confirmationMessage}"></p>
-        </div>
+    </div>
     <section class="w-[90%] md:w-[80%] xl:w-[80%] mx-auto text-xs text-black font-light  py-24">
         <div class="w-full flex flex-col lg:flex-row gap-y-5 gap-x-5">
             <section class="flex flex-row lg:flex-col gap-x-5 gap-y-5 w-full lg:w-[40%] text-sm">
-                <div class="border border-orange-300 rounded-lg flex flex-col justify-center items-center py-3 gap-y-3 px-5">
+                <div
+                    class="border border-orange-300 rounded-lg flex flex-col justify-center items-center py-3 gap-y-3 px-5">
                     <!-- Avatar -->
                     <div class="avatar">
                         <div class="w-24 rounded-full">
-                          <img th:src="@{'/assets/images/' + ${user.photo}}" />
+                            <img th:src="@{'/assets/images/' + ${user.photo}}" />
                         </div>
                     </div>
                     <!-- Avatar -->
@@ -34,61 +37,72 @@
                     </div>
                     <!-- Info -->
                 </div>
-                <div class=" flex flex-col h-[40%] items-end  lg:flex-col justify-between lg:justify-start rounded-lg gap-y-2 flex-1 gap-x-5">
-                    <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
+                <div
+                    class=" flex flex-col h-[40%] items-end  lg:flex-col justify-between lg:justify-start rounded-lg gap-y-2 flex-1 gap-x-5">
+                    <div
+                        class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
                         <ion-icon class="text-xl group-hover:text-white" name="people-outline"></ion-icon>
                         <a th:href="@{/profile}" class="group-hover:text-white">Thông Tin Cá Nhân</a>
                     </div>
-                    <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
+                    <div
+                        class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
                         <ion-icon class="text-lg group-hover:text-white" name="car-outline"></ion-icon>
                         <a th:href="@{/orders}" class="group-hover:text-white">Đơn hàng đã đặt</a>
                     </div>
 
-                    <div class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
+                    <div
+                        class="flex items-center gap-x-2 border border-orange-300 rounded-lg px-5 py-2 w-full group hover:bg-orange-300 duration-300 hover:duration-300">
                         <ion-icon class="text-lg group-hover:text-white" name="car-outline"></ion-icon>
                         <a th:href="@{/vouchers/voucher-stock}" class="group-hover:text-white">Kho voucher</a>
                     </div>
-                    
+
                 </div>
             </section>
             <section class="w-full lg:w-[60%]">
-                
-                <div th:each="order : ${orders}" class="border border-orange-300 flex justify-between  rounded-lg py-5 mt-5 px-5 text-sm">
-                    <div class="text-xl font-medium text-black flex flex-col gap-y-4">
+
+                <div th:each="order : ${orders}"
+                    class="border border-orange-300 flex justify-between  rounded-lg py-5 mt-5 px-5 text-sm">
+                    <div class="text-xl font-medium text-black flex flex-col gap-y-2">
                         <p th:text="${order.fullName} + ' - Mã đơn: ' + ${order.orderId}"></p>
                         <!-- <p th:text="${order.orderId}"></p> -->
-                        <p th:text=" 'Date: '+${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}" class="text-[17px] font-light"></p>
-                        <p th:text=" 'Total: ' + ${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'" class="text-[17px] font-light"></p>
+                        <p th:text="'Địa Chỉ: '+ ${order.address} " class="text-[17px] font-light"></p>
+                        <p th:text=" 'Ngày: '+${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}"
+                            class="text-[17px] font-light"></p>
+                        <p th:text=" 'Tổng tiền: ' + ${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'"
+                            class="text-[17px] font-light"></p>
                         <p th:text="${order.status}" class="text-[17px] text-red-600 font-light"></p>
                     </div>
-                    
+
                     <div class=" flex flex-col justify-end gap-y-3">
-                        
+
                         <form th:action="@{/confirm}" method="post">
                             <input hidden="" th:value="${order.orderId}" name="orderId">
-                              <button th:if="${order.status == 'Đang giao hàng'}" type="submit"  class="px-5 btn btn-success bg-green-500 ">Đã nhận</button>
+                            <button th:if="${order.status == 'Đang giao hàng'}" type="submit"
+                                class="px-5 btn btn-success bg-green-500 ">Đã nhận</button>
                         </form>
-                        
-                         <form th:action="@{/cancel}" method="post">
+
+                        <form th:action="@{/cancel}" method="post">
                             <input hidden="" th:value="${order.orderId}" name="orderId">
-                            <button th:if="${order.status == 'Chờ xác nhận'}" type="submit" class="btn btn-error bg-red-400">Hủy đơn</button>
+                            <button th:if="${order.status == 'Chờ xác nhận'}" type="submit"
+                                class="btn btn-error bg-red-400">Hủy đơn</button>
                         </form>
-                        <a th:href="@{'/orderDetails?orderId=' + ${order.orderId}}"><button class="px-4 py-3 border border-orange-300 duration-300 rounded-lg hover:bg-orange-300 hover:duration-300 hover:text-white">Xem chi tiết </button></a>
+                        <a th:href="@{'/orderDetails?orderId=' + ${order.orderId}}"><button
+                                class="px-4 py-3 border border-orange-300 duration-300 rounded-lg hover:bg-orange-300 hover:duration-300 hover:text-white">Xem
+                                chi tiết </button></a>
                     </div>
-                </div> 
+                </div>
                 <div th:if="${orders.totalPages > 1}" class="w-full flex justify-center">
                     <div class="join">
                         <a th:href="@{'/orders?page=' + ${i}}"
-                        th:each="i : ${#numbers.sequence(0, orders.totalPages - 1)}"
-                        th:class="${orders.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
-                        <button
-                        class="page-link" th:text="${i} + 1"></button>
-                         </a>   
-                      
-                      </div>
-                   
+                            th:each="i : ${#numbers.sequence(0, orders.totalPages - 1)}"
+                            th:class="${orders.number == i} ? 'page-item active  btn join-item' : 'page-item  btn join-item'">
+                            <button class="page-link" th:text="${i} + 1"></button>
+                        </a>
+
+                    </div>
+
                 </div>
-                
+
             </section>
         </div>
     </section>
@@ -97,14 +111,15 @@
     <!-- Script để hiển thị và ẩn thông báo -->
     <script>
         // Hiển thị thông báo khi trang được tải
-        $(document).ready(function() {
+        $(document).ready(function () {
             showNotification();
         });
-    
+
         // Hiển thị thông báo và tự động ẩn sau 2 giây
         function showNotification() {
             $('#notification').fadeIn().delay(2000).fadeOut();
         }
     </script>
 </body>
+
 </html>

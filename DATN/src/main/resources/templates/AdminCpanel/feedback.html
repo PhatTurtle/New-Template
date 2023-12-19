@@ -234,13 +234,7 @@
 												data-bs-toggle="modal"
 												th:data-bs-target="'#exampleModal-' + ${feedback.feedbackId}"
 												data-bs-whatever="@mdo">Trả lời</button>
-											<form th:action="@{'/admin/delete/'+ ${feedback.feedbackId}}" method="post">
-												<input type="hidden" th:name="feedbackId"
-													th:value="${feedback.feedbackId}">
-												<button style="width: 100px;" type="submit"
-													class="btn btn-danger m-2">Xóa
-												</button>
-											</form>
+											
 										</div>
 										<!-- 						  <button th:if="${feedback.status == 'Đã trả lời'}" type="button" class="btn btn-warning mt-2"></button> -->
 										<div class="modal fade" th:id="'exampleModal-' + ${feedback.feedbackId}"

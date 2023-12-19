@@ -262,8 +262,7 @@
 									type="button" class="btn btn-primary mx-5 fs-2 " data-bs-toggle="modal"
 									data-bs-target="#exampleModal" data-bs-whatever="@mdo">Thêm sản phẩm</button>
 
-								<button type="button" class="btn btn-warning mx-5 fs-2 " data-bs-toggle="modal"
-									data-bs-target="#exampleModal3" data-bs-whatever="@mdo">Thêm danh mục</button>
+								
 								<form class="d-flex" th:action="@{/admin/products/searchName}" method="get">
 									<input class="form-control me-2" type="text" name="name"
 										placeholder="Tìm kiếm tên sản phẩm" required>
@@ -335,61 +334,7 @@
 							</div>
 
 
-							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-								aria-hidden="true">
-								<div class="modal-dialog modal-lg">
-									<div class="modal-content">
-										<div class="modal-header bg-warning text-white">
-											<h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal"
-												aria-label="Close"></button>
-										</div>
-										<div class="modal-body">
-											<form class="row g-3" th:action="@{/admin/products/add}" method="post"
-												enctype="multipart/form-data">
-												<div class="col-md-6">
-													<label for="name" class="form-label">Tên</label>
-													<input type="text" class="form-control" id="name" name="name"
-														required>
-												</div>
-												<div class="col-md-6">
-													<label for="price" class="form-label">Giá</label>
-													<input type="text" class="form-control" id="price" name="price"
-														required>
-												</div>
-												<div class="col-md-6">
-													<label for="purchasePrice" class="form-label">Giá nhập</label>
-													<input type="text" class="form-control" id="purchasePrice"
-														name="purchasePrice" required>
-												</div>
-												<div class="col-md-6">
-													<label for="description" class="form-label">Mô tả</label>
-													<input type="text" class="form-control" id="description"
-														name="description" required>
-												</div>
-												<div class="col-md-6">
-													<label for="category" class="form-label">Loại</label>
-													<select class="form-select" id="category" name="category" required>
-														<option value="">-- Chọn danh mục --</option>
-														<option th:each="category : ${categories}"
-															th:value="${category.categoryId}"
-															th:text="${category.name}"></option>
-													</select>
-												</div>
-												<div class="col-md-6">
-													<label for="image" class="form-label">Ảnh</label>
-													<input type="file" class="form-control" id="image" name="image"
-														accept="image/*" required>
-												</div>
-												<div class="col-12">
-													<button type="submit" class="btn btn-primary text-white">Thêm sản
-														phẩm</button>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
+							
 
 						</div>
 
@@ -432,9 +377,9 @@
 									<td>
 										<div class="d-flex align-items-center  "><button type="button"
 												class="btn btn-warning m-2 " data-bs-toggle="modal"
-												style="width: 100px;"
+												style="width: 150px; "
 												th:data-bs-target="'#exampleModal2-' + ${product.productId}"
-												data-bs-whatever="@mdo">Chỉnh Sửa</button>
+												data-bs-whatever="@mdo">Sửa</button>
 											<form th:action="@{'/admin/products/delete/' + ${product.productId}}">
 												<button type="submit" class="btn btn-danger mx-2 ">
 													Xóa</button>

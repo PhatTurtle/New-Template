@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Furniture E-Commerce</title>
-    <!-- Thêm Bootstrap CSS -->
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/Logo1.png" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Furniture E-Commerce</title>
+	<!-- Thêm Bootstrap CSS -->
+	<link rel="shortcut icon" type="image/png" href="../assets/images/logos/Logo1.png" />
 	<link rel="stylesheet" href="/assets/css/styles.min.css" />
 
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 </head>
+
 <body>
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
 		data-sidebar-position="fixed" data-header-position="fixed">
 		<!-- Sidebar Start -->
 		<aside class="left-sidebar">
 			<!-- Sidebar scroll-->
 			<div>
-			
+
 				<!-- Sidebar navigation-->
 				<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
 					<ul id="sidebarnav">
@@ -34,20 +36,20 @@
 									<i class="ti ti-article"></i>
 								</span> <span class="hide-menu">Sản Phẩm</span>
 							</a></li>
-						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/accounts}"
-								aria-expanded="false"> <span>
+						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a
+								class="sidebar-link" th:href="@{/admin/accounts}" aria-expanded="false"> <span>
 									<i class="ti ti-user"></i>
 								</span> <span class="hide-menu">Tài Khoản</span>
 							</a></li>
-						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/revenue-chart}"
-								aria-expanded="false"> <span>
+						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a
+								class="sidebar-link" th:href="@{/admin/revenue-chart}" aria-expanded="false"> <span>
 									<i class="ti ti-cards"></i>
 								</span> <span class="hide-menu">Doanh Thu</span>
 							</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/feedback}"
 								aria-expanded="false"> <span>
 									<i class="ti ti-file-description"></i>
-								</span> <span class="hide-menu">Feedback</span>
+								</span> <span class="hide-menu">Phản Hồi</span>
 							</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/orders}"
 								aria-expanded="false"> <span>
@@ -111,32 +113,37 @@
 					</div>
 				</nav>
 			</header> -->
-<div class="container mt-4">
-    <h2 class="mb-4">Lịch sử nhập hàng</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Tên sản phẩm</th>
-                <th>Giá nhập</th>
-                <th>Ngày nhập</th>
-                <th>Số lượng nhập</th>
-                <th>Tổng tiền nhập</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="history : ${stockHistoryList}">
-                <td th:text="${history.product.name}"></td>
-                <td th:text="${#numbers.formatDecimal(history.product.purchasePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'" ></td>
-                <td th:text="${#dates.format(history.entryDate, 'dd/MM/yyyy HH:mm')}"></td>
-                <td th:text="${history.quantityAdded}"></td>
-                <td th:text="${#numbers.formatDecimal(history.quantityAdded * history.product.purchasePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'" ></td>
-            </tr>
-        </tbody>
-    </table>
-<!-- </div>${#numbers.formatDecimal -->
-	<!-- {history.quantityAdded} * ${history.product.purchasePrice} -->
+			<div class="container mt-4">
+				<h2 class="mb-4">Lịch sử nhập hàng</h2>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Tên sản phẩm</th>
+							<th>Giá nhập</th>
+							<th>Ngày nhập</th>
+							<th>Số lượng nhập</th>
+							<th>Tổng tiền nhập</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="history : ${stockHistoryList}">
+							<td th:text="${history.product.name}"></td>
+							<td
+								th:text="${#numbers.formatDecimal(history.product.purchasePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+							</td>
+							<td th:text="${#dates.format(history.entryDate, 'dd/MM/yyyy HH:mm')}"></td>
+							<td th:text="${history.quantityAdded}"></td>
+							<td
+								th:text="${#numbers.formatDecimal(history.quantityAdded * history.product.purchasePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- </div>${#numbers.formatDecimal -->
+				<!-- {history.quantityAdded} * ${history.product.purchasePrice} -->
 
-<!-- Thêm Bootstrap JS và Popper.js (được yêu cầu bởi Bootstrap) -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+				<!-- Thêm Bootstrap JS và Popper.js (được yêu cầu bởi Bootstrap) -->
+				<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
+
 </html>

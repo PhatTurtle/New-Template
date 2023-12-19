@@ -89,7 +89,7 @@
                 <span class="hide-menu">Sản Phẩm</span>
               </a>
             </li>
-            <li class="sidebar-item">
+            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item">
               <a class="sidebar-link" th:href="@{/admin/accounts}" aria-expanded="false">
                 <span>
                   <i class="ti ti-user"></i>
@@ -97,7 +97,7 @@
                 <span class="hide-menu">Tài Khoản</span>
               </a>
             </li>
-            <li class="sidebar-item">
+            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item">
               <a class="sidebar-link" th:href="@{/admin/revenue-chart}" aria-expanded="false">
                 <span>
                   <i class="ti ti-cards"></i>
@@ -129,7 +129,7 @@
                 <span class="hide-menu">Mã giảm giá</span>
               </a>
             </li>
-            <li class="sidebar-item">
+            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item">
               <a class="sidebar-link" th:href="@{/admin/history}" aria-expanded="false">
                 <span>
                   <i class="ti ti-typography"></i>

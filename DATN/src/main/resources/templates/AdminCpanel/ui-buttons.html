@@ -171,12 +171,12 @@ body {
 									<i class="ti ti-article"></i>
 								</span> <span class="hide-menu ">Sản Phẩm</span>
 							</a></li>
-						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/accounts}"
+						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/accounts}"
 								aria-expanded="false"> <span>
 									<i class="ti ti-user"></i>
 								</span> <span class="hide-menu">Tài Khoản</span>
 							</a></li>
-						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/revenue-chart}"
+						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/revenue-chart}"
 								aria-expanded="false"> <span>
 									<i class="ti ti-cards"></i>
 								</span> <span class="hide-menu">Doanh Thu</span>
@@ -198,7 +198,7 @@ body {
 									<i class="ti ti-ticket"></i>
 								</span> <span class="hide-menu">Mã giảm giá</span>
 							</a></li>
-						<li class="sidebar-item">
+						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item">
 							<a class="sidebar-link" th:href="@{/admin/history}" aria-expanded="false">
 								<span>
 									<i class="ti ti-typography"></i>
@@ -257,6 +257,10 @@ body {
 							<h5 class="card-title fw-semibold mb-4 d-flex align-items-center ">Sản Phẩm <button
 									type="button" class="btn btn-warning mx-5 fs-2 " data-bs-toggle="modal"
 									data-bs-target="#exampleModal" data-bs-whatever="@mdo">Thêm sản phẩm</button>
+
+									<button
+									type="button" class="btn btn-warning mx-5 fs-2 " data-bs-toggle="modal"
+									data-bs-target="#exampleModal3" data-bs-whatever="@mdo">Thêm danh mục</button>
 								<form class="d-flex" th:action="@{/admin/products/searchName}" method="get">
 									<input class="form-control me-2" type="text" name="name"
 										placeholder="Tìm kiếm tên sản phẩm" required>
@@ -271,6 +275,50 @@ body {
 								</form>
 							</h5>
 
+							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+										<div class="modal-header bg-warning text-white">
+											<h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form class="row g-3" th:action="@{/admin/products/add}" method="post" enctype="multipart/form-data">
+												<div class="col-md-6">
+													<label for="name" class="form-label">Tên</label>
+													<input type="text" class="form-control" id="name" name="name" required>
+												</div>
+												<div class="col-md-6">
+													<label for="price" class="form-label">Giá</label>
+													<input type="text" class="form-control" id="price" name="price" required>
+												</div>
+												<div class="col-md-6">
+													<label for="purchasePrice" class="form-label">Giá nhập</label>
+													<input type="text" class="form-control" id="purchasePrice" name="purchasePrice" required>
+												</div>
+												<div class="col-md-6">
+													<label for="description" class="form-label">Mô tả</label>
+													<input type="text" class="form-control" id="description" name="description" required>
+												</div>
+												<div class="col-md-6">
+													<label for="category" class="form-label">Loại</label>
+													<select class="form-select" id="category" name="category" required>
+														<option value="">-- Chọn danh mục --</option>
+														<option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>
+													</select>
+												</div>
+												<div class="col-md-6">
+													<label for="image" class="form-label">Ảnh</label>
+													<input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+												</div>
+												<div class="col-12">
+													<button type="submit" class="btn btn-warning text-white">Thêm sản phẩm</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
 
 
 							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

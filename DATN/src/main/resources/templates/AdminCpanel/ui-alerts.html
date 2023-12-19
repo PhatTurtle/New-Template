@@ -36,11 +36,11 @@
                   <i class="ti ti-article"></i>
                 </span> <span class="hide-menu">Sản Phẩm</span>
               </a></li>
-            <li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/accounts}" aria-expanded="false"> <span>
+            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/accounts}" aria-expanded="false"> <span>
                   <i class="ti ti-user"></i>
                 </span> <span class="hide-menu">Tài Khoản</span>
               </a></li>
-            <li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/revenue-chart}" aria-expanded="false">
+            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/revenue-chart}" aria-expanded="false">
                 <span>
                   <i class="ti ti-cards"></i>
                 </span> <span class="hide-menu">Doanh Thu</span>
@@ -59,7 +59,7 @@
                   <i class="ti ti-ticket"></i>
                 </span> <span class="hide-menu">Mã giảm giá</span>
               </a></li>
-            <li class="sidebar-item">
+            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item">
               <a class="sidebar-link" th:href="@{/admin/history}" aria-expanded="false">
                 <span>
                   <i class="ti ti-typography"></i>

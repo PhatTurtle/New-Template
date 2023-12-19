@@ -163,15 +163,15 @@ public class PayController {
             order.setDescription(description);
 
             Voucher voucher = null;
-            double discountAmount = 0;
+            double discountAmount = 0.0;
 
-            if (selectedVoucherId > 0) {
+            if (selectedVoucherId != 0) {
                 // Nếu selectedVoucherId khác 0, lấy thông tin voucher từ ID
                 voucher = voucherService.findbyId(selectedVoucherId);
                 if (voucher != null) {
                     int remainingQuantity = voucher.getQuantity() - 1;
                     if (remainingQuantity >= 0) {
-                        System.out.println("test");
+                        // System.out.println("test");
                         voucher.setQuantity(remainingQuantity);
                         voucherService.createVoucher(voucher); // Cập nhật số lượng mã giảm giá
                         discountAmount = voucher.getDiscountAmount(); // Lấy giá trị giảm giá từ voucher
@@ -185,13 +185,17 @@ public class PayController {
 
             double totalAmount = 0.0;
             List<OrderDetail> orderDetails = new ArrayList<>();
-            System.out.println("voucher"+ selectedVoucherId);
+            // System.out.println("voucher"+ selectedVoucherId);
             
             if( arr == null || arr.size() == 0){
             
                 for (UserCart cartItem : userCart) {
                 Product product = cartItem.getProduct();
-                totalAmount += product.getPrice() * cartItem.getQuantity();
+                totalAmount = shoppingCartService.getAmount(userId);
+
+                System.out.println(product.getPrice());
+System.out.println(cartItem.getQuantity());
+                    
 
               //  Trừ giảm giá nếu có voucher và selectedVoucherId khác 0
                     if (selectedVoucherId != 0) {
@@ -213,6 +217,9 @@ public class PayController {
                         return "redirect:/cart"; // Trả về trang lỗi hoặc trang thông báo
                     }
                 }
+
+                
+
                 order.setTotalPrice(totalAmount);
                 order.setVoucher(voucher);
                 orderService.create(order); 

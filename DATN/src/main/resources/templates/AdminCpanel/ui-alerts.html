@@ -37,12 +37,11 @@
                   <i class="ti ti-article"></i>
                 </span> <span class="hide-menu">Sản Phẩm</span>
               </a></li>
-              <li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/category}"
-								aria-expanded="false"> <span>
-									<i class="ti ti-article"></i>
-								</span> <span class="hide-menu">Danh mục</span>
-							</a></li>
-           
+            <li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/category}" aria-expanded="false"> <span>
+                  <i class="ti ti-article"></i>
+                </span> <span class="hide-menu">Danh mục</span>
+              </a></li>
+
             <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link"
                 th:href="@{/admin/accounts}" aria-expanded="false"> <span>
                   <i class="ti ti-user"></i>
@@ -220,7 +219,7 @@
                       <td th:text="${account.role}"></td>
                       <td>
                         <div class="d-flex align-items-center ">
-                          <button style="width: 100px;" type="button" class="btn btn-warning m-2" data-bs-toggle="modal"
+                          <button type="button" class="btn btn-warning m-2" data-bs-toggle="modal" style="width: 100px;"
                             th:data-bs-target="'#exampleModal2-' + ${account.userId}" data-bs-whatever="@mdo">Chỉnh
                             Sửa</button>
 

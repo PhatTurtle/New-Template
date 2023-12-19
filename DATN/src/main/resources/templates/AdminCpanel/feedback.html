@@ -119,7 +119,7 @@
 									<i class="ti ti-article"></i>
 								</span> <span class="hide-menu">Sản Phẩm</span>
 							</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/category}"
+						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/category}"
 								aria-expanded="false"> <span>
 									<i class="ti ti-article"></i>
 								</span> <span class="hide-menu">Danh mục</span>
@@ -229,13 +229,11 @@
 									<td th:text="${feedback.feedback_date}"></td>
 									<td th:text="${feedback.status}"></td>
 									<td>
-										<div class="d-flex align-items-center  "><button type="button"
-												class="btn btn-primary reply-button m-2 " style="width: 100px;"
-												data-bs-toggle="modal"
-												th:data-bs-target="'#exampleModal-' + ${feedback.feedbackId}"
-												data-bs-whatever="@mdo">Trả lời</button>
-											
-										</div>
+										<button type="button" class="btn btn-primary reply-button m-2 "
+											style="width: 100px;" data-bs-toggle="modal"
+											th:data-bs-target="'#exampleModal-' + ${feedback.feedbackId}"
+											data-bs-whatever="@mdo">Trả lời</button>
+
 										<!-- 						  <button th:if="${feedback.status == 'Đã trả lời'}" type="button" class="btn btn-warning mt-2"></button> -->
 										<div class="modal fade" th:id="'exampleModal-' + ${feedback.feedbackId}"
 											tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

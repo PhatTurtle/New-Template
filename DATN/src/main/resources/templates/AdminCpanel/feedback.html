@@ -119,6 +119,11 @@
 									<i class="ti ti-article"></i>
 								</span> <span class="hide-menu">Sản Phẩm</span>
 							</a></li>
+							<li class="sidebar-item "><a class="sidebar-link" th:href="@{/admin/category}"
+								aria-expanded="false"> <span>
+									<i class="ti ti-article"></i>
+								</span> <span class="hide-menu ">Danh mục</span>
+							</a></li>
 						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/accounts}"
 								aria-expanded="false"> <span>
 									<i class="ti ti-user"></i>
@@ -132,7 +137,7 @@
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/feedback}"
 								aria-expanded="false"> <span>
 									<i class="ti ti-file-description"></i>
-								</span> <span class="hide-menu">Feedback</span>
+								</span> <span class="hide-menu">Phản hồi</span>
 							</a></li>
 						<li class="sidebar-item"><a class="sidebar-link" th:href="@{/admin/orders}"
 								aria-expanded="false"> <span>

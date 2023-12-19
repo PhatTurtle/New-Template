@@ -67,6 +67,47 @@ public class AdminProductController {
 
 	}
 
+	@PostMapping("/addCategory")
+	public String addCategory(@RequestParam("name") String name ) {
+		
+
+			Category category = new Category();
+
+			category.setName(name);
+
+			// Lưu sản phẩm vào cơ sở dữ liệu
+			categoryService.create(category);
+
+			
+
+			// Chuyển hướng đến trang danh sách sản phẩm sau khi thêm
+			return "redirect:/admin/products";
+		
+	}
+
+	@PostMapping("/deleteCategory/{categoryId}")
+	public String deleteCategory(@PathVariable("categoryId") Integer id ) {
+		
+
+
+
+		Category category = categoryService.findbyId(id);
+			
+		try{
+			categoryService.delete(category);
+		}catch(Exception e){
+
+		}
+
+			// Lưu sản phẩm vào cơ sở dữ liệu
+			
+
+			// Chuyển hướng đến trang danh sách sản phẩm sau khi thêm
+			return "redirect:/admin/products";
+		
+	}
+
+
 	@PostMapping("/add")
 	public String addProduct(@ModelAttribute("productDTO") ProductDTO productDTO,
 			@RequestParam("image") MultipartFile image) {

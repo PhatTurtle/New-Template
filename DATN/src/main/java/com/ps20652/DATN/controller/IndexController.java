@@ -291,46 +291,55 @@ public class IndexController {
     // }
 
     @GetMapping("/searchName")
-    public String searchProductsNAME(@RequestParam("name") String productName, Model model, Authentication authentication,  @RequestParam(name = "page", defaultValue = "0") int page) {
-        // Sử dụng phương thức tìm kiếm theo tên từ ProductDAO
-        // Đây là ví dụ tìm kiếm theo tên sản phẩm
-        // List<Product> searchResults = productService.findByName(productName);
-        int pageSize = 12; // Số lượng đơn hàng trên mỗi trang
-        Page<Product> searchResults = productService.findByNamePaginated(productName, PageRequest.of(page, pageSize));
-        // List<Product> products = productService.findAll();
-         Map<Integer, Integer> unitsSoldMap = new HashMap<>();
+public String searchProductsNAME(@RequestParam(value = "name", required = false) String productName,
+                                 @RequestParam(value = "keyword", required = false) String keyword,
+                                 Model model,
+                                 Authentication authentication,
+                                 @RequestParam(name = "page", defaultValue = "0") int page) {
 
-         if (authentication != null && authentication.isAuthenticated()) {
-            String username = authentication.getName();
-            model.addAttribute("username", username);
+    int pageSize = 12; // Số lượng đơn hàng trên mỗi trang
+    Page<Product> searchResults;
 
-            // Lấy userID của người dùng đã đăng nhập
-            int userId = getUserIDByUsername(username);
-
-            // Lấy số lượng sản phẩm trong giỏ hàng
-            int cartItemCount = cartService.getCount(userId);
-            model.addAttribute("cartItemCount", cartItemCount);
-        }
-        for (Product product : searchResults.getContent()) {
-            int unitsSold = orderDetailService.getProductSell(product);
-            unitsSoldMap.put(product.getProductId(), unitsSold);
-        }
-        // for (Product product : searchResults) {
-        //     int unitsSold = orderDetailService.getProductSell(product);
-        //     unitsSoldMap.put(product.getProductId(), unitsSold);
-        // }
-        
-        if (searchResults.isEmpty()) {
-            model.addAttribute("Thongbao", "Không có sản phẩm");
-        }
-
-        
-        model.addAttribute("unitsSoldMap", unitsSoldMap);
-        model.addAttribute("products", searchResults);
-        
-
-        return "app/layout/list_product2"; // Trả về view để hiển thị kết quả tìm kiếm
+    if (productName != null) {
+        // Tìm kiếm theo tên sản phẩm nếu productName không null
+        searchResults = productService.findByNamePaginated(productName, PageRequest.of(page, pageSize));
+    } else if (keyword != null) {
+        // Tìm kiếm theo keyword nếu keyword không null
+        searchResults = productService.findByKeywordPaginated(keyword, PageRequest.of(page, pageSize));
+    } else {
+        // Xử lý khi không có thông tin tìm kiếm
+        // ...
+        return "redirect:/"; // Hoặc trả về trang chủ hoặc trang thông báo lỗi
     }
+
+    Map<Integer, Integer> unitsSoldMap = new HashMap<>();
+
+    if (authentication != null && authentication.isAuthenticated()) {
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
+        // Lấy userID của người dùng đã đăng nhập
+        int userId = getUserIDByUsername(username);
+
+        // Lấy số lượng sản phẩm trong giỏ hàng
+        int cartItemCount = cartService.getCount(userId);
+        model.addAttribute("cartItemCount", cartItemCount);
+    }
+
+    for (Product product : searchResults.getContent()) {
+        int unitsSold = orderDetailService.getProductSell(product);
+        unitsSoldMap.put(product.getProductId(), unitsSold);
+    }
+
+    if (searchResults.isEmpty()) {
+        model.addAttribute("Thongbao", "Không có sản phẩm");
+    }
+
+    model.addAttribute("unitsSoldMap", unitsSoldMap);
+    model.addAttribute("products", searchResults);
+
+    return "app/layout/list_product2"; // Trả về view để hiển thị kết quả tìm kiếm
+}
 
     @GetMapping("/searchPrice")
     public String price(HttpServletRequest request, Model model, @RequestParam("min") double min,

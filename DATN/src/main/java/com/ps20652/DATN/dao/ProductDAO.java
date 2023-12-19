@@ -17,7 +17,8 @@ import com.ps20652.DATN.entity.Product;
 public interface ProductDAO extends JpaRepository<Product, Integer> {
 	 List<Product> findByName(String name);
      Page<Product> findByName(String name, Pageable pageable);
-	 
+     @Query("SELECT o FROM Product o WHERE o.name LIKE %:keyword% ")
+     Page<Product> findByKeywordPaginated(String keyword, Pageable pageable);
 	 @Query("SELECT o FROM Product o WHERE o.price BETWEEN ?1 AND ?2")
    	List<Product> findByPrice(double minPrice, double maxPrice);
 	 

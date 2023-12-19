@@ -56,9 +56,14 @@ public class VoucherServiceImpl implements VoucherService {
         }
     }
 
-    @Scheduled(cron = "0 0 0 * * ?") // Chạy vào mỗi ngày lúc 00:00:00
+    @Scheduled(cron = "0 20 18 * * ?") // Chạy vào mỗi ngày lúc 00:00:00
     public void scheduleTaskToDeleteExpiredVouchers() {
         deleteExpiredVouchers(); // Gọi phương thức xóa voucher hết hạn
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return voucherRepository.save(voucher);
     }
 
 }

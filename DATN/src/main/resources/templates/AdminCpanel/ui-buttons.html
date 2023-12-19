@@ -380,7 +380,7 @@
 												style="width: 150px; "
 												th:data-bs-target="'#exampleModal2-' + ${product.productId}"
 												data-bs-whatever="@mdo">Sửa</button>
-											<form th:action="@{'/admin/products/delete/' + ${product.productId}}">
+											<form th:action="@{'/admin/products/delete/' + ${product.productId}}" method="post">
 												<button type="submit" class="btn btn-danger mx-2 ">
 													Xóa</button>
 

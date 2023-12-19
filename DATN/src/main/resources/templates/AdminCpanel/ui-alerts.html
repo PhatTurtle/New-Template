@@ -198,25 +198,25 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <!-- <th>ID</th> -->
                       <th>Tài Khoản</th>
                       <th>Mật Khẩu</th>
                       <th>Email</th>
 
                       <th>Họ Tên</th>
-                      <th>Địa Chỉ</th>
+                      <!-- <th>Địa Chỉ</th> -->
                       <th>Vai Trò</th>
                       <th>Hành động</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr th:each="account : ${accounts}">
-                      <td th:text="${account.userId}"></td>
+                      <!-- <td th:text="${account.userId}"></td> -->
                       <td th:text="${account.username}"></td>
                       <td th:text="'****'"></td>
                       <td th:text="${account.email}"></td>
                       <td th:text="${account.fullName}"></td>
-                      <td th:text="${account.address}"></td>
+                      <!-- <td th:text="${account.address}"></td> -->
                       <td th:text="${account.role}"></td>
                       <td>
                         <div class="d-flex align-items-center ">

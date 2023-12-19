@@ -37,7 +37,8 @@ public class AdminAccountController {
 	// }
 
 	@GetMapping
-	public String listAccounts(Model model, Principal principal) {
+	public String listAccounts(Model model, Principal principal, @RequestParam(name = "successMessage", required = false) String successMessage, 
+	@RequestParam(name = "errorMessage", required = false) String errorMessage) {
 		// Lấy tài khoản đang đăng nhập
 		String loggedInUsername = principal.getName();
 
@@ -51,16 +52,29 @@ public class AdminAccountController {
 				.filter(account -> !account.getUsername().equals(loggedInUsername))
 				.collect(Collectors.toList());
 
+
+
+				if (successMessage != null) {
+					model.addAttribute("successMessage", successMessage);
+				}
+				if (errorMessage != null) {
+					model.addAttribute("errorMessage", errorMessage);
+				}
+
 		// Thêm danh sách các tài khoản khác vào model
+
+
+
 		model.addAttribute("accounts", otherAccounts);
 
 		return "AdminCpanel/ui-alerts";
 	}
 
 	@PostMapping("/add")
-	public String addAccount(@ModelAttribute("account") Account account) {
+	public String addAccount(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
 		// Thực hiện lưu tài khoản vào cơ sở dữ liệu thông qua accountService
 		accountService.create(account);
+		redirectAttributes.addFlashAttribute("successMessage", "Thêm tài khoản thành công");
 		return "redirect:/admin/accounts"; // Sau khi thêm tài khoản, chuyển hướng đến danh sách tài khoản
 	}
 
@@ -82,6 +96,7 @@ public class AdminAccountController {
 	public String handleEditProductForm(@ModelAttribute("userId") Account account,
 			@ModelAttribute("productDTO") ProductDTO editedProduct, RedirectAttributes redirectAttributes) {
 		accountService.update(account);
+		redirectAttributes.addFlashAttribute("successMessage", "Cập nhật tài khoản thành công");
 		return "redirect:/admin/accounts";
 	}
 

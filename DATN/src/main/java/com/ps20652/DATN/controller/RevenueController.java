@@ -38,17 +38,17 @@ public class RevenueController {
     	
 
         List<Revenue> revenues = revenueService.getAllRevenues(); // Lấy danh sách doanh thu từ Service
-        Map<String, Double> monthlyRevenues = new HashMap<>();
-        Map<String, Double> monthlyPurchasePrices = new HashMap<>();
+        Map<String, Double> monthlyRevenues = new HashMap<>(); // tạo MAP lưu trữ doanh thu theo tháng.
+        Map<String, Double> monthlyPurchasePrices = new HashMap<>();// 
         double totalRevenue = 0;
 
         for (Revenue revenue : revenues) {
-            String month = DateUtils.extractMonthFromDate(revenue.getOrderDate());
-
+            String month = DateUtils.extractMonthFromDate(revenue.getOrderDate()); // trích xuất tháng từ Date trong Revenue
+ 
             // Tính doanh thu theo tháng
-            if (monthlyRevenues.containsKey(month)) {
-                Double currentRevenue = monthlyRevenues.get(month);
-                double updatedRevenue = currentRevenue + revenue.getTotalAmount();
+            if (monthlyRevenues.containsKey(month)) { // Đây là phương thức trong Map để kiểm tra xem Map có chứa key month hay không.
+                Double currentRevenue = monthlyRevenues.get(month); // Dòng này lấy giá trị doanh thu hiện tại của tháng từ Map monthlyRevenues dựa trên key month
+                double updatedRevenue = currentRevenue + revenue.getTotalAmount(); //Giá trị doanh thu hiện tại của tháng đang được lưu trong biến currentRevenue.
                 monthlyRevenues.put(month, updatedRevenue);
             } else {
                 monthlyRevenues.put(month, revenue.getTotalAmount());

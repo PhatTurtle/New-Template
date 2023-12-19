@@ -205,24 +205,24 @@
         <form method="post" action="/admin/vouchers">
           <div class="form-group">
             <label for="voucherCode">Mã Voucher:</label>
-            <input type="text" name="voucherCode" id="voucherCode" class=" form-control">
+            <input type="text" name="voucherCode" id="voucherCode" class=" form-control" required>
           </div>
           <div class="form-group">
             <label for="discountAmount">Giảm tiền (đơn vị VND):</label>
-            <input type="number" name="discountAmount" id="discountAmount" class="form-control"
-              placeholder="Ví dụ: 50000">
+            <input type="number" name="discountAmount" id="discountAmount" class="form-control" required
+              placeholder="Ví dụ: 5000000">
           </div>
           <div class="form-group">
             <label for="startDate">Ngày bắt đầu:</label>
-            <input type="text" name="startDate" id="startDate" class="datepicker form-control">
+            <input type="text" name="startDate" id="startDate" class="datepicker form-control" required>
           </div>
           <div class="form-group">
             <label for="endDate">Ngày kết thúc:</label>
-            <input type="text" name="endDate" id="endDate" class="datepicker form-control">
+            <input type="text" name="endDate" id="endDate" class="datepicker form-control" required>
           </div>
           <div class="form-group">
             <label for="quantity">Số lượng mã:</label>
-            <input type="number" name="quantity" id="quantity" class="form-control" min="1">
+            <input type="number" name="quantity" id="quantity" class="form-control" min="1" required>
           </div>
           <button type="submit" class="btn btn-primary">Thêm Mã </button>
         </form>

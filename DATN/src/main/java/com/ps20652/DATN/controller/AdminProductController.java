@@ -55,12 +55,21 @@ public class AdminProductController {
 
 	@GetMapping
 	public String listProducts(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
-			Principal principal) {
+			Principal principal, @RequestParam(name = "successMessage", required = false) String successMessage, 
+			@RequestParam(name = "errorMessage", required = false) String errorMessage) {
 
 		int pageSize = 6; // Số lượng đơn hàng trên mỗi trang
 		Page<Product> productPage = productService.getAllOrdersPaginated(PageRequest.of(page, pageSize));
 		// List<Product> products = productService.findAll();
 		List<Category> categories = categoryService.findAll();
+
+		if (successMessage != null) {
+            model.addAttribute("successMessage", successMessage);
+        }
+		if (errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+        }
+
 		model.addAttribute("products", productPage);
 		model.addAttribute("categories", categories);
 		return "AdminCpanel/ui-buttons";
@@ -78,7 +87,7 @@ public class AdminProductController {
 			// Lưu sản phẩm vào cơ sở dữ liệu
 			categoryService.create(category);
 
-			
+
 
 			// Chuyển hướng đến trang danh sách sản phẩm sau khi thêm
 			return "redirect:/admin/products";
@@ -95,6 +104,7 @@ public class AdminProductController {
 			
 		try{
 			categoryService.delete(category);
+
 		}catch(Exception e){
 
 		}
@@ -110,7 +120,7 @@ public class AdminProductController {
 
 	@PostMapping("/add")
 	public String addProduct(@ModelAttribute("productDTO") ProductDTO productDTO,
-			@RequestParam("image") MultipartFile image) {
+			@RequestParam("image") MultipartFile image, RedirectAttributes redirectAttributes) {
 		Product product = new Product();
 		try {
 			// Sử dụng service để tải lên hình ảnh và nhận lại tên hình ảnh đã lưu
@@ -127,14 +137,16 @@ public class AdminProductController {
 
 			// Lưu sản phẩm vào cơ sở dữ liệu
 			productService.create(product);
+			redirectAttributes.addFlashAttribute("successMessage", "Sản phẩm đã được cập nhật thành công.");
 
 			// Chuyển hướng đến trang danh sách sản phẩm sau khi thêm
 			return "redirect:/admin/products";
 		} catch (IOException e) {
-			e.printStackTrace();
+			
+				redirectAttributes.addFlashAttribute("errorMessage", "Đã xảy ra lỗi khi thêm sản phẩm.");
 			// Xử lý lỗi khi tải lên hình ảnh
 			// Có thể xem xét việc báo lỗi cho người dùng
-			return "Error uploading image";
+			return "redirect:/admin/products";
 		}
 	}
 
@@ -203,7 +215,7 @@ public class AdminProductController {
 			existingProduct.setDescription(editedProduct.getDescription());
 			existingProduct.setPrice(editedProduct.getPrice());
 			existingProduct.setPurchasePrice(editedProduct.getPurchasePrice());
-			existingProduct.setQuantityInStock(editedProduct.getQuantityInStock());
+			// existingProduct.setQuantityInStock(editedProduct.getQuantityInStock());
 			existingProduct.setImage(imageString);
 
 			// Lưu sản phẩm đã cập nhật vào cơ sở dữ liệu
@@ -217,22 +229,24 @@ public class AdminProductController {
 		return "redirect:/admin/products";
 	}
 
-	@GetMapping("/delete/{productId}")
+	@PostMapping("/delete/{productId}")
 	public String deleteProduct(@PathVariable("productId") Integer productId, RedirectAttributes redirectAttributes) {
 		try {
 			// Kiểm tra xem sản phẩm có tồn tại không
 			Product product = productService.findbyId(productId);
 			if (product != null) {
 				// Nếu sản phẩm tồn tại, thực hiện xóa sản phẩm
+
+				
 				productService.delete(product);
 				redirectAttributes.addFlashAttribute("successMessage", "Sản phẩm đã được xóa thành công.");
 			} else {
 				// Nếu sản phẩm không tồn tại, hiển thị thông báo lỗi
-				redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy sản phẩm để xóa.");
+				redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy sản phẩm.");
 			}
 		} catch (Exception e) {
 			// Xử lý lỗi nếu có
-			redirectAttributes.addFlashAttribute("errorMessage", "Đã xảy ra lỗi khi xóa sản phẩm.");
+			redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa vì sản phẩm này đã có người mua");
 		}
 
 		return "redirect:/admin/products";
@@ -280,16 +294,18 @@ public class AdminProductController {
 
 	@PostMapping("/addStock")
 	public String addStock(@RequestParam("productId") Integer productId,
-			@ModelAttribute("productDTO") ProductDTO productDTO) {
+			@ModelAttribute("productDTO") ProductDTO productDTO, RedirectAttributes redirectAttributes) {
 		try {
 			productService.updateQuantityInStock(productId, productDTO.getQuantityAdded());
-			// Redirect to the product list or another appropriate page
-			return "redirect:/admin/products";
+			redirectAttributes.addFlashAttribute("successMessage", "Nhập hàng thành công");
+
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			// Handle the exception, e.g., display an error message
-			return "Error updating stock";
+	
+			
 		}
+		return "redirect:/admin/products";
 	}
 
 }

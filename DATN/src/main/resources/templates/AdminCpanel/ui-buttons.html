@@ -254,6 +254,32 @@
 			</header> -->
 			<!--  Header End -->
 			<div class="container-fluid ">
+				<div id="notification" th:if="${successMessage != null}"
+					class="alert alert-success flex justify-center items-center">
+					<p class="text-center" th:text="${successMessage}"></p>
+				</div>
+
+				<div id="notification" th:if="${errorMessage != null}"
+					class="alert alert-danger flex justify-center items-center">
+					<p class="text-center" th:text="${errorMessage}"></p>
+				</div>
+
+				<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+				<!-- Script để hiển thị và ẩn thông báo -->
+				<script>
+					// Hiển thị thông báo khi trang được tải
+					$(document).ready(function () {
+						showNotification();
+					});
+
+					// Hiển thị thông báo và tự động ẩn sau 2 giây
+					function showNotification() {
+						$('#notification').fadeIn().delay(2000).fadeOut();
+					}
+				</script>
+
+			<div class="container-fluid ">
 				<div class="container-fluid">
 					<div class="card">
 						<div class="card-body overflow-x-auto">
@@ -296,7 +322,7 @@
 														required>
 												</div>
 												<div class="col-md-6">
-													<label for="price" class="form-label">Giá</label>
+													<label for="price" class="form-label">Giá bán</label>
 													<input type="text" class="form-control" id="price" name="price"
 														required>
 												</div>

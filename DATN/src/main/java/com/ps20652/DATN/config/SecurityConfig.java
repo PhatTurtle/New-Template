@@ -38,12 +38,10 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
         protected void configure(HttpSecurity http) throws Exception {
             http
                 .authorizeRequests()
-//                    .antMatchers("/", "/feedback/**", "/product/**", "/security/**","/ProductDetails/**").permitAll()
-.antMatchers("/admin/accounts", "/admin/revenue-chart", "/admin/history").hasRole("ADMIN")
-.antMatchers("/admin/products", "/admin/feedback", "/admin/orders", "/admin/vouchers").hasAnyRole("ADMIN", "STAFF")
-.antMatchers("/admin/**").hasRole("ADMIN")
-.antMatchers("/cart", "/pay").authenticated()
-.anyRequest().permitAll()
+                .antMatchers("/admin/accounts", "/admin/revenue-chart", "/admin/history").hasRole("ADMIN")
+                .antMatchers("/admin/products", "/admin/feedback", "/admin/orders", "/admin/vouchers", "/admin/category").hasAnyRole("ADMIN", "STAFF")
+                .antMatchers("/cart", "/pay").authenticated() // Các URL yêu cầu xác thực
+                .anyRequest().permitAll() // Các URL còn lại cho phép truy cập không yêu cầu xác thực
                 .and()
                 .formLogin()
         	.loginPage("/login")

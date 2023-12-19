@@ -359,7 +359,7 @@ public String searchProductsNAME(@RequestParam(value = "name", required = false)
         List<Category> allcat = categoryService.findAll();
         Category cat = categoryService.findbyId(categoryId);
         List<Product> products = productService.findByCategoryCategoryId(categoryId);
-        if (principal != null) {
+        if (principal != null) {    
             String username = principal.getName();
             int userId = getUserIDByUsername(username);
 

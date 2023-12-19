@@ -24,5 +24,7 @@ public class HistoryStockServiceImpl implements HistoryStockService {
 		return stockHistoryDAO.findAll();
 	}
 
+	
+
    
 }

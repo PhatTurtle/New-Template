@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/components/layout :: areas(~{::title},~{::body})}">
 
 <head>
     <meta charset=" UTF-8">
     <title>Enter OTP</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+          <!-- Library -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../tailwind.config.js"></script>
+  <!-- icon -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-    <style>
+    <!-- <style>
         body {
             display: flex;
             align-items: center;
@@ -90,26 +97,69 @@
                 transform: scale(1.1);
             }
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
 
+    <div class="w-full md:w-[80%] xl:w-[70%] mx-auto my-10">
+        <div class="py-5 w-full">
+            <p
+                class="text-3xl lg:text-6xl font-semibold text-orange-300 text-center hover:underline hover:underline-offset-2 hover:duration-300 duration-300">
+                Xác nhận OTP</p>
+        </div>
+        <div class="flex flex-col gap-x-5 mt-5">
+            <div class="w-[90%] mx-auto lg:w-[50%]">
+                <!-- <Image src="/assets/sign-in.png" alt=""/> -->
+                <Image class="w-full" src="/assets/images/ForgotPass.png" alt="" />
+            </div>
+            <!--  -->
+            <div class="w-[90%] mx-auto lg:w-[50%] mt-10">
+                <form th:action="@{/verify-otp}" method="post" action="http://httpbin.org/post"
+                    class="w-full flex flex-col  gap-y-5">
+                    <div class="">
 
-    <div class="container">
-        <h2>Enter OTP</h2>
-        <form th:action="@{/verify-otp}" method="post">
-            <input hidden="" th:value="${email}" type="text" id="email" name="email" required="required" />
-            <div class="form-group">
-                <label for="otp">Enter OTP:</label>
-                <input type="text" id="otp" name="otp" required="required" />
+                        <input hidden th:value="${email}" type="text" id="email" name="email"
+                            class="py-2  px-2 bg-transparent border-b-2  text-black border-orange-300  w-full outline-none"
+                            placeholder="Email" />
+                    </div>
+                    <div class="">
+
+                        <input type="text" id="otp" name="otp"
+                            class="py-2  px-2 bg-transparent border-b-2 text-black border-orange-300  w-full outline-none"
+                            placeholder="Enter OTP" />
+                    </div>
+                    <!-- Captcha -->
+                    <!-- <div class="g-recaptcha" data-sitekey="6Le9nRMpAAAAAMh2ZxdOpYDvej47c4tGQv3LG2IC"></div> -->
+                    <!-- Captcha -->
+                    <div id="countdown" class="text-red-300 text-3xl text-center"></div>
+                    <div class="">
+                        <button type="submit"
+                            class="border-2 border-orange-300 py-2 hover:bg-orange-300 hover:duration-300 duration-300 text-black hover:text-white rounded-lg w-full">
+                            Xác Thực OTP</button>
+                    </div>
+                    <div class="text-center">
+                        <p href="#" class="hover:text-orange-300 hover:underline hover:underline-offset-2">Bạn chưa có
+                            tài khoản? <a class="text-orange-300 " th:href="@{/register}">Đăng Ký!</a></p>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <button type="submit">Verify OTP</button>
-            </div>
-        </form>
-        <div id="countdown" class="text-danger"></div>
+        </div>
     </div>
+        <!-- <div class="container">
+            <h2>Enter OTP</h2>
+            <form th:action="@{/verify-otp}" method="post">
+                <input hidden="" th:value="${email}" type="text" id="email" name="email" required="required" />
+                <div class="form-group">
+                    <label for="otp">Enter OTP:</label>
+                    <input type="text" id="otp" name="otp" required="required" />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Verify OTP</button>
+                </div>
+            </form>
+            <div id="countdown" class="text-danger"></div>
+        </div> -->
 
     <script>
         var count = 60;

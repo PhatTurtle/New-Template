@@ -279,295 +279,304 @@
 					}
 				</script>
 
-			<div class="container-fluid ">
-				<div class="container-fluid">
-					<div class="card">
-						<div class="card-body overflow-x-auto">
+				<div class="container-fluid ">
+					<div class="container-fluid">
+						<div class="card">
+							<div class="card-body overflow-x-auto">
 
-							<h5 class="card-title fw-semibold mb-4 d-flex align-items-center ">Sản Phẩm <button
-									type="button" class="btn btn-primary mx-5 fs-2 " data-bs-toggle="modal"
-									data-bs-target="#exampleModal" data-bs-whatever="@mdo">Thêm sản phẩm</button>
+								<h5 class="card-title fw-semibold mb-4 d-flex align-items-center ">Sản Phẩm <button
+										type="button" class="btn btn-primary mx-5 fs-2 " data-bs-toggle="modal"
+										data-bs-target="#exampleModal" data-bs-whatever="@mdo">Thêm sản phẩm</button>
 
 
 
-								<form class="d-flex" th:action="@{/admin/products/searchName}" method="get">
-									<input class="form-control me-2" type="text" name="name"
-										placeholder="Tìm kiếm tên sản phẩm" required>
-									<button class="btn btn-outline-warning" type="submit">Search</button>
-								</form>
-								<form style="font-size: larger; " class="d-flex justify-content-end  flex-grow-1  fs-6 "
-									th:action="@{/admin/products}" method="get">
+									<form class="d-flex" th:action="@{/admin/products/searchName}" method="get">
+										<input class="form-control me-2" type="text" name="name"
+											placeholder="Tìm kiếm tên sản phẩm" required>
+										<button class="btn btn-outline-warning" style="width: 200px;" type="submit">Tìm
+											Kiếm</button>
+									</form>
+									<form style="font-size: larger; "
+										class="d-flex justify-content-end  flex-grow-1  fs-6 "
+										th:action="@{/admin/products}" method="get">
 
-									<button class="border-0 bg-transparent" type="submit">
-										<ion-icon style="font-size: 2rem; " name="reload-outline"></ion-icon>
-									</button>
-								</form>
-							</h5>
+										<button class="border-0 bg-transparent" type="submit">
+											<ion-icon style="font-size: 2rem; " name="reload-outline"></ion-icon>
+										</button>
+									</form>
+								</h5>
 
-							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-								aria-hidden="true">
-								<div class="modal-dialog modal-lg">
-									<div class="modal-content">
-										<div class="modal-header bg-warning text-white">
-											<h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal"
-												aria-label="Close"></button>
-										</div>
-										<div class="modal-body">
-											<form class="row g-3" th:action="@{/admin/products/add}" method="post"
-												enctype="multipart/form-data">
-												<div class="col-md-6">
-													<label for="name" class="form-label">Tên</label>
-													<input type="text" class="form-control" id="name" name="name"
-														required>
-												</div>
-												<div class="col-md-6">
-													<label for="price" class="form-label">Giá bán</label>
-													<input type="text" class="form-control" id="price" name="price"
-														required>
-												</div>
-												<div class="col-md-6">
-													<label for="purchasePrice" class="form-label">Giá nhập</label>
-													<input type="text" class="form-control" id="purchasePrice"
-														name="purchasePrice" required>
-												</div>
-												<div class="col-md-6">
-													<label for="description" class="form-label">Mô tả</label>
-													<input type="text" class="form-control" id="description"
-														name="description" required>
-												</div>
-												<div class="col-md-6">
-													<label for="category" class="form-label">Loại</label>
-													<select class="form-select" id="category" name="category" required>
-														<option value="">-- Chọn danh mục --</option>
-														<option th:each="category : ${categories}"
-															th:value="${category.categoryId}"
-															th:text="${category.name}"></option>
-													</select>
-												</div>
-												<div class="col-md-6">
-													<label for="image" class="form-label">Ảnh</label>
-													<input type="file" class="form-control" id="image" name="image"
-														accept="image/*" required>
-												</div>
-												<div class="col-12">
-													<button type="submit" class="btn btn-success text-white">Thêm sản
-														phẩm</button>
-												</div>
-											</form>
+								<div class="modal fade" id="exampleModal" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header bg-warning text-white">
+												<h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+													aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<form class="row g-3" th:action="@{/admin/products/add}" method="post"
+													enctype="multipart/form-data">
+													<div class="col-md-6">
+														<label for="name" class="form-label">Tên</label>
+														<input type="text" class="form-control" id="name" name="name"
+															required>
+													</div>
+													<div class="col-md-6">
+														<label for="price" class="form-label">Giá bán</label>
+														<input type="text" class="form-control" id="price" name="price"
+															required>
+													</div>
+													<div class="col-md-6">
+														<label for="purchasePrice" class="form-label">Giá nhập</label>
+														<input type="text" class="form-control" id="purchasePrice"
+															name="purchasePrice" required>
+													</div>
+													<div class="col-md-6">
+														<label for="description" class="form-label">Mô tả</label>
+														<input type="text" class="form-control" id="description"
+															name="description" required>
+													</div>
+													<div class="col-md-6">
+														<label for="category" class="form-label">Loại</label>
+														<select class="form-select" id="category" name="category"
+															required>
+															<option value="">-- Chọn danh mục --</option>
+															<option th:each="category : ${categories}"
+																th:value="${category.categoryId}"
+																th:text="${category.name}"></option>
+														</select>
+													</div>
+													<div class="col-md-6">
+														<label for="image" class="form-label">Ảnh</label>
+														<input type="file" class="form-control" id="image" name="image"
+															accept="image/*" required>
+													</div>
+													<div class="col-12">
+														<button type="submit" class="btn btn-success text-white">Thêm
+															sản
+															phẩm</button>
+													</div>
+												</form>
+											</div>
 										</div>
 									</div>
 								</div>
+
+
+
+
+							</div>
+
+							<table class="table table-striped text-center ">
+								<thead>
+									<tr>
+										<th scope="col">Mã Sản Phẩm</th>
+										<th scope="col">Tên</th>
+
+										<th scope="col">Giá bán ra</th>
+										<th scope="col">Giá nhập vào</th>
+
+										<th scope="col">Loại</th>
+										<th scope="col">Còn trong kho</th>
+
+
+										<th scope="col">Hình</th>
+										<th scope="col">Hành động</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="product : ${products}">
+										<th th:text="${product.productId}"></th>
+										<td th:text="${product.name}"></td>
+										<td
+											th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+										</td>
+										<td
+											th:text="${#numbers.formatDecimal(product.purchasePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+										</td>
+
+
+
+										<td th:text="${product.category.name}"></td>
+										<td th:text="${product.quantityInStock}"></td>
+
+										<td><img style="width: 50px; height: 50px"
+												th:src="'/assets/images/products/' + ${product.image}"
+												class="rounded-circle"></td>
+										<td>
+											<div class="d-flex align-items-center  "><button type="button"
+													class="btn btn-warning m-2 " data-bs-toggle="modal"
+													style="width: 100px; "
+													th:data-bs-target="'#exampleModal2-' + ${product.productId}"
+													data-bs-whatever="@mdo">Chỉnh Sửa</button>
+												<form th:action="@{'/admin/products/delete/' + ${product.productId}}"
+													method="post">
+													<button type="submit" class="btn btn-danger mx-2 ">
+														Xóa</button>
+
+												</form>
+												<button style="width: 110px;" type="button"
+													class="btn btn-info reply-button" data-bs-toggle="modal"
+													th:data-bs-target="'#exampleModal-' + ${product.productId}"
+													data-bs-whatever="@mdo">Nhập hàng</button>
+
+											</div>
+											<div class="modal fade" th:id="'exampleModal2-' + ${product.productId}"
+												tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												<div class="modal-dialog modal-lg">
+													<div class="modal-content">
+														<div class="modal-header bg-warning text-white">
+															<h5 class="modal-title" id="exampleModalLabel">CHỈNH SỬA
+															</h5>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															<form
+																th:action="@{'/admin/products/edit/' + ${product.productId}}"
+																method="post" enctype="multipart/form-data"
+																class="row g-3">
+																<div class="col-md-6">
+																	<input type="hidden" id="productId" name="productId"
+																		th:value="${product.productId}">
+																	<label for="name" class="form-label">Tên sản
+																		phẩm</label>
+																	<input id="name" name="name" class="form-control"
+																		style="font-size: 13px;" type="text"
+																		th:value="${product.name}" required>
+																</div>
+																<div class="col-md-6">
+																	<label for="price" class="form-label">Giá</label>
+																	<input class="form-control" type="text"
+																		style="font-size: 13px;" id="price" name="price"
+																		th:value="${product.price}" required>
+																</div>
+																<div class="col-md-6">
+																	<label for="purchasePrice" class="form-label">Giá
+																		nhập</label>
+																	<input class="form-control" type="text"
+																		style="font-size: 13px;" id="purchasePrice"
+																		name="purchasePrice"
+																		th:value="${product.purchasePrice}" required>
+																</div>
+																<div class="col-md-6">
+																	<label for="description" class="form-label">Mô
+																		tả</label>
+																	<input class="form-control" type="text"
+																		style="font-size: 13px;" id="description"
+																		name="description"
+																		th:value="${product.description}" required>
+																</div>
+																<div class="col-md-6">
+																	<label for="category" class="form-label">Loại sản
+																		phẩm</label>
+																	<select id="category" name="category"
+																		class="form-select" style="font-size: 13px;"
+																		required>
+																		<option th:text="${product.category.name}"
+																			th:value="${product.category.categoryId}">
+																		</option>
+																		<option
+																			th:unless="${product.category.name == category.name}"
+																			th:each="category : ${categories}"
+																			th:value="${category.categoryId}"
+																			th:text="${category.name}"></option>
+																	</select>
+																</div>
+																<div class="col-md-12">
+																	<label for="image" class="form-label">Ảnh</label>
+																	<input type="file" class="form-control" id="image"
+																		name="image" accept="image/*">
+																</div>
+																<div class="col-12 text-center">
+																	<button type="submit"
+																		class="btn btn-success text-white">Cập
+																		nhật</button>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+
+
+											<!-- Add this form to the view where you want to input the quantity added -->
+										</td>
+
+										<td>
+
+											<div class="modal fade" th:id="'exampleModal-' + ${product.productId}"
+												tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Nhập
+																hàng</h5>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															<form th:action="@{/admin/products/addStock}" method="post">
+																<div class="mb-3">
+
+																	<input name="productId"
+																		th:value="${product.productId}" type="hidden"
+																		class="form-control" id="recipient-name"
+																		readonly>
+																</div>
+																<div class="mb-3">
+																	<label for="message-text" class="col-form-label">Tên
+																		sản phẩm:</label> <input readonly
+																		th:value="${product.name}" type="text"
+																		class="form-control" id="recipient-name">
+																</div>
+																<div class="mb-3">
+																	<label for="message-text" class="col-form-label">Số
+																		lượng:</label> <input name="quantityAdded"
+																		type="number" min="1" class="form-control"
+																		id="recipient-name">
+																</div>
+
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-danger"
+																		data-bs-dismiss="modal">Đóng </button>
+																	<button type="submit" class="btn btn-success">Cập
+																		Nhật</button>
+																</div>
+															</form>
+														</div>
+
+													</div>
+												</div>
+											</div>
+										</td>
+
+									</tr>
+
+								</tbody>
+							</table>
+							<div th:if="${products.totalPages > 1}">
+								<nav>
+									<ul class="pagination justify-content-center">
+										<li th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
+											th:class="${products.number == i} ? 'page-item active' : 'page-item'">
+											<a th:href="@{'/admin/products?page=' + ${i}}" class="page-link"
+												th:text="${i} + 1"></a>
+										</li>
+									</ul>
+								</nav>
 							</div>
 
 
-
-
 						</div>
-
-						<table class="table table-striped text-center ">
-							<thead>
-								<tr>
-									<th scope="col">Mã Sản Phẩm</th>
-									<th scope="col">Tên</th>
-
-									<th scope="col">Giá bán ra</th>
-									<th scope="col">Giá nhập vào</th>
-
-									<th scope="col">Loại</th>
-									<th scope="col">Còn trong kho</th>
-
-
-									<th scope="col">Hình</th>
-									<th scope="col">Hành động</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="product : ${products}">
-									<th th:text="${product.productId}"></th>
-									<td th:text="${product.name}"></td>
-									<td
-										th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
-									</td>
-									<td
-										th:text="${#numbers.formatDecimal(product.purchasePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
-									</td>
-
-
-
-									<td th:text="${product.category.name}"></td>
-									<td th:text="${product.quantityInStock}"></td>
-
-									<td><img style="width: 50px; height: 50px"
-											th:src="'/assets/images/products/' + ${product.image}"
-											class="rounded-circle"></td>
-									<td>
-										<div class="d-flex align-items-center  "><button type="button"
-												class="btn btn-warning m-2 " data-bs-toggle="modal"
-												style="width: 100px; "
-												th:data-bs-target="'#exampleModal2-' + ${product.productId}"
-												data-bs-whatever="@mdo">Sửa</button>
-											<form th:action="@{'/admin/products/delete/' + ${product.productId}}" method="post">
-												<button type="submit" class="btn btn-danger mx-2 ">
-													Xóa</button>
-
-											</form>
-											<button style="width: 110px;" type="button"
-												class="btn btn-info reply-button" data-bs-toggle="modal"
-												th:data-bs-target="'#exampleModal-' + ${product.productId}"
-												data-bs-whatever="@mdo">Nhập hàng</button>
-
-										</div>
-										<div class="modal fade" th:id="'exampleModal2-' + ${product.productId}"
-											tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-											<div class="modal-dialog modal-lg">
-												<div class="modal-content">
-													<div class="modal-header bg-warning text-white">
-														<h5 class="modal-title" id="exampleModalLabel">CHỈNH SỬA</h5>
-														<button type="button" class="btn-close" data-bs-dismiss="modal"
-															aria-label="Close"></button>
-													</div>
-													<div class="modal-body">
-														<form
-															th:action="@{'/admin/products/edit/' + ${product.productId}}"
-															method="post" enctype="multipart/form-data" class="row g-3">
-															<div class="col-md-6">
-																<input type="hidden" id="productId" name="productId"
-																	th:value="${product.productId}">
-																<label for="name" class="form-label">Tên sản
-																	phẩm</label>
-																<input id="name" name="name" class="form-control"
-																	style="font-size: 13px;" type="text"
-																	th:value="${product.name}" required>
-															</div>
-															<div class="col-md-6">
-																<label for="price" class="form-label">Giá</label>
-																<input class="form-control" type="text"
-																	style="font-size: 13px;" id="price" name="price"
-																	th:value="${product.price}" required>
-															</div>
-															<div class="col-md-6">
-																<label for="purchasePrice" class="form-label">Giá
-																	nhập</label>
-																<input class="form-control" type="text"
-																	style="font-size: 13px;" id="purchasePrice"
-																	name="purchasePrice"
-																	th:value="${product.purchasePrice}" required>
-															</div>
-															<div class="col-md-6">
-																<label for="description" class="form-label">Mô
-																	tả</label>
-																<input class="form-control" type="text"
-																	style="font-size: 13px;" id="description"
-																	name="description" th:value="${product.description}"
-																	required>
-															</div>
-															<div class="col-md-6">
-																<label for="category" class="form-label">Loại sản
-																	phẩm</label>
-																<select id="category" name="category"
-																	class="form-select" style="font-size: 13px;"
-																	required>
-																	<option th:text="${product.category.name}"
-																		th:value="${product.category.categoryId}">
-																	</option>
-																	<option
-																		th:unless="${product.category.name == category.name}"
-																		th:each="category : ${categories}"
-																		th:value="${category.categoryId}"
-																		th:text="${category.name}"></option>
-																</select>
-															</div>
-															<div class="col-md-12">
-																<label for="image" class="form-label">Ảnh</label>
-																<input type="file" class="form-control" id="image"
-																	name="image" accept="image/*">
-															</div>
-															<div class="col-12 text-center">
-																<button type="submit"
-																	class="btn btn-success text-white">Cập nhật</button>
-															</div>
-														</form>
-													</div>
-												</div>
-											</div>
-										</div>
-
-
-
-
-										<!-- Add this form to the view where you want to input the quantity added -->
-									</td>
-
-									<td>
-
-										<div class="modal fade" th:id="'exampleModal-' + ${product.productId}"
-											tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">Nhập
-															hàng</h5>
-														<button type="button" class="btn-close" data-bs-dismiss="modal"
-															aria-label="Close"></button>
-													</div>
-													<div class="modal-body">
-														<form th:action="@{/admin/products/addStock}" method="post">
-															<div class="mb-3">
-
-																<input name="productId" th:value="${product.productId}"
-																	type="hidden" class="form-control"
-																	id="recipient-name" readonly>
-															</div>
-															<div class="mb-3">
-																<label for="message-text" class="col-form-label">Tên
-																	sản phẩm:</label> <input readonly
-																	th:value="${product.name}" type="text"
-																	class="form-control" id="recipient-name">
-															</div>
-															<div class="mb-3">
-																<label for="message-text" class="col-form-label">Số
-																	lượng:</label> <input name="quantityAdded"
-																	type="number" min="1" class="form-control"
-																	id="recipient-name">
-															</div>
-
-															<div class="modal-footer">
-																<button type="button" class="btn btn-danger"
-																	data-bs-dismiss="modal">Đóng </button>
-																<button type="submit" class="btn btn-success">Cập
-																	Nhật</button>
-															</div>
-														</form>
-													</div>
-
-												</div>
-											</div>
-										</div>
-									</td>
-
-								</tr>
-
-							</tbody>
-						</table>
-						<div th:if="${products.totalPages > 1}">
-							<nav>
-								<ul class="pagination justify-content-center">
-									<li th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}"
-										th:class="${products.number == i} ? 'page-item active' : 'page-item'">
-										<a th:href="@{'/admin/products?page=' + ${i}}" class="page-link"
-											th:text="${i} + 1"></a>
-									</li>
-								</ul>
-							</nav>
-						</div>
-
-
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
 		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"

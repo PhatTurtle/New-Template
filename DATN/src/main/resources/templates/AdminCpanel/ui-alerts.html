@@ -121,33 +121,33 @@
       </header> -->
       <!--  Header End -->
 
-      
+
 
       <div class="container-fluid">
         <div id="notification" th:if="${successMessage != null}"
-					class="alert alert-success flex justify-center items-center">
-					<p class="text-center" th:text="${successMessage}"></p>
-				</div>
+          class="alert alert-success flex justify-center items-center">
+          <p class="text-center" th:text="${successMessage}"></p>
+        </div>
 
-				<div id="notification" th:if="${errorMessage != null}"
-					class="alert alert-danger flex justify-center items-center">
-					<p class="text-center" th:text="${errorMessage}"></p>
-				</div>
+        <div id="notification" th:if="${errorMessage != null}"
+          class="alert alert-danger flex justify-center items-center">
+          <p class="text-center" th:text="${errorMessage}"></p>
+        </div>
 
-				<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-				<!-- Script để hiển thị và ẩn thông báo -->
-				<script>
-					// Hiển thị thông báo khi trang được tải
-					$(document).ready(function () {
-						showNotification();
-					});
+        <!-- Script để hiển thị và ẩn thông báo -->
+        <script>
+          // Hiển thị thông báo khi trang được tải
+          $(document).ready(function () {
+            showNotification();
+          });
 
-					// Hiển thị thông báo và tự động ẩn sau 2 giây
-					function showNotification() {
-						$('#notification').fadeIn().delay(2000).fadeOut();
-					}
-				</script>
+          // Hiển thị thông báo và tự động ẩn sau 2 giây
+          function showNotification() {
+            $('#notification').fadeIn().delay(2000).fadeOut();
+          }
+        </script>
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
@@ -157,7 +157,7 @@
 
                 <form class="d-flex" th:action="@{/admin/accounts/searchName}" method="get">
                   <input class="form-control me-2" type="text" name="username" placeholder="Tìm kiếm tên " required>
-                  <button class="btn btn-outline-warning" type="submit">Search</button>
+                  <button class="btn btn-outline-warning" style="width: 200px;" type="submit">Tìm Kiếm</button>
                 </form>
                 <form style="font-size: larger; " class="d-flex justify-content-end  flex-grow-1  fs-6 "
                   th:action="@{/admin/accounts}" method="get">
